@@ -151,10 +151,10 @@ export default function App() {
               </div>
               <h2 className="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-6">
                 A sua saúde <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">não pode esperar.</span><br />
-                A Justiça também não.
+                A busca pelos seus direitos também não.
               </h2>
               <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl leading-relaxed">
-                Advocacia altamente especializada contra negativas de <strong>Planos de Saúde</strong>, <strong>SUS</strong> e <strong>Erros Médicos</strong>. Agimos com rapidez para garantir o seu direito à vida através de liminares de urgência.
+                Advocacia especializada contra <strong>abusos praticados por Operadoras de Planos de Saúde</strong> e <strong>Erros Médicos</strong>. Atuamos com rapidez para garantir o seu direito à saúde e à vida com pedido de liminares de urgência.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <a href={whatsappLink} target="_blank" rel="noreferrer" className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(5,150,105,0.4)] hover:-translate-y-1">
@@ -183,7 +183,7 @@ export default function App() {
                     </div>
                     <div>
                       <p className="text-white font-bold">Dr. Fabio Saraiva</p>
-                      <p className="text-slate-300 text-sm">Fundador e Especialista</p>
+                      <p className="text-slate-300 text-sm">Especialista em Direito da Saúde</p>
                     </div>
                   </div>
                 </div>
@@ -210,7 +210,7 @@ export default function App() {
             <div className="flex flex-col items-center text-center px-4 pt-8 md:pt-0">
               <MapPin className="text-blue-800 mb-3" size={40} />
               <h3 className="text-xl font-bold text-slate-900 mb-2 mt-2">Atendimento Personalizado</h3>
-              <p className="text-slate-600 font-medium text-sm px-4">Soluções jurídicas sob medida para cada cliente.</p>
+              <p className="text-slate-600 font-medium text-sm px-4">Soluções Jurídicas de acordo com as necessidades de cada cliente.</p>
             </div>
           </div>
         </div>
@@ -222,10 +222,10 @@ export default function App() {
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Áreas de Especialidade</h2>
             <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">
-              Como podemos proteger o seu direito à saúde?
+              Como podemos defender o seu direito à saúde?
             </h3>
             <p className="text-slate-600 text-lg">
-              Atuamos contra as práticas abusivas de operadoras de saúde e do Estado, garantindo que o seu tratamento médico não seja interrompido ou negado.
+              Atuamos contra as práticas abusivas de operadoras de planos de saúde visando garantir que o seu direito seja respeitado.
             </p>
           </div>
 
@@ -237,7 +237,7 @@ export default function App() {
               </div>
               <h4 className="text-xl font-bold text-slate-900 mb-3">Planos de Saúde</h4>
               <p className="text-slate-600 text-sm mb-6 leading-relaxed">
-                Reversão de negativas para cirurgias, exames, próteses e contestação de reajustes abusivos (falsos coletivos ou faixa etária).
+                Revisão de reajustes ilegais e abusivos, Reversão de negativas para internação, cirurgia, exames, próteses, Cancelamento indevido do plano, entre outros.
               </p>
               <a href={whatsappLink} className="text-blue-700 font-bold text-sm flex items-center gap-1 group-hover:text-amber-600 transition-colors">
                 Saber mais <ChevronDown size={16} className="-rotate-90" />
@@ -251,7 +251,7 @@ export default function App() {
               </div>
               <h4 className="text-xl font-bold text-slate-900 mb-3">Medicamentos de Alto Custo</h4>
               <p className="text-slate-600 text-sm mb-6 leading-relaxed">
-                Ações rápidas com pedido de liminar para obtenção de remédios importados ou oncológicos não fornecidos pelo SUS ou Convênio.
+                Propositura de ações com pedido de liminar para fornecimento de medicamentos de alto custo em caso em negativa de operadoras de planos de saúde, conforme parecer do médico assistente, inclusive contra o Estado, se necessário.
               </p>
               <a href={whatsappLink} className="text-blue-700 font-bold text-sm flex items-center gap-1 group-hover:text-amber-600 transition-colors">
                 Saber mais <ChevronDown size={16} className="-rotate-90" />
@@ -265,7 +265,7 @@ export default function App() {
               </div>
               <h4 className="text-xl font-bold text-slate-900 mb-3">Tratamentos Específicos</h4>
               <p className="text-slate-600 text-sm mb-6 leading-relaxed">
-                Garantia de cobertura para terapias voltadas ao Transtorno do Espectro Autista (TEA), Home Care e doenças raras.
+                Atuamos de forma assertiva contra operadoras de planos de saúde para assegurar a cobertura e tratamento para terapias voltadas ao Transtorno do Espectro Autista (TEA), Home Care e demais doenças raras.
               </p>
               <a href={whatsappLink} className="text-blue-700 font-bold text-sm flex items-center gap-1 group-hover:text-amber-600 transition-colors">
                 Saber mais <ChevronDown size={16} className="-rotate-90" />
@@ -279,7 +279,7 @@ export default function App() {
               </div>
               <h4 className="text-xl font-bold text-slate-900 mb-3">Erro Médico</h4>
               <p className="text-slate-600 text-sm mb-6 leading-relaxed">
-                Busca por responsabilidade civil e indenização por negligência, imprudência ou falha em prestação de serviços de saúde.
+                Atuamos com apoio técnico na análise de erros médicos, de modo a buscar o reconhecimento judicial da responsabilidade civil do prestador de serviço e a devida indenização por negligência, imprudência ou imperícia caracterizada como falha na prestação de serviços.
               </p>
               <a href={whatsappLink} className="text-blue-700 font-bold text-sm flex items-center gap-1 group-hover:text-amber-600 transition-colors">
                 Saber mais <ChevronDown size={16} className="-rotate-90" />
@@ -314,17 +314,26 @@ export default function App() {
             <div className="lg:w-1/2 mt-16 lg:mt-0">
               <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">O Especialista</h2>
               <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight">
-                Sensibilidade no atendimento, rigor absoluto na lei.
+                Para nós, todo caso é um caso especial.
               </h3>
               <div className="space-y-4 text-slate-600 text-lg leading-relaxed">
                 <p>
-                  Com mais de duas décadas de sólida experiência jurídica nos mais diversos ramos corporativos e civis, o <strong>Dr. Fabio Saraiva</strong> fundou o escritório com um propósito claro: entregar um atendimento humanizado e implacável na defesa dos pacientes.
+                  Somos uma advocacia especializada no Direito da Saúde.
                 </p>
                 <p>
-                  No Direito da Saúde, sabemos que a vulnerabilidade e o rigor técnico precisam andar juntos. Um processo contra uma gigante operadora de saúde ou contra o Estado exige uma advocacia artesanal, onde cada laudo e cada vírgula importam.
+                  Assim, atuamos com ética e sensibilidade no atendimento, buscando garantir os seus direitos sempre com amparo na lei.
                 </p>
                 <p>
-                  Nossa missão é ser o seu escudo jurídico. Protegemos famílias contra os abusos do sistema, garantindo dignidade, tratamentos e resultados rápidos no momento em que você mais precisa.
+                  Com mais de 25 anos de sólida experiência, o <strong>Dr. Fabio Saraiva</strong> fundou o escritório com um propósito claro: entregar um atendimento humanizado, ético e assertivo na defesa dos interesses dos seus clientes, especialmente em uma área que requer a atuação de profissionais altamente especializados e qualificados para enfrentar as gigantes da área da saúde suplementar no Brasil.
+                </p>
+                <p>
+                No Direito da Saúde, sabemos que a experiência e o rigor técnico precisam andar juntos.
+                </p>
+                <p>
+                Um processo promovido contra grandes operadoras de planos de saúde exige uma advocacia artesanal, onde cada laudo médico e cada vírgula importam.
+                </p>
+                <p>
+                Assim, nossa missão é ser o seu escudo jurídico. Protegemos famílias contra as práticas abusivas das operadoras de planos de saúde, de modo a assegurar o respeito e a dignidade dos pacientes no momento em que mais precisam.
                 </p>
               </div>
               
@@ -335,7 +344,7 @@ export default function App() {
                   </div>
                   <div>
                     <p className="font-bold text-slate-900">Atendimento Pessoal</p>
-                    <p className="text-sm text-slate-600">O seu caso será conduzido diretamente pelos nossos especialistas.</p>
+                    <p className="text-sm text-slate-600">O seu caso será analisado com muito carinho e conduzido por um dos nossos profissionais especialistas.</p>
                   </div>
                 </div>
               </div>
@@ -350,7 +359,7 @@ export default function App() {
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-amber-500 font-bold tracking-widest uppercase text-sm mb-3">Processo Simplificado</h2>
             <h3 className="text-3xl md:text-4xl font-extrabold mb-6">
-              Como garantimos o seu tratamento rapidamente
+              Como atuamos na busca da garantia dos seus direitos.
             </h3>
           </div>
 
@@ -368,17 +377,17 @@ export default function App() {
               {
                 step: "02",
                 title: "Análise Gratuita",
-                desc: "Avaliamos a negativa, os laudos médicos e a viabilidade da ação."
+                desc: "Avaliamos o seu caso de forma minuciosa quanto a viabilidade da ação."
               },
               {
                 step: "03",
-                title: "Ação Urgente",
-                desc: "Entramos com o pedido de liminar na Justiça em tempo recorde."
+                title: "Pedido de Liminar",
+                desc: "Ingressamos com a ação apropriada com pedido de liminar buscando a garantia dos seus direitos."
               },
               {
                 step: "04",
                 title: "Tranquilidade",
-                desc: "Acompanhamento integral do processo, informando-o sem 'juridiquês'."
+                desc: "Informações atualizadas do processo em linguagem clara (sem “juridiquês”)."
               }
             ].map((item, index) => (
               <div key={index} className="relative z-10 flex flex-col items-center text-center group">
@@ -412,7 +421,7 @@ export default function App() {
               Pré-Avaliação Assistida por Inteligência Artificial
             </h3>
             <p className="text-slate-600 text-lg">
-              Descreva brevemente o seu problema (ex: negativa de cirurgia, falta de remédio). A nossa IA analisará o seu caso em segundos para direcionar e agilizar o atendimento com o especialista.
+              Avaliação de forma rápida pelos nossos profissionais especializados. Descreva brevemente o seu problema (Exemplo: Reajuste abusivo; negativa de internação; negativa de tratamento, outros). A nossa IA analisará de forma rápida e direcionará o seu caso para atendimento de um especialista.
             </p>
           </div>
 
@@ -499,19 +508,19 @@ export default function App() {
           <div className="space-y-4">
             <FaqItem 
               question="O plano de saúde negou meu tratamento. O que eu faço?" 
-              answer="Não aceite o 'não' como resposta final. Reúna a negativa por escrito (ou protocolo de atendimento) e o laudo do seu médico justificando a necessidade do tratamento. O plano não pode interferir na conduta médica. Com esses documentos, podemos ingressar com uma ação judicial pedindo uma liminar urgente para obrigar a cobertura."
+              answer="Não aceite o “não” como resposta. Reúna a negativa por escrito (ou protocolo de atendimento) e o laudo do seu médico justificando a necessidade do tratamento. O plano não pode interferir na conduta médica e na grande maioria das vezes as negativas são consideradas abusivas pelo Poder Judiciário. Com esses documentos, podemos ingressar com uma ação judicial em caráter de urgência pedindo uma liminar para assegurar a cobertura do tratamento."
             />
             <FaqItem 
-              question="Quanto tempo demora para a Justiça liberar uma medicação ou cirurgia urgente?" 
-              answer="Em casos de urgência e emergência à saúde, ingressamos com um pedido de 'Liminar' (Tutela de Urgência). A Justiça costuma analisar esses pedidos de forma muito rápida, frequentemente no prazo de 24 a 48 horas após a distribuição do processo."
+              question="Quanto tempo demora para a justiça analisar o meu caso e determinar que uma operadora de plano de saúde autorize a internação ou cirurgia?" 
+              answer="Em casos de urgência e emergência que possam causar riscos à saúde e à vida, nossos especialistas analisará o caso e ingressará com um pedido de Tutela Antecipada de Urgência em caráter liminar. A Justiça costuma analisar esses pedidos de forma muito rápida, que varia normalmente de 24 a 72 horas após a propositura da ação."
             />
             <FaqItem 
               question="O escritório atende pessoas de fora de São Paulo?" 
-              answer="Sim. O processo judicial no Brasil hoje é 100% eletrónico. Isso nos permite atender clientes em qualquer cidade ou estado do país com a mesma agilidade e excelência, realizando reuniões por videochamada e contacto via WhatsApp."
+              answer="Sim! Devido ao processo judicial eletrônico existente em praticamente todo o Brasil, nossos profissionais estão aptos a analisar o seu caso e viabilidade com a mesma agilidade e excelência, realizando reuniões por videochamada e contato via WhatsApp e, quando necessário, possuímos correspondentes em todas as capitais do país."
             />
             <FaqItem 
-              question="O plano pode cancelar o meu contrato se eu entrar com uma ação judicial?" 
-              answer="Não. É ilegal que o plano de saúde promova retaliações ou cancele o contrato do beneficiário simplesmente por ele ter buscado os seus direitos na Justiça. A lei protege o consumidor nestas situações."
+              question="A operadora de plano de saúde pode cancelar o meu contrato ou suspender o meu tratamento se eu ingressar com uma ação judicial?" 
+              answer="Não! Nenhuma operadora pode promover retaliações contra um cliente que buscou os seus direitos. Essa prática é considerada ilegal e se isso ocorrer, a justiça determina o restabelecimento imediato do contrato, inclusive com a condenação da operadora a pagar indenização por danos morais."
             />
           </div>
         </div>
@@ -522,10 +531,10 @@ export default function App() {
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6">
-            Não enfrente o sistema sozinho.
+            Você não está sozinho para enfrentar o sistema.
           </h2>
           <p className="text-emerald-100 text-xl mb-10 max-w-2xl mx-auto">
-            A nossa equipe está pronta para analisar o seu caso agora mesmo, com total sigilo e foco na resolução rápida do seu problema.
+            Conte sempre com os nossos profissionais altamente especializados e capacitados para analisar o seu caso com total sigilo, segurança e assertividade na busca da defesa dos seus interesses e solução do problema.
           </p>
           <a href={whatsappLink} target="_blank" rel="noreferrer" className="inline-flex bg-amber-500 hover:bg-amber-400 text-slate-900 px-10 py-5 rounded-xl font-black text-xl items-center justify-center gap-3 transition-transform hover:scale-105 shadow-2xl">
             <Phone size={28} />
@@ -637,6 +646,7 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
 
 
 
