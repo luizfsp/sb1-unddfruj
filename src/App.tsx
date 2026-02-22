@@ -529,7 +529,7 @@ export default function App() {
           </p>
           <a href={whatsappLink} target="_blank" rel="noreferrer" className="inline-flex bg-amber-500 hover:bg-amber-400 text-slate-900 px-10 py-5 rounded-xl font-black text-xl items-center justify-center gap-3 transition-transform hover:scale-105 shadow-2xl">
             <Phone size={28} />
-            Falar com um Advogado Especialista
+            Fale com quem realmente pode te ajudar
           </a>
         </div>
       </section>
@@ -637,5 +637,6 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
 
 
