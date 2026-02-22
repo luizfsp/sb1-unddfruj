@@ -570,7 +570,7 @@ export default function App() {
               <ul className="space-y-4">
                 <li className="flex gap-3">
                   <MapPin className="text-blue-600 shrink-0 mt-1" size={20} />
-                  <span>Rua Afonso Celso, 1221, Cj. 16<br />Vila Mariana, São Paulo/SP<br />CEP: 01407-000</span>
+                  <span>Rua Afonso Celso, 1221, Cj. 16<br />Vila Mariana, São Paulo/SP<br />CEP: 04119-061</span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="text-blue-600 shrink-0" size={20} />
@@ -637,4 +637,5 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
 
