@@ -316,7 +316,7 @@ export default function App() {
               <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight">
                 Para nós, todo caso é um caso especial.
               </h3>
-              <div className="space-y-4 text-slate-600 text-lg leading-relaxed">
+              <div className="space-y-4 text-slate-600 text-lg leading-relaxed" text-align: justify>
                 <p>
                   Somos uma advocacia especializada no Direito da Saúde.
                 </p>
@@ -646,6 +646,7 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
 
 
 
