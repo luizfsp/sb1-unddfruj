@@ -48,7 +48,13 @@ export default function App() {
     setAiError("");
     setAiAnalysis(null);
 
-    const apiKey = "AIzaSyC_UqO0tnLsuxmsMzGSSd2doKpzeXPz3gI";
+    let apiKey = "";
+    try {
+      // @ts-ignore
+      apiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
+    } catch (err) {
+      console.warn(err);
+    }
     
     const systemPrompt = `Você é um assistente jurídico virtual (IA) do escritório 'Saraiva & Advogados', especializado em Direito da Saúde no Brasil. 
     Analise o relato do usuário e forneça:
@@ -91,6 +97,7 @@ export default function App() {
         setAiError("Não foi possível gerar a análise. Tente novamente.");
       }
     } catch (error) {
+      console.error("Detalhes do erro na API Gemini:", error);
       setAiError("Ocorreu um erro ao conectar com a IA. Por favor, tente novamente mais tarde.");
     } finally {
       setIsAnalyzing(false);
@@ -315,7 +322,6 @@ export default function App() {
               <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight">
                 Para nós, todo caso é um caso especial.
               </h3>
-              {/* Correção do text-justify aplicada aqui dentro da className */}
               <div className="space-y-4 text-slate-600 text-lg leading-relaxed text-justify">
                 <p>
                   Somos uma advocacia especializada no Direito da Saúde.
@@ -735,4 +741,3 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
-
