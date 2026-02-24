@@ -48,8 +48,15 @@ export default function App() {
     setAiError("");
     setAiAnalysis(null);
 
-    // Cole a sua chave de API do Gemini aqui dentro das aspas:
-    const apiKey = "";
+    const fallbackKey = "AIzaSyC_UqO0tnLsuxmsMzGSSd2doKpzeXPz3gI";
+    let apiKey = fallbackKey;
+    try {
+      // @ts-ignore
+      if (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_GEMINI_API_KEY) {
+        // @ts-ignore
+        apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      }
+    } catch (e) {}
     
     const systemPrompt = `Você é um assistente jurídico virtual (IA) do escritório 'Saraiva & Advogados', especializado em Direito da Saúde no Brasil. 
     Analise o relato do usuário e forneça:
