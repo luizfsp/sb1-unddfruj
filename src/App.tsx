@@ -48,13 +48,8 @@ export default function App() {
     setAiError("");
     setAiAnalysis(null);
 
-    let apiKey = "";
-    try {
-      // @ts-ignore
-      apiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
-    } catch (err) {
-      console.warn(err);
-    }
+    // Cole a sua chave de API do Gemini aqui dentro das aspas:
+    const apiKey = "";
     
     const systemPrompt = `Você é um assistente jurídico virtual (IA) do escritório 'Saraiva & Advogados', especializado em Direito da Saúde no Brasil. 
     Analise o relato do usuário e forneça:
@@ -69,9 +64,13 @@ export default function App() {
       for (let i = 0; i < retries; i++) {
         try {
           const response = await fetch(url, options);
-          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          if (!response.ok) {
+            // Captura o erro detalhado da Google para mostrar na tela em caso de falha
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(`HTTP ${response.status}: ${errorData?.error?.message || response.statusText}`);
+          }
           return await response.json();
-        } catch (e) {
+        } catch (e: any) {
           if (i === retries - 1) throw e;
           await new Promise(res => setTimeout(res, delay * Math.pow(2, i)));
         }
@@ -79,7 +78,9 @@ export default function App() {
     };
 
     try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+      // Usa o modelo gemini-2.5-flash se tiver chave (Vercel)
+      const modelName = apiKey ? "gemini-2.5-flash" : "gemini-2.5-flash-preview-09-2025";
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
       
       const result = await fetchWithRetry(url, {
         method: 'POST',
@@ -96,9 +97,14 @@ export default function App() {
       } else {
         setAiError("Não foi possível gerar a análise. Tente novamente.");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Detalhes do erro na API Gemini:", error);
-      setAiError("Ocorreu um erro ao conectar com a IA. Por favor, tente novamente mais tarde.");
+      // Avalia se o erro foi causado por ausência de chave ou outro motivo
+      if (!apiKey && window.location.hostname !== 'localhost') {
+        setAiError("Erro: A Chave da API não foi encontrada na Vercel. Verifique as configurações de Environment Variables.");
+      } else {
+        setAiError(`Erro de conexão: ${error.message}`);
+      }
     } finally {
       setIsAnalyzing(false);
     }
