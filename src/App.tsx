@@ -476,7 +476,7 @@ export default function App() {
                 ))}
               </div>
               <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
-                "Estava desesperado com a falta contínua de um medicamento de alto custo no SUS. A equipe do Saraiva & Advogados pegou no meu caso e atuou com uma rapidez impressionante. Recomendo de olhos fechados a quem precisa de justiça na saúde."
+                "Quando o plano de saúde se recusou a fornecer o meu medicamento de alto custo, fiquei sem saber o que fazer. A equipe do Saraiva & Advogados assumiu o caso e conseguiu a liberação judicial. Um trabalho excepcional e muito ágil!"
               </p>
               <div className="flex items-center gap-3 border-t border-slate-100 pt-4">
                 <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800 font-bold">
@@ -754,3 +754,4 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
