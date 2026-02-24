@@ -48,7 +48,7 @@ export default function App() {
     setAiError("");
     setAiAnalysis(null);
 
-    const apiKey = "";
+    const apiKey = "AIzaSyC_UqO0tnLsuxmsMzGSSd2doKpzeXPz3gI";
     
     const systemPrompt = `Você é um assistente jurídico virtual (IA) do escritório 'Saraiva & Advogados', especializado em Direito da Saúde no Brasil. 
     Analise o relato do usuário e forneça:
@@ -735,3 +735,4 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
