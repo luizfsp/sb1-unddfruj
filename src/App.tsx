@@ -14,7 +14,9 @@ import {
   CheckCircle2,
   Sparkles,
   Loader2,
-  Send
+  Send,
+  Star,
+  Quote
 } from 'lucide-react';
 
 export default function App() {
@@ -46,7 +48,8 @@ export default function App() {
     setAiError("");
     setAiAnalysis(null);
 
-    const apiKey = ""; // A chave da API é injetada no ambiente de execução
+    const apiKey = "";
+    
     const systemPrompt = `Você é um assistente jurídico virtual (IA) do escritório 'Saraiva & Advogados', especializado em Direito da Saúde no Brasil. 
     Analise o relato do usuário e forneça:
     1. Uma breve avaliação (1 parágrafo) indicando se parece haver uma violação de direitos (ex: abusividade do plano, dever do SUS, indícios de erro médico).
@@ -71,6 +74,7 @@ export default function App() {
 
     try {
       const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+      
       const result = await fetchWithRetry(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -167,9 +171,6 @@ export default function App() {
             <div className="md:w-2/5 relative">
               {/* Moldura da imagem do Hero */}
               <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/50 border border-slate-700/50 group">
-                {/* INSTRUÇÃO: Substituir o src abaixo pela foto principal do Dr. Fabio Saraiva (Drive) 
-                  Idealmente uma foto com postura confiante, fundo escuro ou clean.
-                */}
                 <img 
                   src="https://i.ibb.co/j9KkYTpv/Whats-App-Image-2026-02-12-at-21-40-15.jpg" 
                   alt="Dr. Fabio Saraiva" 
@@ -296,13 +297,11 @@ export default function App() {
             <div className="lg:w-1/2 relative">
               {/* Composição de Imagens */}
               <div className="relative">
-                {/* INSTRUÇÃO: Substituir pela foto do Dr. Fabio em ação/reunião */}
                 <img 
                   src="https://i.ibb.co/s9PyNDNW/firefox-1f-HADh-BJWx.jpg" 
                   alt="Escritório Saraiva & Advogados" 
                   className="rounded-lg shadow-2xl w-4/5 ml-auto"
                 />
-                {/* INSTRUÇÃO: Substituir pela foto da fachada ou ambiente do escritório */}
                 <img 
                   src="https://i.ibb.co/KzDCcZBV/456324765.jpg" 
                   alt="Detalhe Escritório" 
@@ -316,7 +315,8 @@ export default function App() {
               <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight">
                 Para nós, todo caso é um caso especial.
               </h3>
-              <div className="space-y-4 text-slate-600 text-lg leading-relaxed" text-justify>
+              {/* Correção do text-justify aplicada aqui dentro da className */}
+              <div className="space-y-4 text-slate-600 text-lg leading-relaxed text-justify">
                 <p>
                   Somos uma advocacia especializada no Direito da Saúde.
                 </p>
@@ -404,6 +404,95 @@ export default function App() {
              <a href={whatsappLink} target="_blank" rel="noreferrer" className="inline-flex bg-white hover:bg-slate-100 text-blue-950 px-8 py-4 rounded-lg font-bold text-lg items-center justify-center gap-2 transition-all shadow-lg hover:-translate-y-1">
                 Iniciar o Passo 1 Agora
              </a>
+          </div>
+        </div>
+      </section>
+
+      {/* DEPOIMENTOS (Secção Inserida) */}
+      <section className="py-24 bg-slate-50 border-t border-slate-200">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Histórias de Sucesso</h2>
+            <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">
+              O que dizem os nossos clientes
+            </h3>
+            <p className="text-slate-600 text-lg">
+              A nossa maior recompensa é a satisfação e o alívio das famílias que ajudamos a proteger nos momentos de maior vulnerabilidade.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Depoimento 1 */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 relative mt-6 hover:shadow-xl hover:border-blue-100 transition-all duration-300 group">
+              <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg group-hover:scale-110 transition-transform">
+                <Quote className="text-white" size={24} />
+              </div>
+              <div className="flex gap-1 mb-4 mt-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star key={star} className="text-amber-400 fill-amber-400" size={18} />
+                ))}
+              </div>
+              <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
+                "O Dr. Fabio foi um verdadeiro anjo na nossa vida. Quando o plano de saúde negou a cirurgia oncológica da minha mãe de forma abusiva, ele conseguiu a liminar em menos de 48 horas. Um atendimento impecável, rápido e extremamente humano."
+              </p>
+              <div className="flex items-center gap-3 border-t border-slate-100 pt-4">
+                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-800 font-bold">
+                  MF
+                </div>
+                <div>
+                  <p className="font-bold text-slate-900 text-sm">Maria Fernandes</p>
+                  <p className="text-xs text-slate-500">Ação contra Plano de Saúde</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Depoimento 2 */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 relative mt-6 hover:shadow-xl hover:border-blue-100 transition-all duration-300 group">
+              <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg group-hover:scale-110 transition-transform">
+                <Quote className="text-white" size={24} />
+              </div>
+              <div className="flex gap-1 mb-4 mt-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star key={star} className="text-amber-400 fill-amber-400" size={18} />
+                ))}
+              </div>
+              <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
+                "Estava desesperado com a falta contínua de um medicamento de alto custo no SUS. A equipe do Saraiva & Advogados pegou no meu caso e atuou com uma rapidez impressionante. Recomendo de olhos fechados a quem precisa de justiça na saúde."
+              </p>
+              <div className="flex items-center gap-3 border-t border-slate-100 pt-4">
+                <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800 font-bold">
+                  CE
+                </div>
+                <div>
+                  <p className="font-bold text-slate-900 text-sm">Carlos Eduardo Silva</p>
+                  <p className="text-xs text-slate-500">Medicamento de Alto Custo</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Depoimento 3 */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 relative mt-6 hover:shadow-xl hover:border-blue-100 transition-all duration-300 group">
+              <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg group-hover:scale-110 transition-transform">
+                <Quote className="text-white" size={24} />
+              </div>
+              <div className="flex gap-1 mb-4 mt-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star key={star} className="text-amber-400 fill-amber-400" size={18} />
+                ))}
+              </div>
+              <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
+                "Diferente de outros escritórios, aqui não fui tratada como apenas mais um número de processo. O Dr. Fabio explicou-me todos os passos com clareza e lutou incansavelmente para garantir a terapia intensiva para o meu filho com TEA."
+              </p>
+              <div className="flex items-center gap-3 border-t border-slate-100 pt-4">
+                <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-800 font-bold">
+                  AP
+                </div>
+                <div>
+                  <p className="font-bold text-slate-900 text-sm">Ana Paula Rezende</p>
+                  <p className="text-xs text-slate-500">Tratamento TEA</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -646,9 +735,3 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
-
-
-
-
-
-
