@@ -669,7 +669,9 @@ export default function App() {
               </div>
               <p className="mb-6 max-w-md leading-relaxed">
                 Experiência adquirida durante mais de 25 anos de atuação. Atendimento personalizado e exclusivo com dedicação, ética e transparência na defesa da sua saúde.
+               <p>
                 Fabio Tadeu Saraiva (OAB/SP: 184.971)
+                </p>
               </p>
             </div>
             
@@ -755,5 +757,6 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
 
 
