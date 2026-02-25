@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { 
-  Scale, 
   HeartPulse, 
   ShieldAlert, 
   FileWarning, 
@@ -585,8 +584,11 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
             <div className="md:col-span-5">
               <div className="flex items-center gap-2 mb-6">
-                <Scale className="text-amber-500" size={32} />
-                <h4 className="text-xl font-bold text-white">SARAIVA & ADVOGADOS</h4>
+                <img 
+                  src="/Logo 2_Fundo Transparente.png" 
+                  alt="Saraiva & Advogados Associados" 
+                  className="h-14 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity"
+                />
               </div>
               <p className="mb-4 text-justify">Experiência adquirida durante mais de 25 anos de atuação. Atendimento personalizado e exclusivo com dedicação, ética e transparência na defesa da sua saúde.</p>
               <p className="text-white font-bold uppercase tracking-widest text-xs">Fabio Tadeu Saraiva (OAB/SP: 184.971)</p>
@@ -645,5 +647,3 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
-
-
