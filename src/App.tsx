@@ -58,7 +58,7 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Efeito para carregar o Feed de Notícias do ConJur (mais estável)
+  // Efeito para carregar o Feed de Notícias do ConJur
   useEffect(() => {
     const fetchNews = async () => {
       const fallbackNews: NewsItem[] = [
@@ -95,7 +95,6 @@ export default function App() {
         const data = await res.json();
         
         if (data && data.status === 'ok' && data.items) {
-          // Mapeamento das notícias sem filtro restritivo para garantir volume e evitar fallback
           let filtered: NewsItem[] = data.items.map((item: any) => ({
             title: item.title,
             pubDate: item.pubDate,
@@ -103,9 +102,7 @@ export default function App() {
             description: stripHtml(item.description).substring(0, 150) + "..."
           }));
 
-          // Ordenação por data (mais recente primeiro)
           filtered.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
-          
           setNews(filtered.slice(0, 6));
         } else {
           throw new Error("Falha no carregamento");
@@ -149,12 +146,7 @@ export default function App() {
       }
     } catch (e) {}
     
-    const systemPrompt = `Você é um assistente jurídico virtual (IA) do escritório 'Saraiva & Advogados', especializado em Direito da Saúde no Brasil. 
-    Analise o relato do usuário e forneça:
-    1. Uma breve avaliação (1 parágrafo) indicando se parece haver uma violação de direitos.
-    2. A recomendação clara de avaliação por advogado especialista.
-    3. Um 'Resumo Estruturado' para o WhatsApp.
-    Formate o texto usando quebras de linha e **negrito**.`;
+    const systemPrompt = `Você é um assistente jurídico virtual (IA) do escritório 'Saraiva & Advogados', especializado em Direito da Saúde no Brasil. Analise o relato do usuário e forneça uma breve avaliação, recomendação e um resumo estruturado para o WhatsApp. Formate com quebras de linha e **negrito**.`;
 
     const prompt = `Relato do paciente/cliente: ${caseDescription}`;
 
@@ -333,22 +325,22 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><HeartPulse /></div>
-              <h4 className="text-xl font-bold mb-3">Planos de Saúde</h4>
+              <h4 className="text-xl font-bold text-slate-900 mb-3">Planos de Saúde</h4>
               <p className="text-slate-600 text-sm leading-relaxed">Revisão de reajustes ilegais, reversão de negativas para internação, cirurgias, exames e próteses.</p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><ShieldAlert /></div>
-              <h4 className="text-xl font-bold mb-3">Medicamentos</h4>
+              <h4 className="text-xl font-bold text-slate-900 mb-3">Medicamentos</h4>
               <p className="text-slate-600 text-sm leading-relaxed">Pedido de liminar para fornecimento de medicamentos de alto custo negados pelo plano ou Estado.</p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><CheckCircle2 /></div>
-              <h4 className="text-xl font-bold mb-3">Tratamentos</h4>
+              <h4 className="text-xl font-bold text-slate-900 mb-3">Tratamentos</h4>
               <p className="text-slate-600 text-sm leading-relaxed">Cobertura para terapias voltadas ao TEA, Home Care e demais doenças raras de forma assertiva.</p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><FileWarning /></div>
-              <h4 className="text-xl font-bold mb-3">Erro Médico</h4>
+              <h4 className="text-xl font-bold text-slate-900 mb-3">Erro Médico</h4>
               <p className="text-slate-600 text-sm leading-relaxed">Responsabilidade civil e indenização por negligência, imprudência ou imperícia médica.</p>
             </div>
           </div>
@@ -479,15 +471,45 @@ export default function App() {
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* FAQ (RESTAURADO E COMPLETO) */}
       <section id="faq" className="py-24 bg-slate-50">
         <div className="container mx-auto px-4 md:px-8 max-w-4xl">
           <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 text-center mb-16">Perguntas Frequentes</h3>
           <div className="space-y-4">
-            <FaqItem question="O plano negou meu tratamento. O que eu faço?" answer="Não aceite o 'não' como resposta final. Reúna a negativa por escrito e o laudo médico. O plano não pode interferir na conduta do médico assistente. Podemos ingressar com pedido de liminar para garantir o atendimento." />
-            <FaqItem question="Quanto tempo demora para a liminar ser analisada?" answer="Em casos urgentes, a Justiça costuma analisar pedidos de tutela de urgência em um prazo médio de 24 a 72 horas." />
-            <FaqItem question="Atendem fora de São Paulo?" answer="Sim! O processo é 100% eletrônico no Brasil, permitindo atendimento em qualquer cidade com excelência via reuniões online." />
+            <FaqItem 
+              question="O plano de saúde negou meu tratamento. O que eu faço?" 
+              answer="Não aceite o “não” como resposta final. Reúna a negativa por escrito (ou protocolo de atendimento) e o laudo do seu médico justificando a necessidade do tratamento. O plano não pode interferir na conduta do médico assistente. Com esses documentos, podemos ingressar com uma ação judicial em caráter de urgência pedindo uma liminar para assegurar a cobertura do tratamento." 
+            />
+            <FaqItem 
+              question="Quanto tempo demora para a justiça analisar o meu caso e determinar que uma operadora autorize a cirurgia?" 
+              answer="Em casos de urgência e emergência que possam causar riscos à saúde e à vida, nossos especialistas ingressarão com um pedido de Tutela Antecipada de Urgência em caráter liminar. A Justiça costuma analisar esses pedidos de forma muito rápida, normalmente entre 24 a 72 horas após a propositura da ação." 
+            />
+            <FaqItem 
+              question="O escritório atende pessoas de fora de São Paulo?" 
+              answer="Sim! Devido ao processo judicial eletrônico existente em praticamente todo o Brasil, nossos profissionais estão aptos a analisar o seu caso com a mesma agilidade e excelência, realizando reuniões por videochamada e contato via WhatsApp. Possuímos correspondentes em todas as capitais do país para garantir suporte total." 
+            />
+            <FaqItem 
+              question="A operadora pode cancelar o meu contrato ou suspender o tratamento se eu ingressar com uma ação judicial?" 
+              answer="Não! Nenhuma operadora pode promover retaliações contra um cliente que buscou os seus direitos. Essa prática é ilegal e se ocorrer, a justiça determina o restabelecimento imediato do contrato, inclusive com a condenação da operadora a pagar indenização por danos morais." 
+            />
           </div>
+        </div>
+      </section>
+
+      {/* CTA FINAL */}
+      <section className="py-20 bg-emerald-700 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div className="container mx-auto px-4 relative z-10 text-center">
+          <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6">
+            Você não está sozinho para enfrentar o sistema.
+          </h2>
+          <p className="text-emerald-100 text-xl mb-10 max-w-2xl mx-auto">
+            Conte sempre com os nossos profissionais altamente especializados e capacitados para analisar o seu caso com total sigilo, segurança e assertividade na busca da defesa dos seus interesses e solução do problema.
+          </p>
+          <a href={whatsappLink} target="_blank" rel="noreferrer" className="inline-flex bg-amber-500 hover:bg-amber-400 text-slate-900 px-10 py-5 rounded-xl font-black text-xl items-center justify-center gap-3 transition-transform hover:scale-105 shadow-2xl">
+            <Phone size={28} />
+            Fale com quem realmente pode te ajudar
+          </a>
         </div>
       </section>
 
@@ -500,7 +522,7 @@ export default function App() {
                 <Scale className="text-amber-500" size={32} />
                 <h4 className="text-xl font-bold text-white">SARAIVA & ADVOGADOS</h4>
               </div>
-              <p className="mb-4">Experiência de 25 anos com atendimento humanizado na defesa da sua saúde.</p>
+              <p className="mb-4">Experiência adquirida durante mais de 25 anos de atuação. Atendimento personalizado e exclusivo com dedicação, ética e transparência na defesa da sua saúde.</p>
               <p className="text-white font-bold uppercase tracking-widest text-xs">Fabio Tadeu Saraiva (OAB/SP: 184.971)</p>
             </div>
             <div className="md:col-span-3">
@@ -513,11 +535,20 @@ export default function App() {
               </ul>
             </div>
             <div className="md:col-span-4">
-              <h5 className="text-white font-bold mb-6 text-sm">Contato</h5>
+              <h5 className="text-white font-bold mb-6 text-sm">Contato & Endereço</h5>
               <ul className="space-y-4">
-                <li className="flex gap-3"><MapPin className="text-blue-600 shrink-0" size={20} /><span>Rua Afonso Celso, 1221, Cj. 16<br />Vila Mariana, São Paulo/SP<br />CEP: 04119-061</span></li>
-                <li className="flex items-center gap-3"><Phone className="text-blue-600" size={20} /><span>(11) 96281-7392</span></li>
-                <li className="flex items-center gap-3"><Mail className="text-blue-600" size={20} /><span>saraiva@saraivaeadvogados.com.br</span></li>
+                <li className="flex gap-3">
+                  <MapPin className="text-blue-600 shrink-0 mt-1" size={20} />
+                  <span>Rua Afonso Celso, 1221, Cj. 16<br />Vila Mariana, São Paulo/SP<br />CEP: 04119-061</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <Phone className="text-blue-600 shrink-0" size={20} />
+                  <span>(11) 96281-7392</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <Mail className="text-blue-600 shrink-0" size={20} />
+                  <span>saraiva@saraivaeadvogados.com.br</span>
+                </li>
               </ul>
             </div>
           </div>
@@ -537,12 +568,14 @@ export default function App() {
 function FaqItem({ question, answer }: { question: string, answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="border border-slate-200 rounded-xl bg-white overflow-hidden">
-      <button onClick={() => setIsOpen(!isOpen)} className="w-full px-6 py-5 text-left flex justify-between items-center">
-        <span className="font-bold text-slate-900">{question}</span>
-        <ChevronDown className={`text-blue-600 transition-transform ${isOpen ? 'rotate-180' : ''}`} size={20} />
+    <div className="border border-slate-200 rounded-xl bg-white overflow-hidden transition-all duration-300">
+      <button onClick={() => setIsOpen(!isOpen)} className="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-slate-50 transition-colors outline-none">
+        <span className="font-bold text-slate-900 pr-8">{question}</span>
+        <ChevronDown className={`text-blue-600 transition-transform duration-300 shrink-0 ${isOpen ? 'rotate-180' : ''}`} size={20} />
       </button>
-      {isOpen && <div className="px-6 pb-6 text-slate-600 text-sm leading-relaxed border-t pt-4">{answer}</div>}
+      <div className={`px-6 overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 pb-6 opacity-100' : 'max-h-0 opacity-0'}`}>
+        <p className="text-slate-600 text-sm leading-relaxed border-t pt-4">{answer}</p>
+      </div>
     </div>
   );
 }
