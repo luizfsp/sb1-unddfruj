@@ -65,6 +65,7 @@ export default function App() {
   // Efeito para carregar o Feed RSS de Notícias de forma nativa e robusta
   useEffect(() => {
     const fetchNews = async () => {
+      // Mantemos as notícias de salvaguarda focadas no nicho do escritório como vitrine em caso de falha
       const fallbackNews: NewsItem[] = [
         { 
           title: "STJ define que plano de saúde deve cobrir tratamento multidisciplinar", 
@@ -87,11 +88,11 @@ export default function App() {
       ];
 
       try {
-        // Query focada para o Google News (últimos 6 meses)
-        const searchQuery = '"plano de saúde" OR "erro médico" STJ liminar when:6m';
+        // Query AMPLA para o Google News (notícias de direito em geral, STJ, STF, consumidor e saúde) no último 1 mês
+        const searchQuery = 'STJ OR STF OR "direito do consumidor" OR "decisão judicial" OR "plano de saúde" when:1m';
         const googleNewsUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=pt-BR&gl=BR&ceid=BR:pt-419`;
         
-        // Retornamos ao rss2json (que é muito mais rápido e fiável), usando a URL do Google News
+        // Usamos o rss2json (rápido e fiável) com a URL do Google News
         const rssUrl = encodeURIComponent(googleNewsUrl);
         const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
         
@@ -119,7 +120,7 @@ export default function App() {
             
             // O Google News às vezes traz apenas links na descrição. Se ficar muito curto, colocamos um texto apelativo.
             if (cleanDesc.length < 30 || cleanDesc.includes(cleanTitle.substring(0, 20))) {
-              cleanDesc = "Clique para ler a matéria completa e conferir os detalhes desta decisão judicial em defesa dos direitos do paciente.";
+              cleanDesc = "Clique para ler a matéria completa e conferir os detalhes desta decisão judicial.";
             }
 
             return {
@@ -739,7 +740,7 @@ export default function App() {
               </div>
               <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Atualizações e Jurisprudência</h2>
               <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900">
-                Notícias do Direito da Saúde
+                Notícias e Decisões Jurídicas
               </h3>
             </div>
             
