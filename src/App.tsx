@@ -62,7 +62,7 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Efeito para carregar o Feed RSS de Notícias
+  // Efeito para carregar o Feed RSS de Notícias de forma nativa e robusta
   useEffect(() => {
     const fetchNews = async () => {
       const fallbackNews: NewsItem[] = [
@@ -87,58 +87,70 @@ export default function App() {
       ];
 
       try {
-        // Usa o Google News RSS para buscar notícias de saúde no período de 6 meses (when:6m) para evitar notícias muito antigas
-        const searchQuery = '"plano de saúde" OR "erro médico" OR "direito da saúde" liminar STJ';
-        const googleNewsUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}+when:6m&hl=pt-BR&gl=BR&ceid=BR:pt-419`;
+        // Query focada para o Google News (últimos 6 meses)
+        const searchQuery = 'plano de saúde STJ liminar when:6m';
+        const googleNewsUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=pt-BR&gl=BR&ceid=BR:pt-419`;
         
-        const rssUrl = encodeURIComponent(googleNewsUrl);
-        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
+        // Substituímos o rss2json (que estava a ser bloqueado) por um proxy universal (allorigins)
+        // Isto permite-nos descarregar o XML original de forma segura e processá-lo localmente
+        const proxyUrl = `https://api.allorigins.win/get?disableCache=true&url=${encodeURIComponent(googleNewsUrl)}`;
+        const res = await fetch(proxyUrl);
         const data = await res.json();
         
-        if (data && data.status === 'ok' && data.items) {
+        if (data && data.contents) {
+          // Processamento direto do XML no navegador (infalível)
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+          const items = Array.from(xmlDoc.querySelectorAll("item"));
           
-          // Força a ordenação cronológica (da mais recente para a mais antiga)
-          const sortedItems = data.items.sort((a: any, b: any) => {
-            return new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime();
-          });
+          if (items.length > 0) {
+            let fetchedNews: NewsItem[] = items.map((item) => {
+              let cleanTitle = item.querySelector("title")?.textContent || "";
+              
+              // Remove o nome do portal do final do título do Google News (ex: " - ConJur" ou " - G1")
+              const lastDashIndex = cleanTitle.lastIndexOf(' - ');
+              if (lastDashIndex !== -1) {
+                cleanTitle = cleanTitle.substring(0, lastDashIndex);
+              }
+              
+              let rawDesc = item.querySelector("description")?.textContent || "";
+              let cleanDesc = stripHtml(rawDesc);
+              
+              // O Google News às vezes traz apenas links na descrição. Se ficar muito curto, colocamos um texto apelativo.
+              if (cleanDesc.length < 30 || cleanDesc.includes(cleanTitle.substring(0, 20))) {
+                cleanDesc = "Clique para ler a matéria completa e conferir os detalhes desta decisão judicial em defesa dos direitos do paciente.";
+              }
 
-          // O Google News já traz as notícias filtradas, só formatamos os títulos e descrições após ordenar
-          let filtered: NewsItem[] = sortedItems.slice(0, 6).map((item: any) => {
-            let cleanTitle = item.title;
-            // Remove o nome do portal do final do título do Google News (ex: " - ConJur" ou " - G1")
-            const lastDashIndex = cleanTitle.lastIndexOf(' - ');
-            if (lastDashIndex !== -1) {
-              cleanTitle = cleanTitle.substring(0, lastDashIndex);
+              return {
+                title: cleanTitle,
+                pubDate: item.querySelector("pubDate")?.textContent || new Date().toISOString(),
+                link: item.querySelector("link")?.textContent || "#",
+                description: cleanDesc
+              };
+            });
+
+            // Força a ordenação rigorosa (da mais recente para a mais antiga)
+            fetchedNews.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
+
+            // Selecionamos as 6 melhores notícias
+            let filtered = fetchedNews.slice(0, 6);
+
+            // Se por acaso houver menos de 3 notícias, usamos o fallback para completar o carrossel
+            if (filtered.length < 3) {
+              const missing = 3 - filtered.length;
+              filtered = [...filtered, ...fallbackNews.slice(0, missing)];
             }
-            
-            let cleanDesc = stripHtml(item.description || "");
-            
-            // O Google News às vezes traz apenas links na descrição. Se ficar muito curto, colocamos um texto elegante.
-            if (cleanDesc.length < 30 || cleanDesc.includes(cleanTitle.substring(0, 20))) {
-              cleanDesc = "Clique para ler a matéria completa e conferir os detalhes desta decisão judicial em defesa dos direitos do paciente.";
-            }
 
-            return {
-              title: cleanTitle,
-              pubDate: item.pubDate,
-              link: item.link,
-              description: cleanDesc
-            };
-          });
-
-          // Se não houver notícias suficientes usa o fallback
-          if (filtered.length < 3) {
-            const missing = 3 - filtered.length;
-            filtered = [...filtered, ...fallbackNews.slice(0, missing)];
+            setNews(filtered);
+            return; // Termina a execução com sucesso
           }
-
-          setNews(filtered);
-        } else {
-          console.warn("A API de notícias não retornou os dados corretamente. Usando notícias de fallback.");
-          setNews(fallbackNews);
         }
+        
+        // Se o XML veio vazio, força o uso do fallback
+        throw new Error("Formato de XML inválido ou vazio");
+
       } catch (error) {
-        console.warn("Aviso de conexão com o feed de notícias. Usando notícias de fallback para manter a página.");
+        console.warn("Aviso: Utilizando notícias de salvaguarda. Detalhe do erro:", error);
         setNews(fallbackNews);
       } finally {
         setIsLoadingNews(false);
