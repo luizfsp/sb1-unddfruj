@@ -342,22 +342,22 @@ export default function App() {
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><HeartPulse /></div>
               <h4 className="text-xl font-bold text-slate-900 mb-3">Planos de Saúde</h4>
-              <p className="text-slate-600 text-sm leading-relaxed">Revisão de reajustes abusivos, reversão de negativas para internação, tratamento médico, internação, cirurgias, fornecimento de medicamentos, exames, negativa de reembolso, entre outros.</p>
+              <p className="text-slate-600 text-sm leading-relaxed text-justify">Revisão de reajustes abusivos, reversão de negativas para internação, tratamento médico, internação, cirurgias, fornecimento de medicamentos, exames, negativa de reembolso, entre outros.</p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><ShieldAlert /></div>
               <h4 className="text-xl font-bold text-slate-900 mb-3">Descredenciamento Indevido</h4>
-              <p className="text-slate-600 text-sm leading-relaxed">Pedido de liminar para manutenção de Hospital, Clínicas, Laboratórios e prestadores de serviço em caso de descredenciamento irregular pela operadora de saúde.</p>
+              <p className="text-slate-600 text-sm leading-relaxed text-justify">Pedido de liminar para manutenção de Hospital, Clínicas, Laboratórios e prestadores de serviço em caso de descredenciamento irregular pela operadora de saúde.</p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><CheckCircle2 /></div>
               <h4 className="text-xl font-bold text-slate-900 mb-3">Tratamentos</h4>
-              <p className="text-slate-600 text-sm leading-relaxed">Cobertura para terapias voltadas ao TEA, Home Care e demais doenças raras de forma assertiva.</p>
+              <p className="text-slate-600 text-sm leading-relaxed text-justify">Cobertura para terapias voltadas ao TEA, Home Care e demais doenças raras de forma assertiva.</p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><FileWarning /></div>
               <h4 className="text-xl font-bold text-slate-900 mb-3">Erro Médico</h4>
-              <p className="text-slate-600 text-sm leading-relaxed">Ação indenizatória decorrente de responsabilidade civil médica decorrente de negligência, imprudência ou imperícia.</p>
+              <p className="text-slate-600 text-sm leading-relaxed text-justify">Ação indenizatória decorrente de responsabilidade civil médica decorrente de negligência, imprudência ou imperícia.</p>
             </div>
           </div>
         </div>
@@ -687,7 +687,13 @@ export default function App() {
       </footer>
 
       {/* WHATSAPP FLOAT */}
-      <a href={whatsappLink} target="_blank" rel="noreferrer" className="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50"><MessageCircle size={32} /></a>
+           <a href={whatsappLink} target="_blank" rel="noreferrer" className="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50">
+        <img 
+          src="/WhatsApp_Logo.png" 
+          alt="WhatsApp" 
+          className="w-8 h-8 object-contain" 
+        />
+      </a>
     </div>
   );
 }
@@ -706,6 +712,7 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
 
 
 
