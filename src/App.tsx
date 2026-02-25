@@ -22,17 +22,27 @@ import {
   ExternalLink
 } from 'lucide-react';
 
+// Interface para definir a estrutura dos itens de notícias e resolver os erros de "never[]"
+interface NewsItem {
+  title: string;
+  pubDate: string;
+  link: string;
+  description: string;
+}
+
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [caseDescription, setCaseDescription] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [aiAnalysis, setAiAnalysis] = useState(null);
+  const [aiAnalysis, setAiAnalysis] = useState<string | null>(null);
   const [aiError, setAiError] = useState("");
   
-  // Estado para o Feed de Notícias
-  const [news, setNews] = useState([]);
+  // Estado para o Feed de Notícias com o tipo explícito NewsItem[]
+  const [news, setNews] = useState<NewsItem[]>([]);
   const [isLoadingNews, setIsLoadingNews] = useState(true);
-  const carouselRef = useRef(null);
+  
+  // Ref com tipagem HTMLDivElement para permitir o acesso a offsetWidth e scrollBy
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   // Efeito para mudar a cor do cabeçalho ao fazer scroll
   useEffect(() => {
@@ -46,7 +56,7 @@ export default function App() {
   // Efeito para carregar o Feed RSS de Notícias
   useEffect(() => {
     const fetchNews = async () => {
-      const fallbackNews = [
+      const fallbackNews: NewsItem[] = [
         { title: "STJ define que plano de saúde deve cobrir tratamento multidisciplinar", pubDate: new Date().toISOString(), link: "#", description: "A decisão reforça a obrigatoriedade da cobertura integral para beneficiários." },
         { title: "Operadora é condenada por negativa abusiva de cirurgia de urgência", pubDate: new Date(Date.now() - 86400000).toISOString(), link: "#", description: "Justiça determinou o custeio imediato do procedimento e indenização por danos morais." },
         { title: "Novas regras da ANS para autorização de exames de alta complexidade", pubDate: new Date(Date.now() - 172800000).toISOString(), link: "#", description: "Agência Nacional de Saúde Suplementar atualiza prazos e critérios para as operadoras." },
@@ -61,13 +71,23 @@ export default function App() {
         if (data && data.status === 'ok') {
           // Filtro para tentar encontrar notícias relacionadas à saúde/consumidor
           const keywords = ['saúde', 'médic', 'plano', 'ans', 'paciente', 'hospital', 'liminar', 'stj', 'consumidor', 'indenização'];
-          let filtered = data.items.filter(item => 
+          let filtered: NewsItem[] = data.items.filter((item: any) => 
             keywords.some(kw => item.title.toLowerCase().includes(kw) || item.description.toLowerCase().includes(kw))
-          );
+          ).map((item: any) => ({
+            title: item.title,
+            pubDate: item.pubDate,
+            link: item.link,
+            description: item.description
+          }));
 
           // Se não encontrar notícias suficientes do nicho, mostra as últimas gerais
           if (filtered.length < 3) {
-            filtered = data.items.slice(0, 6);
+            filtered = data.items.slice(0, 6).map((item: any) => ({
+              title: item.title,
+              pubDate: item.pubDate,
+              link: item.link,
+              description: item.description
+            }));
           } else {
             filtered = filtered.slice(0, 6);
           }
@@ -88,20 +108,23 @@ export default function App() {
     fetchNews();
   }, []);
 
-  const scrollCarousel = (direction) => {
+  // Tipagem 'left' | 'right' para resolver o erro "implicit any"
+  const scrollCarousel = (direction: 'left' | 'right') => {
     if (carouselRef.current) {
       const scrollAmount = direction === 'left' ? -carouselRef.current.offsetWidth + 50 : carouselRef.current.offsetWidth - 50;
       carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
 
-  const stripHtml = (html) => {
+  // Tipagem string para html
+  const stripHtml = (html: string) => {
     let doc = new DOMParser().parseFromString(html, 'text/html');
     return doc.body.textContent || "";
   };
 
   const whatsappNumber = "5511962817392";
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=Ol%C3%A1,%20gostaria%20de%20uma%20orienta%C3%A7%C3%A3o%20jur%C3%ADdica%20na%20%C3%A1rea%20da%20sa%C3%BAde.`;
+  const whatsappLinkUrgency = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("URGÊNCIA: Olá! Preciso de um atendimento de urgência referente a Direito da Saúde. Poderiam me ajudar imediatamente?")}`;
 
   const analyzeCaseWithAI = async () => {
     if (!caseDescription.trim()) {
@@ -113,7 +136,15 @@ export default function App() {
     setAiError("");
     setAiAnalysis(null);
 
-    const apiKey = ""; // A chave da API é injetada no ambiente de execução
+    let apiKey = "";
+    try {
+      // @ts-ignore
+      if (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_GEMINI_API_KEY) {
+        // @ts-ignore
+        apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      }
+    } catch (e) {}
+    
     const systemPrompt = `Você é um assistente jurídico virtual (IA) do escritório 'Saraiva & Advogados', especializado em Direito da Saúde no Brasil. 
     Analise o relato do usuário e forneça:
     1. Uma breve avaliação (1 parágrafo) indicando se parece haver uma violação de direitos (ex: abusividade do plano, dever do SUS, indícios de erro médico).
@@ -123,13 +154,17 @@ export default function App() {
 
     const prompt = `Relato do paciente/cliente: ${caseDescription}`;
 
-    const fetchWithRetry = async (url, options, retries = 5, delay = 1000) => {
+    // Tipagens para a função fetchWithRetry
+    const fetchWithRetry = async (url: string, options: RequestInit, retries = 5, delay = 1000): Promise<any> => {
       for (let i = 0; i < retries; i++) {
         try {
           const response = await fetch(url, options);
-          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(`HTTP ${response.status}: ${errorData?.error?.message || response.statusText}`);
+          }
           return await response.json();
-        } catch (e) {
+        } catch (e: any) {
           if (i === retries - 1) throw e;
           await new Promise(res => setTimeout(res, delay * Math.pow(2, i)));
         }
@@ -137,7 +172,8 @@ export default function App() {
     };
 
     try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+      const modelName = apiKey ? "gemini-2.5-flash" : "gemini-2.5-flash-preview-09-2025";
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
       const result = await fetchWithRetry(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -153,14 +189,20 @@ export default function App() {
       } else {
         setAiError("Não foi possível gerar a análise. Tente novamente.");
       }
-    } catch (error) {
-      setAiError("Ocorreu um erro ao conectar com a IA. Por favor, tente novamente mais tarde.");
+    } catch (error: any) {
+      console.error("Detalhes do erro na API Gemini:", error);
+      if (!apiKey && window.location.hostname !== 'localhost') {
+        setAiError("Erro: A Chave da API não foi encontrada na Vercel. Verifique as configurações de Environment Variables.");
+      } else {
+        setAiError(`Erro de conexão: ${error.message}`);
+      }
     } finally {
       setIsAnalyzing(false);
     }
   };
 
-  const formatAIResponse = (text) => {
+  // Tipagem string para text
+  const formatAIResponse = (text: string) => {
     // Transforma negrito de markdown e quebras de linha em HTML
     const formattedText = text
       .replace(/\*\*(.*?)\*\*/g, '<strong class="text-slate-900">$1</strong>')
@@ -234,9 +276,6 @@ export default function App() {
             <div className="md:w-2/5 relative">
               {/* Moldura da imagem do Hero */}
               <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/50 border border-slate-700/50 group">
-                {/* INSTRUÇÃO: Substituir o src abaixo pela foto principal do Dr. Fabio Saraiva (Drive) 
-                  Idealmente uma foto com postura confiante, fundo escuro ou clean.
-                */}
                 <img 
                   src="https://i.ibb.co/j9KkYTpv/Whats-App-Image-2026-02-12-at-21-40-15.jpg" 
                   alt="Dr. Fabio Saraiva" 
@@ -363,13 +402,11 @@ export default function App() {
             <div className="lg:w-1/2 relative">
               {/* Composição de Imagens */}
               <div className="relative">
-                {/* INSTRUÇÃO: Substituir pela foto do Dr. Fabio em ação/reunião */}
                 <img 
                   src="https://i.ibb.co/s9PyNDNW/firefox-1f-HADh-BJWx.jpg" 
                   alt="Escritório Saraiva & Advogados" 
                   className="rounded-lg shadow-2xl w-4/5 ml-auto"
                 />
-                {/* INSTRUÇÃO: Substituir pela foto da fachada ou ambiente do escritório */}
                 <img 
                   src="https://i.ibb.co/KzDCcZBV/456324765.jpg" 
                   alt="Detalhe Escritório" 
@@ -755,8 +792,8 @@ export default function App() {
   );
 }
 
-// Componente Auxiliar para o Acordeão do FAQ
-function FaqItem({ question, answer }) {
+// Tipagem adicionada aos parâmetros question e answer para evitar o erro TS7031
+function FaqItem({ question, answer }: { question: string, answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
