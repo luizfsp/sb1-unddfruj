@@ -284,7 +284,7 @@ export default function App() {
             <div className="md:w-2/5 relative">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/50 border border-slate-700/50 group">
                 <img 
-                  src="https://i.ibb.co/j9KkYTpv/Whats-App-Image-2026-02-12-at-21-40-15.jpg" 
+                  src="https://i.ibb.co/JF3TX4pF/7854563567.png" 
                   alt="Dr. Fabio Saraiva" 
                   className="w-full h-auto object-cover object-center transition-transform duration-700 group-hover:scale-105"
                 />
@@ -647,3 +647,4 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
