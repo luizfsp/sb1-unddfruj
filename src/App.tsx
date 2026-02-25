@@ -342,12 +342,12 @@ export default function App() {
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><HeartPulse /></div>
               <h4 className="text-xl font-bold text-slate-900 mb-3">Planos de Saúde</h4>
-              <p className="text-slate-600 text-sm leading-relaxed">Revisão de reajustes ilegais, reversão de negativas para internação, cirurgias, exames e próteses.</p>
+              <p className="text-slate-600 text-sm leading-relaxed">Revisão de reajustes abusivos, reversão de negativas para internação, tratamento médico, internação, cirurgias, fornecimento de medicamentos, exames, negativa de reembolso, entre outros.</p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><ShieldAlert /></div>
-              <h4 className="text-xl font-bold text-slate-900 mb-3">Medicamentos</h4>
-              <p className="text-slate-600 text-sm leading-relaxed">Pedido de liminar para fornecimento de medicamentos de alto custo negados pelo plano ou Estado.</p>
+              <h4 className="text-xl font-bold text-slate-900 mb-3">Descredenciamento Indevido</h4>
+              <p className="text-slate-600 text-sm leading-relaxed">Pedido de liminar para manutenção de Hospital, Clínicas, Laboratórios e prestadores de serviço em caso de descredenciamento irregular pela operadora de saúde.</p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><CheckCircle2 /></div>
@@ -357,7 +357,7 @@ export default function App() {
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><FileWarning /></div>
               <h4 className="text-xl font-bold text-slate-900 mb-3">Erro Médico</h4>
-              <p className="text-slate-600 text-sm leading-relaxed">Responsabilidade civil e indenização por negligência, imprudência ou imperícia médica.</p>
+              <p className="text-slate-600 text-sm leading-relaxed">Ação indenizatória decorrente de responsabilidade civil médica decorrente de negligência, imprudência ou imperícia.</p>
             </div>
           </div>
         </div>
@@ -612,6 +612,10 @@ export default function App() {
               question="A operadora pode cancelar o meu contrato ou suspender o tratamento se eu ingressar com uma ação judicial?" 
               answer="Não! Nenhuma operadora pode promover retaliações contra um cliente que buscou os seus direitos. Essa prática é ilegal e se ocorrer, a justiça determina o restabelecimento imediato do contrato, inclusive com a condenação da operadora a pagar indenização por danos morais." 
             />
+             <FaqItem 
+              question="Meu plano de saúde descredenciou o Hospital Albert Einstein em São Paulo e não fui comunicado. Tenho direito a exigir a manutenção do hospital no meu plano?" 
+              answer="Tratando-se de um hospital de referência no Brasil reconhecido internacionalmente, sem substituto de excelência assistencial, inovação tecnológica, de equipe médica, entre outros fatores, além de não ter havido uma comunicação prévia ou redução da mensalidade paga, esse descredenciamento pode ser considerado abusivo, garantindo o direito de o consumidor buscar a manutenção do credenciamento, entre outros direitos como redução do valor da mensalidade paga. Se o consumidor estiver em tratamento médico e este tratamento for suspenso devido ao descredenciamento, poderá pleitear uma liminar para manutenção do tratamento, assim como se for surpreendido quando de um atendimento de urgência/emergência em pronto socorro e não for atendido, com direito inclusive de pleitear indenização por danos morais sofridos em ambos os casos." 
+            />
           </div>
         </div>
       </section>
@@ -702,4 +706,5 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
 
