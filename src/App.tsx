@@ -17,7 +17,6 @@ import {
   Send,
   Star,
   Quote,
-  AlertTriangle,
   MessageSquareWarning
 } from 'lucide-react';
 
@@ -765,3 +764,4 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
