@@ -413,7 +413,7 @@ export default function App() {
           <div className="text-center mb-12">
             <div className="inline-flex items-center justify-center p-3 bg-amber-100 rounded-full mb-4 text-amber-600"><Sparkles size={32} /></div>
             <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Análise Assistida por IA</h3>
-            <p className="text-slate-600 text-lg">Descreva seu problema abaixo para uma avaliação preliminar rápida.</p>
+            <p className="text-slate-600 text-lg">Descreva seu problema abaixo para uma avaliação preliminar rápida. Em seguida, você poderá enviar esse relatório inicial de forma automática para a nossa equipe avaliar e entrar em contato com você.</p>
           </div>
           <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
             <textarea
@@ -579,3 +579,4 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
