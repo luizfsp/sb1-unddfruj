@@ -687,7 +687,7 @@ export default function App() {
       </footer>
 
       {/* WHATSAPP FLOAT */}
-           <a href={whatsappLink} target="_blank" rel="noreferrer" className="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50">
+           <a href={whatsappLink} target="_blank" rel="noreferrer" className="fixed bottom-6 right-6 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50">
         <img 
           src="/WhatsApp_Logo.png" 
           alt="WhatsApp" 
@@ -712,6 +712,7 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
 
 
 
