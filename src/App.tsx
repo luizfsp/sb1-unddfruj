@@ -60,14 +60,29 @@ export default function App() {
   useEffect(() => {
     const fetchNews = async () => {
       const fallbackNews: NewsItem[] = [
-        { title: "STJ define que plano de saúde deve cobrir tratamento multidisciplinar", pubDate: new Date().toISOString(), link: "#", description: "A decisão reforça a obrigatoriedade da cobertura integral para beneficiários." },
-        { title: "Operadora é condenada por negativa abusiva de cirurgia de urgência", pubDate: new Date(Date.now() - 86400000).toISOString(), link: "#", description: "Justiça determinou o custeio imediato do procedimento e indenização por danos morais." },
-        { title: "Novas regras da ANS para autorização de exames de alta complexidade", pubDate: new Date(Date.now() - 172800000).toISOString(), link: "#", description: "Agência Nacional de Saúde Suplementar atualiza prazos e critérios para as operadoras." },
+        { 
+          title: "STJ define que plano de saúde deve cobrir tratamento multidisciplinar", 
+          pubDate: new Date().toISOString(), 
+          link: "https://www.migalhas.com.br/quentes/367332/stj-plano-de-saude-deve-cobrir-tratamento-multidisciplinar-para-tea", 
+          description: "A decisão reforça a obrigatoriedade da cobertura integral para beneficiários." 
+        },
+        { 
+          title: "Operadora é condenada por negativa abusiva de cirurgia de urgência", 
+          pubDate: new Date(Date.now() - 86400000).toISOString(), 
+          link: "https://www.migalhas.com.br/quentes/381525/plano-de-saude-deve-indenizar-por-negar-cirurgia-de-emergencia", 
+          description: "Justiça determinou o custeio imediato do procedimento e indenização por danos morais." 
+        },
+        { 
+          title: "Novas regras da ANS para autorização de exames de alta complexidade", 
+          pubDate: new Date(Date.now() - 172800000).toISOString(), 
+          link: "https://www.gov.br/ans/pt-br/assuntos/noticias", 
+          description: "Agência Nacional de Saúde Suplementar atualiza prazos e critérios para as operadoras." 
+        },
       ];
 
       try {
-        // Usamos o rss2json para converter o RSS do portal Migalhas
-        const rssUrl = encodeURIComponent('https://www.migalhas.com.br/rss');
+        // Trocámos do portal Migalhas para o ConJur (que não bloqueia a leitura automática)
+        const rssUrl = encodeURIComponent('https://www.conjur.com.br/feed/');
         const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
         const data = await res.json();
         
