@@ -352,7 +352,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* SOBRE (TEXTO ATUALIZADO) */}
+      {/* SOBRE */}
       <section id="sobre" className="py-24 bg-white">
         <div className="container mx-auto px-4 md:px-8">
           <div className="flex flex-col lg:flex-row items-center gap-16">
@@ -412,26 +412,54 @@ export default function App() {
         </div>
       </section>
 
-      {/* IA ANALISADOR */}
+      {/* IA ANALISADOR RESTAURADO CONFORME IMAGEM */}
       <section className="py-24 bg-white relative overflow-hidden">
         <div className="container mx-auto px-4 md:px-8 max-w-4xl relative z-10">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center p-3 bg-amber-100 rounded-full mb-4 text-amber-600"><Sparkles size={32} /></div>
-            <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Análise Assistida por IA</h3>
-            <p className="text-slate-600 text-lg">Descreva seu problema abaixo para uma avaliação preliminar rápida.</p>
+            <div className="inline-flex items-center justify-center p-3 bg-amber-100 rounded-full mb-4 text-amber-600">
+              <Sparkles size={32} />
+            </div>
+            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">
+              Tecnologia a seu favor
+            </h2>
+            <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
+              Pré-Avaliação Assistida por Inteligência Artificial
+            </h3>
+            <p className="text-slate-600 text-lg leading-relaxed max-w-3xl mx-auto">
+              Avaliação de forma rápida pelos nossos profissionais especializados. Descreva brevemente o seu problema (Exemplo: Reajuste abusivo; negativa de internação; negativa de tratamento, outros). A nossa IA analisará de forma rápida e direcionará o seu caso para atendimento de um especialista.
+            </p>
           </div>
           <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
+            <label htmlFor="case-description" className="block text-sm font-bold text-slate-700 mb-2">
+              Descreva o que aconteceu:
+            </label>
             <textarea
+              id="case-description"
               rows={5}
               className="w-full rounded-xl border-slate-300 border p-4 text-slate-700 focus:ring-2 focus:ring-amber-500 outline-none transition-all resize-none shadow-inner"
-              placeholder="Ex: O plano negou minha cirurgia..."
+              placeholder="O meu plano de saúde negou a cobertura da minha cirurgia oncológica alegando que não consta no rol, mas o meu médico disse que o caso é urgente..."
               value={caseDescription}
               onChange={(e) => setCaseDescription(e.target.value)}
             ></textarea>
             {aiError && <p className="text-red-500 text-sm mt-3">{aiError}</p>}
             <div className="mt-6 flex justify-end">
-              <button onClick={analyzeCaseWithAI} disabled={isAnalyzing || !caseDescription.trim()} className="bg-blue-900 hover:bg-blue-800 text-white px-6 py-3 rounded-lg font-bold flex items-center gap-2">
-                {isAnalyzing ? <Loader2 className="animate-spin" size={18} /> : <Sparkles size={18} />} Analisar agora
+              <button 
+                onClick={analyzeCaseWithAI} 
+                disabled={isAnalyzing || !caseDescription.trim()} 
+                className="bg-blue-900 hover:bg-blue-800 disabled:bg-blue-900/50 text-white px-6 py-3 rounded-lg font-bold flex items-center gap-2 transition-all"
+              >
+                {isAnalyzing ? (
+                  <>
+                    <Loader2 className="animate-spin" size={18} />
+                    Analisando o seu caso...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles size={18} className="text-amber-400" />
+                    Analisar meu caso com IA
+                    <Sparkles size={18} className="text-amber-400" />
+                  </>
+                )}
               </button>
             </div>
             {aiAnalysis && (
@@ -497,7 +525,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* FAQ (RESTAURADO E COMPLETO) */}
+      {/* FAQ */}
       <section id="faq" className="py-24 bg-slate-50">
         <div className="container mx-auto px-4 md:px-8 max-w-4xl">
           <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 text-center mb-16">Perguntas Frequentes</h3>
