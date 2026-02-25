@@ -88,17 +88,14 @@ export default function App() {
       ];
 
       try {
-        // Query AMPLA para o Google News (notícias de direito em geral, STJ, STF, consumidor e saúde) no último 1 mês
-        const searchQuery = 'STJ OR STF OR "direito do consumidor" OR "decisão judicial" OR "plano de saúde" when:1m';
-        const googleNewsUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=pt-BR&gl=BR&ceid=BR:pt-419`;
-        
-        // Usamos o rss2json (rápido e fiável) com a URL do Google News
-        const rssUrl = encodeURIComponent(googleNewsUrl);
+        // Como expandimos para notícias do Direito em geral, usamos diretamente
+        // o feed oficial de um portal conceituado (Migalhas), que é rápido e não bloqueia a API.
+        const rssUrl = encodeURIComponent('https://www.migalhas.com.br/rss');
         const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
         
-        // Define um limite de tempo (timeout) de 5 segundos para a API não travar a página
+        // Define um limite de tempo (timeout) de 6 segundos para a API não travar a página
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        const timeoutId = setTimeout(() => controller.abort(), 6000);
 
         const res = await fetch(apiUrl, { signal: controller.signal });
         clearTimeout(timeoutId); // Limpa o timeout se o fetch for bem-sucedido a tempo
@@ -109,18 +106,13 @@ export default function App() {
           
           let fetchedNews: NewsItem[] = data.items.map((item: any) => {
             let cleanTitle = item.title || "";
-            // Remove o nome do portal do final do título do Google News (ex: " - ConJur" ou " - G1")
-            const lastDashIndex = cleanTitle.lastIndexOf(' - ');
-            if (lastDashIndex !== -1) {
-              cleanTitle = cleanTitle.substring(0, lastDashIndex);
-            }
             
             let rawDesc = item.description || "";
             let cleanDesc = stripHtml(rawDesc);
             
-            // O Google News às vezes traz apenas links na descrição. Se ficar muito curto, colocamos um texto apelativo.
+            // Garantir que a descrição tem um tamanho e aspeto visual aceitáveis
             if (cleanDesc.length < 30 || cleanDesc.includes(cleanTitle.substring(0, 20))) {
-              cleanDesc = "Clique para ler a matéria completa e conferir os detalhes desta decisão judicial.";
+              cleanDesc = "Clique para ler a matéria completa e se manter atualizado sobre as principais decisões do meio jurídico.";
             }
 
             return {
@@ -131,10 +123,7 @@ export default function App() {
             };
           });
 
-          // Força a ordenação rigorosa (da mais recente para a mais antiga)
-          fetchedNews.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
-
-          // Selecionamos as 6 melhores notícias
+          // Selecionamos as 6 notícias mais recentes do portal
           let filtered = fetchedNews.slice(0, 6);
 
           // Se por acaso houver menos de 3 notícias, usamos o fallback para completar o carrossel
