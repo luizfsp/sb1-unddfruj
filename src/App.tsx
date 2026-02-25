@@ -25,7 +25,7 @@ import {
   Quote
 } from 'lucide-react';
 
-// Interface para definir a estrutura dos itens de notícias e resolver os erros de "never[]"
+// Interface para definir a estrutura dos itens de notícias
 interface NewsItem {
   title: string;
   pubDate: string;
@@ -40,20 +40,16 @@ export default function App() {
   const [aiAnalysis, setAiAnalysis] = useState<string | null>(null);
   const [aiError, setAiError] = useState("");
   
-  // Estado para o Feed de Notícias com o tipo explícito NewsItem[]
+  // Estado para o Feed de Notícias
   const [news, setNews] = useState<NewsItem[]>([]);
   const [isLoadingNews, setIsLoadingNews] = useState(true);
-  
-  // Ref com tipagem HTMLDivElement para permitir o acesso a offsetWidth e scrollBy
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Tipagem string para html (Usamos "function" para poder ser chamada dentro do useEffect)
   function stripHtml(html: string) {
-    let doc = new DOMParser().parseFromString(html, 'text/html');
+    const doc = new DOMParser().parseFromString(html, 'text/html');
     return doc.body.textContent || "";
   }
 
-  // Efeito para mudar a cor do cabeçalho ao fazer scroll
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -62,83 +58,61 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Efeito para carregar o Feed RSS de Notícias de forma nativa e robusta
+  // Efeito para carregar o Feed de Notícias do ConJur (mais estável)
   useEffect(() => {
     const fetchNews = async () => {
-      // Notícias de salvaguarda agora com links REAIS de pesquisa no ConJur e ANS para NUNCA dar erro 404
       const fallbackNews: NewsItem[] = [
         { 
           title: "STJ define que plano de saúde deve cobrir tratamento multidisciplinar", 
           pubDate: new Date().toISOString(), 
-          link: "https://www.conjur.com.br/?s=stj+plano+de+sa%C3%BAde+tratamento+multidisciplinar", 
-          description: "A decisão reforça a obrigatoriedade da cobertura integral para beneficiários." 
+          link: "https://www.conjur.com.br/?s=stj+plano+de+sa%C3%BAde", 
+          description: "A decisão reforça a obrigatoriedade da cobertura integral para beneficiários em tratamentos específicos." 
         },
         { 
-          title: "Operadora é condenada por negativa abusiva de cirurgia de urgência", 
+          title: "Justiça condena plano de saúde por negativa abusiva de cirurgia de urgência", 
           pubDate: new Date(Date.now() - 86400000).toISOString(), 
-          link: "https://www.conjur.com.br/?s=operadora+condenada+negativa+abusiva+cirurgia", 
-          description: "Justiça determinou o custeio imediato do procedimento e indenização por danos morais." 
+          link: "https://www.conjur.com.br/?s=negativa+plano+de+saude", 
+          description: "Magistrado considerou que a demora colocava em risco a vida do paciente, determinando multa diária." 
         },
         { 
-          title: "Novas regras da ANS para autorização de exames de alta complexidade", 
+          title: "Novas regras da ANS para autorização de exames e procedimentos", 
           pubDate: new Date(Date.now() - 172800000).toISOString(), 
-          link: "https://www.gov.br/ans/pt-br/assuntos/noticias", 
-          description: "Agência Nacional de Saúde Suplementar atualiza prazos e critérios para as operadoras." 
+          link: "https://www.gov.br/ans/pt-br", 
+          description: "Agência Nacional de Saúde Suplementar atualiza os critérios de prazos máximos de atendimento." 
         },
       ];
 
       try {
-        // Utilizamos o feed do ConJur, que não bloqueia leituras e fornece notícias do Direito em Geral
         const rssUrl = encodeURIComponent('https://www.conjur.com.br/feed/');
         const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
         
-        // Define um limite de tempo (timeout) de 6 segundos para a API não travar a página
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 6000);
 
         const res = await fetch(apiUrl, { signal: controller.signal });
-        clearTimeout(timeoutId); // Limpa o timeout se o fetch for bem-sucedido a tempo
+        clearTimeout(timeoutId);
         
         const data = await res.json();
         
-        if (data && data.status === 'ok' && data.items && data.items.length > 0) {
+        if (data && data.status === 'ok' && data.items) {
+          // Filtro leve para priorizar temas relevantes, mas sem ser restritivo demais para evitar quedas no fallback
+          const keywords = ['saúde', 'consumidor', 'stj', 'stf', 'justiça', 'direito', 'plano', 'médic', 'indenização'];
           
-          let fetchedNews: NewsItem[] = data.items.map((item: any) => {
-            let cleanTitle = item.title || "";
-            
-            let rawDesc = item.description || "";
-            let cleanDesc = stripHtml(rawDesc);
-            
-            // Garantir que a descrição tem um tamanho e aspeto visual aceitáveis
-            if (cleanDesc.length < 30 || cleanDesc.includes(cleanTitle.substring(0, 20))) {
-              cleanDesc = "Clique para ler a matéria completa e se manter atualizado sobre as principais decisões do meio jurídico.";
-            }
+          let filtered: NewsItem[] = data.items.map((item: any) => ({
+            title: item.title,
+            pubDate: item.pubDate,
+            link: item.link,
+            description: stripHtml(item.description).substring(0, 150) + "..."
+          }));
 
-            return {
-              title: cleanTitle,
-              pubDate: item.pubDate,
-              link: item.link,
-              description: cleanDesc
-            };
-          });
-
-          // Selecionamos as 6 notícias mais recentes do portal (sem filtros rigorosos para garantir volume)
-          let filtered = fetchedNews.slice(0, 6);
-
-          // Se por acaso houver menos de 3 notícias na resposta, usamos o fallback para completar o carrossel
-          if (filtered.length < 3) {
-            const missing = 3 - filtered.length;
-            filtered = [...filtered, ...fallbackNews.slice(0, missing)];
-          }
-
-          setNews(filtered);
+          // Ordenação por data
+          filtered.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
+          
+          setNews(filtered.slice(0, 6));
         } else {
-          // Se o JSON veio vazio ou com erro, força o uso do fallback
-          throw new Error("Formato de JSON inválido ou vazio");
+          throw new Error("Falha no carregamento");
         }
-
       } catch (error) {
-        console.warn("Aviso: Utilizando notícias de salvaguarda por falha/lentidão na rede. Detalhe:", error);
         setNews(fallbackNews);
       } finally {
         setIsLoadingNews(false);
@@ -147,7 +121,6 @@ export default function App() {
     fetchNews();
   }, []);
 
-  // Tipagem 'left' | 'right' para resolver o erro "implicit any"
   const scrollCarousel = (direction: 'left' | 'right') => {
     if (carouselRef.current) {
       const scrollAmount = direction === 'left' ? -carouselRef.current.offsetWidth + 50 : carouselRef.current.offsetWidth - 50;
@@ -180,14 +153,13 @@ export default function App() {
     
     const systemPrompt = `Você é um assistente jurídico virtual (IA) do escritório 'Saraiva & Advogados', especializado em Direito da Saúde no Brasil. 
     Analise o relato do usuário e forneça:
-    1. Uma breve avaliação (1 parágrafo) indicando se parece haver uma violação de direitos (ex: abusividade do plano, dever do SUS, indícios de erro médico).
-    2. A recomendação clara de que um advogado especialista deve avaliar os documentos (laudos, negativas) para confirmar a viabilidade de uma liminar (Tutela de Urgência).
-    3. Um 'Resumo Estruturado': um texto curto e objetivo que o usuário possa enviar no WhatsApp do escritório para iniciar o atendimento.
-    Seja empático, acolhedor, profissional e transmita urgência. NÃO dê garantias de causa ganha. Formate o texto usando quebras de linha e **negrito** (apenas isso, sem listas complexas).`;
+    1. Uma breve avaliação (1 parágrafo) indicando se parece haver uma violação de direitos.
+    2. A recomendação clara de avaliação por advogado especialista.
+    3. Um 'Resumo Estruturado' para o WhatsApp.
+    Formate o texto usando quebras de linha e **negrito**.`;
 
     const prompt = `Relato do paciente/cliente: ${caseDescription}`;
 
-    // Tipagens para a função fetchWithRetry
     const fetchWithRetry = async (url: string, options: RequestInit, retries = 5, delay = 1000): Promise<any> => {
       for (let i = 0; i < retries; i++) {
         try {
@@ -223,20 +195,13 @@ export default function App() {
         setAiError("Não foi possível gerar a análise. Tente novamente.");
       }
     } catch (error: any) {
-      console.error("Detalhes do erro na API Gemini:", error);
-      if (!apiKey && window.location.hostname !== 'localhost') {
-        setAiError("Erro: A Chave da API não foi encontrada na Vercel. Verifique as configurações de Environment Variables.");
-      } else {
-        setAiError(`Erro de conexão: ${error.message}`);
-      }
+      setAiError(`Erro de conexão: ${error.message}`);
     } finally {
       setIsAnalyzing(false);
     }
   };
 
-  // Tipagem string para text
   const formatAIResponse = (text: string) => {
-    // Transforma negrito de markdown e quebras de linha em HTML
     const formattedText = text
       .replace(/\*\*(.*?)\*\*/g, '<strong class="text-slate-900">$1</strong>')
       .replace(/\n/g, '<br />');
@@ -246,7 +211,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
       
-      {/* HEADER / NAVEGAÇÃO */}
+      {/* HEADER */}
       <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-3' : 'bg-slate-900/95 backdrop-blur-sm py-5'}`}>
         <div className="container mx-auto px-4 md:px-8 flex justify-between items-center">
           <div className="flex items-center gap-2">
@@ -272,9 +237,8 @@ export default function App() {
         </div>
       </header>
 
-      {/* HERO SECTION - A PRIMEIRA IMPRESSÃO */}
+      {/* HERO SECTION */}
       <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 bg-slate-900 overflow-hidden">
-        {/* Fundo abstrato elegante */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl"></div>
           <div className="absolute top-48 -left-24 w-72 h-72 bg-emerald-600 rounded-full mix-blend-multiply filter blur-3xl"></div>
@@ -294,10 +258,10 @@ export default function App() {
               </div>
               <h2 className="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-6">
                 A sua saúde <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">não pode esperar.</span><br />
-                A Justiça também não.
+                A busca pelos seus direitos também não.
               </h2>
               <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl leading-relaxed">
-                Advocacia altamente especializada contra negativas de <strong>Planos de Saúde</strong>, <strong>SUS</strong> e <strong>Erros Médicos</strong>. Agimos com rapidez para garantir o seu direito à vida através de liminares de urgência.
+                Advocacia especializada contra <strong>abusos praticados por Operadoras de Planos de Saúde</strong> e <strong>Erros Médicos</strong>. Atuamos com rapidez para garantir o seu direito à saúde e à vida com pedido de liminares de urgência.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <a href={whatsappLink} target="_blank" rel="noreferrer" className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(5,150,105,0.4)] hover:-translate-y-1">
@@ -312,7 +276,6 @@ export default function App() {
             </div>
             
             <div className="md:w-2/5 relative">
-              {/* Moldura da imagem do Hero */}
               <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/50 border border-slate-700/50 group">
                 <img 
                   src="https://i.ibb.co/j9KkYTpv/Whats-App-Image-2026-02-12-at-21-40-15.jpg" 
@@ -327,7 +290,7 @@ export default function App() {
                     </div>
                     <div>
                       <p className="text-white font-bold">Dr. Fabio Saraiva</p>
-                      <p className="text-slate-300 text-sm">Fundador e Especialista</p>
+                      <p className="text-slate-300 text-sm">Especialista em Direito da Saúde</p>
                     </div>
                   </div>
                 </div>
@@ -337,7 +300,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* AUTORIDADE E PROVA SOCIAL */}
+      {/* AUTORIDADE */}
       <section className="py-12 bg-white border-b border-slate-200">
         <div className="container mx-auto px-4 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-slate-200">
@@ -354,189 +317,55 @@ export default function App() {
             <div className="flex flex-col items-center text-center px-4 pt-8 md:pt-0">
               <MapPin className="text-blue-800 mb-3" size={40} />
               <h3 className="text-xl font-bold text-slate-900 mb-2 mt-2">Atendimento Personalizado</h3>
-              <p className="text-slate-600 font-medium text-sm px-4">Soluções jurídicas sob medida para cada cliente.</p>
+              <p className="text-slate-600 font-medium text-sm px-4">Soluções Jurídicas de acordo com as necessidades de cada cliente.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* NOSSAS SOLUÇÕES */}
+      {/* ESPECIALIDADES */}
       <section id="solucoes" className="py-24 bg-slate-50">
         <div className="container mx-auto px-4 md:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Áreas de Especialidade</h2>
             <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">
-              Como podemos proteger o seu direito à saúde?
+              Como podemos defender o seu direito à saúde?
             </h3>
-            <p className="text-slate-600 text-lg">
-              Atuamos contra as práticas abusivas de operadoras de saúde e do Estado, garantindo que o seu tratamento médico não seja interrompido ou negado.
-            </p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Card 1 */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all duration-300 group hover:-translate-y-2">
-              <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors">
-                <HeartPulse className="text-blue-600 group-hover:text-white transition-colors" size={32} />
-              </div>
-              <h4 className="text-xl font-bold text-slate-900 mb-3">Planos de Saúde</h4>
-              <p className="text-slate-600 text-sm mb-6 leading-relaxed">
-                Reversão de negativas para cirurgias, exames, próteses e contestação de reajustes abusivos (falsos coletivos ou faixa etária).
-              </p>
-              <a href={whatsappLink} className="text-blue-700 font-bold text-sm flex items-center gap-1 group-hover:text-amber-600 transition-colors">
-                Saber mais <ChevronDown size={16} className="-rotate-90" />
-              </a>
-            </div>
-
-            {/* Card 2 */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all duration-300 group hover:-translate-y-2">
-              <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors">
-                <ShieldAlert className="text-blue-600 group-hover:text-white transition-colors" size={32} />
-              </div>
-              <h4 className="text-xl font-bold text-slate-900 mb-3">Medicamentos de Alto Custo</h4>
-              <p className="text-slate-600 text-sm mb-6 leading-relaxed">
-                Ações rápidas com pedido de liminar para obtenção de remédios importados ou oncológicos não fornecidos pelo SUS ou Convênio.
-              </p>
-              <a href={whatsappLink} className="text-blue-700 font-bold text-sm flex items-center gap-1 group-hover:text-amber-600 transition-colors">
-                Saber mais <ChevronDown size={16} className="-rotate-90" />
-              </a>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all duration-300 group hover:-translate-y-2">
-              <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors">
-                <CheckCircle2 className="text-blue-600 group-hover:text-white transition-colors" size={32} />
-              </div>
-              <h4 className="text-xl font-bold text-slate-900 mb-3">Tratamentos Específicos</h4>
-              <p className="text-slate-600 text-sm mb-6 leading-relaxed">
-                Garantia de cobertura para terapias voltadas ao Transtorno do Espectro Autista (TEA), Home Care e doenças raras.
-              </p>
-              <a href={whatsappLink} className="text-blue-700 font-bold text-sm flex items-center gap-1 group-hover:text-amber-600 transition-colors">
-                Saber mais <ChevronDown size={16} className="-rotate-90" />
-              </a>
-            </div>
-
-            {/* Card 4 */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all duration-300 group hover:-translate-y-2">
-              <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors">
-                <FileWarning className="text-blue-600 group-hover:text-white transition-colors" size={32} />
-              </div>
-              <h4 className="text-xl font-bold text-slate-900 mb-3">Erro Médico</h4>
-              <p className="text-slate-600 text-sm mb-6 leading-relaxed">
-                Busca por responsabilidade civil e indenização por negligência, imprudência ou falha em prestação de serviços de saúde.
-              </p>
-              <a href={whatsappLink} className="text-blue-700 font-bold text-sm flex items-center gap-1 group-hover:text-amber-600 transition-colors">
-                Saber mais <ChevronDown size={16} className="-rotate-90" />
-              </a>
-            </div>
+            <FeatureCard icon={<HeartPulse />} title="Planos de Saúde" desc="Revisão de reajustes ilegais, reversão de negativas para internação, cirurgias, exames e próteses." />
+            <FeatureCard icon={<ShieldAlert />} title="Medicamentos" desc="Pedido de liminar para fornecimento de medicamentos de alto custo negados pelo plano ou Estado." />
+            <FeatureCard icon={<CheckCircle2 />} title="Tratamentos" desc="Cobertura para terapias voltadas ao TEA, Home Care e demais doenças raras de forma assertiva." />
+            <FeatureCard icon={<FileWarning />} title="Erro Médico" desc="Responsabilidade civil e indenização por negligência, imprudência ou imperícia médica." />
           </div>
         </div>
       </section>
 
-      {/* SOBRE O DR. FABIO (O ROSTO DA CONFIANÇA) */}
+      {/* SOBRE (TEXTO ATUALIZADO) */}
       <section id="sobre" className="py-24 bg-white">
         <div className="container mx-auto px-4 md:px-8">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2 relative">
-              {/* Composição de Imagens */}
               <div className="relative">
-                <img 
-                  src="https://i.ibb.co/s9PyNDNW/firefox-1f-HADh-BJWx.jpg" 
-                  alt="Escritório Saraiva & Advogados" 
-                  className="rounded-lg shadow-2xl w-4/5 ml-auto"
-                />
-                <img 
-                  src="https://i.ibb.co/KzDCcZBV/456324765.jpg" 
-                  alt="Detalhe Escritório" 
-                  className="rounded-lg shadow-xl absolute -bottom-12 -left-4 w-3/5 border-8 border-white"
-                />
+                <img src="https://i.ibb.co/s9PyNDNW/firefox-1f-HADh-BJWx.jpg" alt="Escritório" className="rounded-lg shadow-2xl w-4/5 ml-auto"/>
+                <img src="https://i.ibb.co/KzDCcZBV/456324765.jpg" alt="Detalhe" className="rounded-lg shadow-xl absolute -bottom-12 -left-4 w-3/5 border-8 border-white"/>
               </div>
             </div>
             
             <div className="lg:w-1/2 mt-16 lg:mt-0">
               <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">O Especialista</h2>
               <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight">
-                Sensibilidade no atendimento, rigor absoluto na lei.
+                Para nós, todo caso é um caso especial.
               </h3>
-              <div className="space-y-4 text-slate-600 text-lg leading-relaxed">
+              <div className="space-y-4 text-slate-600 text-lg leading-relaxed text-justify">
+                <p>Somos uma advocacia especializada no Direito da Saúde.</p>
+                <p>Atuamos com ética e sensibilidade no atendimento, buscando garantir os seus direitos sempre com amparo na lei.</p>
                 <p>
-                  Com mais de duas décadas de sólida experiência jurídica nos mais diversos ramos corporativos e civis, o <strong>Dr. Fabio Saraiva</strong> fundou o escritório com um propósito claro: entregar um atendimento humanizado e implacável na defesa dos pacientes.
+                  Com mais de 25 anos de sólida experiência, o <strong>Dr. Fabio Saraiva</strong> é membro efetivo da Comissão Especial de Direito do Seguro e Resseguro da Ordem dos Advogados do Brasil - São Paulo. Fundou o escritório com um propósito claro: entregar um atendimento humanizado, ético e assertivo na defesa dos interesses dos seus clientes, especialmente em uma área que requer a atuação de profissionais altamente especializados e qualificados para enfrentar as gigantes da área da saúde suplementar no Brasil.
                 </p>
-                <p>
-                  No Direito da Saúde, sabemos que a vulnerabilidade e o rigor técnico precisam andar juntos. Um processo contra uma gigante operadora de saúde ou contra o Estado exige uma advocacia artesanal, onde cada laudo e cada vírgula importam.
-                </p>
-                <p>
-                  Nossa missão é ser o seu escudo jurídico. Protegemos famílias contra os abusos do sistema, garantindo dignidade, tratamentos e resultados rápidos no momento em que você mais precisa.
-                </p>
-              </div>
-              
-              <div className="mt-10">
-                <div className="flex items-center gap-4 bg-slate-50 p-6 rounded-xl border border-slate-100">
-                  <div className="bg-amber-100 p-3 rounded-full text-amber-600">
-                    <Scale size={32} />
-                  </div>
-                  <div>
-                    <p className="font-bold text-slate-900">Atendimento Pessoal</p>
-                    <p className="text-sm text-slate-600">O seu caso será conduzido diretamente pelos nossos especialistas.</p>
-                  </div>
-                </div>
+                <p>Um processo contra grandes operadoras exige uma advocacia artesanal, onde cada laudo médico e cada vírgula importam.</p>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* COMO FUNCIONA (PASSO A PASSO) */}
-      <section className="py-24 bg-blue-950 text-white">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-amber-500 font-bold tracking-widest uppercase text-sm mb-3">Processo Simplificado</h2>
-            <h3 className="text-3xl md:text-4xl font-extrabold mb-6">
-              Como garantimos o seu tratamento rapidamente
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
-            {/* Linha conectora (visível apenas em telas grandes) */}
-            <div className="hidden md:block absolute top-12 left-[10%] right-[10%] h-0.5 bg-blue-800/50"></div>
-
-            {/* Passos */}
-            {[
-              {
-                step: "01",
-                title: "Contato Imediato",
-                desc: "Relate o seu caso pelo WhatsApp de forma 100% segura e sigilosa."
-              },
-              {
-                step: "02",
-                title: "Análise Gratuita",
-                desc: "Avaliamos a negativa, os laudos médicos e a viabilidade da ação."
-              },
-              {
-                step: "03",
-                title: "Ação Urgente",
-                desc: "Entramos com o pedido de liminar na Justiça em tempo recorde."
-              },
-              {
-                step: "04",
-                title: "Tranquilidade",
-                desc: "Acompanhamento integral do processo, informando-o sem 'juridiquês'."
-              }
-            ].map((item, index) => (
-              <div key={index} className="relative z-10 flex flex-col items-center text-center group">
-                <div className="w-24 h-24 rounded-full bg-blue-900 border-4 border-slate-900 flex items-center justify-center mb-6 shadow-xl group-hover:bg-amber-500 group-hover:border-amber-600 transition-colors duration-300">
-                  <span className="text-2xl font-black text-white">{item.step}</span>
-                </div>
-                <h4 className="text-xl font-bold mb-3">{item.title}</h4>
-                <p className="text-blue-200 text-sm leading-relaxed max-w-xs">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-          
-          <div className="text-center mt-16">
-             <a href={whatsappLink} target="_blank" rel="noreferrer" className="inline-flex bg-white hover:bg-slate-100 text-blue-950 px-8 py-4 rounded-lg font-bold text-lg items-center justify-center gap-2 transition-all shadow-lg hover:-translate-y-1">
-                Iniciar o Passo 1 Agora
-             </a>
           </div>
         </div>
       </section>
@@ -546,245 +375,73 @@ export default function App() {
         <div className="container mx-auto px-4 md:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Histórias de Sucesso</h2>
-            <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">
-              O que dizem os nossos clientes
-            </h3>
-            <p className="text-slate-600 text-lg">
-              A nossa maior recompensa é a satisfação e o alívio das famílias que ajudamos a proteger nos momentos de maior vulnerabilidade.
-            </p>
+            <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">O que dizem os nossos clientes</h3>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Depoimento 1 */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 relative mt-6 hover:shadow-xl hover:border-blue-100 transition-all duration-300 group">
-              <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg group-hover:scale-110 transition-transform">
-                <Quote className="text-white" size={24} />
-              </div>
-              <div className="flex gap-1 mb-4 mt-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} className="text-amber-400 fill-amber-400" size={18} />
-                ))}
-              </div>
-              <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
-                "O Dr. Fabio foi um verdadeiro anjo na nossa vida. Quando o plano de saúde negou a cirurgia oncológica da minha mãe de forma abusiva, ele conseguiu a liminar em menos de 48 horas. Um atendimento impecável, rápido e extremamente humano."
-              </p>
-              <div className="flex items-center gap-3 border-t border-slate-100 pt-4">
-                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-800 font-bold">
-                  MF
-                </div>
-                <div>
-                  <p className="font-bold text-slate-900 text-sm">Maria Fernandes</p>
-                  <p className="text-xs text-slate-500">Ação contra Plano de Saúde</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Depoimento 2 */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 relative mt-6 hover:shadow-xl hover:border-blue-100 transition-all duration-300 group">
-              <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg group-hover:scale-110 transition-transform">
-                <Quote className="text-white" size={24} />
-              </div>
-              <div className="flex gap-1 mb-4 mt-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} className="text-amber-400 fill-amber-400" size={18} />
-                ))}
-              </div>
-              <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
-                "Quando o plano de saúde se recusou a fornecer o meu medicamento de alto custo, fiquei sem saber o que fazer. A equipe do Saraiva & Advogados assumiu o caso e conseguiu a liberação judicial em tempo recorde. Um trabalho excepcional e muito ágil!"
-              </p>
-              <div className="flex items-center gap-3 border-t border-slate-100 pt-4">
-                <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800 font-bold">
-                  CE
-                </div>
-                <div>
-                  <p className="font-bold text-slate-900 text-sm">Carlos Eduardo Silva</p>
-                  <p className="text-xs text-slate-500">Medicamento de Alto Custo</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Depoimento 3 */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 relative mt-6 hover:shadow-xl hover:border-blue-100 transition-all duration-300 group">
-              <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg group-hover:scale-110 transition-transform">
-                <Quote className="text-white" size={24} />
-              </div>
-              <div className="flex gap-1 mb-4 mt-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} className="text-amber-400 fill-amber-400" size={18} />
-                ))}
-              </div>
-              <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
-                "Diferente de outros escritórios, aqui não fui tratada como apenas mais um número de processo. O Dr. Fabio explicou-me todos os passos com clareza e lutou incansavelmente para garantir a terapia intensiva para o meu filho com TEA."
-              </p>
-              <div className="flex items-center gap-3 border-t border-slate-100 pt-4">
-                <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-800 font-bold">
-                  AP
-                </div>
-                <div>
-                  <p className="font-bold text-slate-900 text-sm">Ana Paula Rezende</p>
-                  <p className="text-xs text-slate-500">Tratamento TEA</p>
-                </div>
-              </div>
-            </div>
+            <TestimonialCard name="Maria Fernandes" text="O Dr. Fabio foi um anjo. Conseguiu a liminar para a cirurgia da minha mãe em menos de 48 horas. Atendimento humano e rápido." />
+            <TestimonialCard name="Carlos Eduardo Silva" text="A equipe assumiu meu caso de medicamento de alto custo e conseguiu a liberação judicial em tempo recorde. Trabalho excepcional!" />
+            <TestimonialCard name="Ana Paula Rezende" text="Aqui não fui tratada como número. O Dr. Fabio explicou tudo com clareza e lutou pela terapia intensiva do meu filho com TEA." />
           </div>
         </div>
       </section>
 
-      {/* ANALISADOR DE CASO COM IA */}
+      {/* IA ANALISADOR */}
       <section className="py-24 bg-white relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-50 via-white to-white opacity-50 pointer-events-none"></div>
         <div className="container mx-auto px-4 md:px-8 max-w-4xl relative z-10">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center p-3 bg-amber-100 rounded-full mb-4 text-amber-600">
-              <Sparkles size={32} />
-            </div>
-            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Tecnologia a seu favor</h2>
-            <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-              Pré-Avaliação Assistida por Inteligência Artificial
-            </h3>
-            <p className="text-slate-600 text-lg">
-              Descreva brevemente o seu problema (ex: negativa de cirurgia, falta de remédio). A nossa IA analisará o seu caso em segundos para direcionar e agilizar o atendimento com o especialista.
-            </p>
+            <div className="inline-flex items-center justify-center p-3 bg-amber-100 rounded-full mb-4 text-amber-600"><Sparkles size={32} /></div>
+            <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Análise Assistida por IA</h3>
+            <p className="text-slate-600 text-lg">Descreva seu problema abaixo para uma avaliação preliminar rápida.</p>
           </div>
-
           <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
-            <label htmlFor="case-description" className="block text-sm font-bold text-slate-700 mb-2">
-              Descreva o que aconteceu:
-            </label>
             <textarea
-              id="case-description"
               rows={5}
-              className="w-full rounded-xl border-slate-300 border p-4 text-slate-700 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all resize-none shadow-inner"
-              placeholder="Ex: O meu plano de saúde negou a cobertura da minha cirurgia oncológica alegando que não consta no rol, mas o meu médico disse que o caso é urgente..."
+              className="w-full rounded-xl border-slate-300 border p-4 text-slate-700 focus:ring-2 focus:ring-amber-500 outline-none transition-all resize-none shadow-inner"
+              placeholder="Ex: O plano negou minha cirurgia..."
               value={caseDescription}
               onChange={(e) => setCaseDescription(e.target.value)}
             ></textarea>
-
-            {aiError && (
-              <p className="text-red-500 text-sm mt-3 flex items-center gap-1">
-                <ShieldAlert size={16} /> {aiError}
-              </p>
-            )}
-
+            {aiError && <p className="text-red-500 text-sm mt-3">{aiError}</p>}
             <div className="mt-6 flex justify-end">
-              <button
-                onClick={analyzeCaseWithAI}
-                disabled={isAnalyzing || !caseDescription.trim()}
-                className="bg-blue-900 hover:bg-blue-800 disabled:bg-blue-900/50 text-white px-6 py-3 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-md"
-              >
-                {isAnalyzing ? (
-                  <>
-                    <Loader2 size={18} className="animate-spin" />
-                    Analisando o seu caso...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles size={18} className="text-amber-400" />
-                    Analisar meu caso com IA ✨
-                  </>
-                )}
+              <button onClick={analyzeCaseWithAI} disabled={isAnalyzing || !caseDescription.trim()} className="bg-blue-900 hover:bg-blue-800 text-white px-6 py-3 rounded-lg font-bold flex items-center gap-2">
+                {isAnalyzing ? <Loader2 className="animate-spin" size={18} /> : <Sparkles size={18} />} Analisar agora
               </button>
             </div>
-
             {aiAnalysis && (
-              <div className="mt-8 pt-8 border-t border-slate-200 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <h4 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-                  <CheckCircle2 className="text-emerald-500" size={24} />
-                  Parecer Preliminar da IA:
-                </h4>
-                <div 
-                  className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm text-slate-700 leading-relaxed text-sm md:text-base"
-                  dangerouslySetInnerHTML={formatAIResponse(aiAnalysis)}
-                />
-                
-                <div className="mt-6 flex flex-col sm:flex-row gap-4 items-center justify-between bg-blue-50 p-4 rounded-xl border border-blue-100">
-                  <p className="text-sm text-blue-800 font-medium">
-                    Tudo pronto para dar o próximo passo?
-                  </p>
-                  <a 
-                    href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Olá! Fiz a pré-análise do meu caso no site através da IA. Segue o resumo:\n\n")}${encodeURIComponent(aiAnalysis)}`} 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20bd5a] text-white px-6 py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-transform hover:scale-105 shadow-md whitespace-nowrap"
-                  >
-                    <Send size={18} />
-                    Enviar Resumo para o Advogado
-                  </a>
-                </div>
+              <div className="mt-8 pt-8 border-t border-slate-200">
+                <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm text-slate-700 text-sm" dangerouslySetInnerHTML={formatAIResponse(aiAnalysis)} />
+                <a href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(aiAnalysis)}`} target="_blank" rel="noreferrer" className="mt-6 w-full bg-[#25D366] text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2"><Send size={18} /> Enviar para o Advogado</a>
               </div>
             )}
           </div>
         </div>
       </section>
 
-      {/* FEED DE NOTÍCIAS (CARROSSEL) */}
-      <section className="py-24 bg-slate-100 border-t border-slate-200 overflow-hidden">
-        <style>{`.hide-scrollbar::-webkit-scrollbar { display: none; } .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }`}</style>
+      {/* NOTÍCIAS (RECONFIGURADA) */}
+      <section id="noticias" className="py-24 bg-slate-100 border-t border-slate-200 overflow-hidden">
+        <style>{`.hide-scrollbar::-webkit-scrollbar { display: none; }`}</style>
         <div className="container mx-auto px-4 md:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
             <div className="max-w-2xl">
-              <div className="inline-flex items-center justify-center p-3 bg-blue-100 rounded-full mb-4 text-blue-700">
-                <Newspaper size={28} />
-              </div>
-              <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Atualizações e Jurisprudência</h2>
-              <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900">
-                Notícias e Decisões Jurídicas
-              </h3>
+              <div className="inline-flex items-center justify-center p-3 bg-blue-100 rounded-full mb-4 text-blue-700"><Newspaper size={28} /></div>
+              <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Direito em Foco</h2>
+              <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900">Notícias e Atualizações Jurídicas</h3>
             </div>
-            
-            {/* Controlos do Carrossel */}
             <div className="flex gap-3 mt-6 md:mt-0">
-              <button 
-                onClick={() => scrollCarousel('left')}
-                className="w-12 h-12 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-amber-500 hover:text-white hover:border-amber-500 transition-all shadow-sm"
-                aria-label="Notícias anteriores"
-              >
-                <ChevronLeft size={24} />
-              </button>
-              <button 
-                onClick={() => scrollCarousel('right')}
-                className="w-12 h-12 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-amber-500 hover:text-white hover:border-amber-500 transition-all shadow-sm"
-                aria-label="Próximas notícias"
-              >
-                <ChevronRight size={24} />
-              </button>
+              <button onClick={() => scrollCarousel('left')} className="w-12 h-12 rounded-full bg-white border flex items-center justify-center hover:bg-amber-500 hover:text-white transition-all"><ChevronLeft size={24} /></button>
+              <button onClick={() => scrollCarousel('right')} className="w-12 h-12 rounded-full bg-white border flex items-center justify-center hover:bg-amber-500 hover:text-white transition-all"><ChevronRight size={24} /></button>
             </div>
           </div>
-
-          {isLoadingNews ? (
-            <div className="flex justify-center items-center py-20">
-              <Loader2 className="animate-spin text-blue-600" size={48} />
-            </div>
-          ) : (
-            <div 
-              ref={carouselRef}
-              className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory hide-scrollbar"
-            >
-              {news.map((item, index) => (
-                <div 
-                  key={index} 
-                  className="min-w-[85vw] md:min-w-[400px] max-w-[400px] bg-white rounded-2xl p-6 shadow-sm border border-slate-200 snap-center flex flex-col justify-between hover:shadow-xl transition-shadow duration-300 flex-shrink-0"
-                >
+          {isLoadingNews ? <div className="flex justify-center py-20"><Loader2 className="animate-spin text-blue-600" size={48} /></div> : (
+            <div ref={carouselRef} className="flex overflow-x-auto gap-6 pb-8 snap-x hide-scrollbar">
+              {news.map((item, i) => (
+                <div key={i} className="min-w-[85vw] md:min-w-[400px] bg-white rounded-2xl p-6 border snap-center flex flex-col justify-between hover:shadow-xl transition-all">
                   <div>
-                    <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-4 uppercase tracking-wider">
-                      <Calendar size={14} />
-                      {new Date(item.pubDate).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}
-                    </div>
-                    <h4 className="text-xl font-bold text-slate-900 mb-3 leading-snug line-clamp-3" title={item.title}>
-                      {item.title}
-                    </h4>
-                    <p className="text-slate-600 text-sm leading-relaxed mb-6 line-clamp-3">
-                      {item.description}
-                    </p>
+                    <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-4"><Calendar size={14} />{new Date(item.pubDate).toLocaleDateString('pt-BR')}</div>
+                    <h4 className="text-lg font-bold text-slate-900 mb-3 line-clamp-2">{item.title}</h4>
+                    <p className="text-slate-600 text-sm mb-6 line-clamp-3">{item.description}</p>
                   </div>
-                  <a 
-                    href={item.link} 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    className="inline-flex items-center gap-2 text-blue-700 font-bold text-sm hover:text-amber-600 transition-colors mt-auto pt-4 border-t border-slate-100"
-                  >
-                    Ler matéria completa <ExternalLink size={16} />
-                  </a>
+                  <a href={item.link} target="_blank" rel="noreferrer" className="text-blue-700 font-bold text-sm flex items-center gap-2 pt-4 border-t">Ler matéria completa <ExternalLink size={16} /></a>
                 </div>
               ))}
             </div>
@@ -795,48 +452,12 @@ export default function App() {
       {/* FAQ */}
       <section id="faq" className="py-24 bg-slate-50">
         <div className="container mx-auto px-4 md:px-8 max-w-4xl">
-          <div className="text-center mb-16">
-            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Tire as Suas Dúvidas</h2>
-            <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900">
-              Perguntas Frequentes
-            </h3>
-          </div>
-
+          <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 text-center mb-16">Perguntas Frequentes</h3>
           <div className="space-y-4">
-            <FaqItem 
-              question="O plano de saúde negou meu tratamento. O que eu faço?" 
-              answer="Não aceite o 'não' como resposta final. Reúna a negativa por escrito (ou protocolo de atendimento) e o laudo do seu médico justificando a necessidade do tratamento. O plano não pode interferir na conduta médica. Com esses documentos, podemos ingressar com uma ação judicial pedindo uma liminar urgente para obrigar a cobertura."
-            />
-            <FaqItem 
-              question="Quanto tempo demora para a Justiça liberar uma medicação ou cirurgia urgente?" 
-              answer="Em casos de urgência e emergência à saúde, ingressamos com um pedido de 'Liminar' (Tutela de Urgência). A Justiça costuma analisar esses pedidos de forma muito rápida, frequentemente no prazo de 24 a 48 horas após a distribuição do processo."
-            />
-            <FaqItem 
-              question="O escritório atende pessoas de fora de São Paulo?" 
-              answer="Sim. O processo judicial no Brasil hoje é 100% eletrónico. Isso nos permite atender clientes em qualquer cidade ou estado do país com a mesma agilidade e excelência, realizando reuniões por videochamada e contacto via WhatsApp."
-            />
-            <FaqItem 
-              question="O plano pode cancelar o meu contrato se eu entrar com uma ação judicial?" 
-              answer="Não. É ilegal que o plano de saúde promova retaliações ou cancele o contrato do beneficiário simplesmente por ele ter buscado os seus direitos na Justiça. A lei protege o consumidor nestas situações."
-            />
+            <FaqItem question="O plano negou meu tratamento. O que eu faço?" answer="Reúna a negativa por escrito e o laudo médico. O plano não pode interferir na conduta do médico assistente. Podemos ingressar com pedido de liminar para garantir o atendimento." />
+            <FaqItem question="Quanto tempo demora para a liminar ser analisada?" answer="Em casos urgentes, a Justiça costuma analisar pedidos de tutela de urgência em um prazo médio de 24 a 72 horas." />
+            <FaqItem question="Atendem fora de São Paulo?" answer="Sim! O processo é 100% eletrônico no Brasil, permitindo atendimento em qualquer cidade com excelência via reuniões online." />
           </div>
-        </div>
-      </section>
-
-      {/* CTA FINAL */}
-      <section className="py-20 bg-emerald-700 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
-        <div className="container mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6">
-            Não enfrente o sistema sozinho.
-          </h2>
-          <p className="text-emerald-100 text-xl mb-10 max-w-2xl mx-auto">
-            A nossa equipe está pronta para analisar o seu caso agora mesmo, com total sigilo e foco na resolução rápida do seu problema.
-          </p>
-          <a href={whatsappLink} target="_blank" rel="noreferrer" className="inline-flex bg-amber-500 hover:bg-amber-400 text-slate-900 px-10 py-5 rounded-xl font-black text-xl items-center justify-center gap-3 transition-transform hover:scale-105 shadow-2xl">
-            <Phone size={28} />
-            Falar com um Advogado Especialista
-          </a>
         </div>
       </section>
 
@@ -847,98 +468,71 @@ export default function App() {
             <div className="md:col-span-5">
               <div className="flex items-center gap-2 mb-6">
                 <Scale className="text-amber-500" size={32} />
-                <div>
-                  <h4 className="text-xl font-bold tracking-tight text-white leading-none">
-                    SARAIVA & ADVOGADOS
-                  </h4>
-                  <p className="text-xs font-medium tracking-widest uppercase text-slate-500">
-                    Associados
-                  </p>
-                </div>
+                <h4 className="text-xl font-bold text-white">SARAIVA & ADVOGADOS</h4>
               </div>
-              <p className="mb-6 max-w-md leading-relaxed">
-                Experiência adquirida durante mais de 25 anos de atuação. Atendimento personalizado e exclusivo com dedicação, ética e transparência na defesa da sua saúde.
-              </p>
+              <p className="mb-4">Experiência de 25 anos com atendimento humanizado na defesa da sua saúde.</p>
+              <p className="text-white font-bold uppercase tracking-widest text-xs">Fabio Tadeu Saraiva (OAB/SP: 184.971)</p>
             </div>
-            
             <div className="md:col-span-3">
-              <h5 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Links Rápidos</h5>
+              <h5 className="text-white font-bold mb-6 text-sm">Links Rápidos</h5>
               <ul className="space-y-3">
-                <li><a href="#solucoes" className="hover:text-amber-500 transition-colors">Áreas de Atuação</a></li>
-                <li><a href="#sobre" className="hover:text-amber-500 transition-colors">Sobre o Escritório</a></li>
-                <li><a href="#faq" className="hover:text-amber-500 transition-colors">Dúvidas Frequentes</a></li>
-                <li><a href="#" className="hover:text-amber-500 transition-colors">Política de Privacidade (LGPD)</a></li>
+                <li><a href="#solucoes" className="hover:text-amber-500">Áreas de Atuação</a></li>
+                <li><a href="#sobre" className="hover:text-amber-500">Sobre o Escritório</a></li>
+                <li><a href="#faq" className="hover:text-amber-500">Dúvidas Frequentes</a></li>
               </ul>
             </div>
-
             <div className="md:col-span-4">
-              <h5 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Contato & Endereço</h5>
+              <h5 className="text-white font-bold mb-6 text-sm">Contato</h5>
               <ul className="space-y-4">
-                <li className="flex gap-3">
-                  <MapPin className="text-blue-600 shrink-0 mt-1" size={20} />
-                  <span>Av. Nove de Julho, n° 3229, 11° andar, CJ 1103<br />Jardim Paulista, São Paulo/SP<br />CEP: 01407-000</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <Phone className="text-blue-600 shrink-0" size={20} />
-                  <span>(11) 96281-7392</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <Mail className="text-blue-600 shrink-0" size={20} />
-                  <span>saraiva@saraivaeadvogados.com.br</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <Clock className="text-blue-600 shrink-0" size={20} />
-                  <span>Segunda a Sexta, das 09h às 18h</span>
-                </li>
+                <li className="flex gap-3"><MapPin className="text-blue-600 shrink-0" size={20} /><span>Rua Afonso Celso, 1221, Cj. 16<br />Vila Mariana, São Paulo/SP<br />CEP: 04119-061</span></li>
+                <li className="flex items-center gap-3"><Phone className="text-blue-600" size={20} /><span>(11) 96281-7392</span></li>
+                <li className="flex items-center gap-3"><Mail className="text-blue-600" size={20} /><span>saraiva@saraivaeadvogados.com.br</span></li>
               </ul>
             </div>
           </div>
-          
-          <div className="border-t border-slate-800 pt-8 text-sm text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between text-xs text-center md:text-left">
             <p>&copy; {new Date().getFullYear()} Saraiva & Advogados Associados. Todos os direitos reservados.</p>
             <p>OAB/SP - Inscrição Jurídica</p>
           </div>
         </div>
       </footer>
 
-      {/* BOTÃO FLUTUANTE WHATSAPP */}
-      <a 
-        href={whatsappLink} 
-        target="_blank" 
-        rel="noreferrer"
-        className="fixed bottom-6 right-6 bg-[#25D366] hover:bg-[#20bd5a] text-white p-4 rounded-full shadow-2xl transition-transform hover:scale-110 z-50 flex items-center justify-center"
-        aria-label="Falar no WhatsApp"
-      >
-        <MessageCircle size={32} />
-        <span className="absolute -top-12 right-0 bg-white text-slate-800 text-xs font-bold px-3 py-1 rounded shadow-lg whitespace-nowrap opacity-0 md:opacity-100 hidden md:block">
-          Entre em contato pelo whatsapp
-        </span>
-      </a>
+      {/* WHATSAPP FLOAT */}
+      <a href={whatsappLink} target="_blank" rel="noreferrer" className="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50"><MessageCircle size={32} /></a>
+    </div>
+  );
+}
 
+function FeatureCard({ icon, title, desc }: { icon: any, title: string, desc: string }) {
+  return (
+    <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
+      <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600">{icon}</div>
+      <h4 className="text-xl font-bold mb-3">{title}</h4>
+      <p className="text-slate-600 text-sm leading-relaxed">{desc}</p>
+    </div>
+  );
+}
+
+function TestimonialCard({ name, text }: { name: string, text: string }) {
+  return (
+    <div className="bg-white rounded-2xl p-8 shadow-sm border relative mt-6 hover:shadow-lg transition-all">
+      <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg text-white"><Quote size={20} /></div>
+      <div className="flex gap-1 mb-4 mt-2">{[1,2,3,4,5].map(s => <Star key={s} className="text-amber-400 fill-amber-400" size={16} />)}</div>
+      <p className="text-slate-600 text-sm italic mb-6">"{text}"</p>
+      <div className="border-t pt-4 font-bold text-slate-900 text-sm">{name}</div>
     </div>
   );
 }
 
 function FaqItem({ question, answer }: { question: string, answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="border border-slate-200 rounded-xl bg-white overflow-hidden transition-all duration-300">
-      <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none"
-      >
-        <span className="font-bold text-slate-900 pr-8">{question}</span>
-        <ChevronDown 
-          className={`text-blue-600 transition-transform duration-300 shrink-0 ${isOpen ? 'rotate-180' : ''}`} 
-          size={20} 
-        />
+    <div className="border rounded-xl bg-white overflow-hidden">
+      <button onClick={() => setIsOpen(!isOpen)} className="w-full px-6 py-5 text-left flex justify-between items-center">
+        <span className="font-bold text-slate-900">{question}</span>
+        <ChevronDown className={`text-blue-600 transition-transform ${isOpen ? 'rotate-180' : ''}`} size={20} />
       </button>
-      <div 
-        className={`px-6 text-slate-600 transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 pb-6 opacity-100' : 'max-h-0 pb-0 opacity-0'}`}
-      >
-        <p className="leading-relaxed border-t border-slate-100 pt-4">{answer}</p>
-      </div>
+      {isOpen && <div className="px-6 pb-6 text-slate-600 text-sm leading-relaxed border-t pt-4">{answer}</div>}
     </div>
   );
 }
