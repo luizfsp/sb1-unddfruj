@@ -16,7 +16,9 @@ import {
   Loader2,
   Send,
   Star,
-  Quote
+  Quote,
+  AlertTriangle,
+  MessageSquareWarning
 } from 'lucide-react';
 
 export default function App() {
@@ -37,6 +39,7 @@ export default function App() {
 
   const whatsappNumber = "5511962817392";
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=Ol%C3%A1,%20gostaria%20de%20uma%20orienta%C3%A7%C3%A3o%20jur%C3%ADdica%20na%20%C3%A1rea%20da%20sa%C3%BAde.`;
+  const whatsappLinkUrgency = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("URGÊNCIA: Olá! Preciso de um atendimento de urgência referente a Direito da Saúde. Poderiam me ajudar imediatamente?")}`;
 
   const analyzeCaseWithAI = async () => {
     if (!caseDescription.trim()) {
@@ -48,8 +51,7 @@ export default function App() {
     setAiError("");
     setAiAnalysis(null);
 
-    const fallbackKey = "AIzaSyC_UqO0tnLsuxmsMzGSSd2doKpzeXPz3gI";
-    let apiKey = fallbackKey;
+    let apiKey = "";
     try {
       // @ts-ignore
       if (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_GEMINI_API_KEY) {
@@ -145,6 +147,7 @@ export default function App() {
           <nav className="hidden md:flex gap-8 items-center">
             <a href="#solucoes" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Áreas de Atuação</a>
             <a href="#sobre" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>O Especialista</a>
+            <a href="#depoimentos" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Depoimentos</a>
             <a href="#faq" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Dúvidas</a>
             <a href={whatsappLink} target="_blank" rel="noreferrer" className="bg-amber-500 hover:bg-amber-600 text-slate-900 px-6 py-2.5 rounded-full font-bold text-sm transition-transform hover:scale-105 shadow-lg">
               Fale Conosco
@@ -183,7 +186,11 @@ export default function App() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <a href={whatsappLink} target="_blank" rel="noreferrer" className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(5,150,105,0.4)] hover:-translate-y-1">
                   <MessageCircle size={24} />
-                  Falar com um Especialista Agora
+                  Falar com um Especialista
+                </a>
+                <a href={whatsappLinkUrgency} target="_blank" rel="noreferrer" className="bg-red-600 hover:bg-red-500 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:-translate-y-1">
+                  <MessageSquareWarning size={24} />
+                  Atendimento de Urgência
                 </a>
               </div>
             </div>
@@ -343,7 +350,7 @@ export default function App() {
                   Assim, atuamos com ética e sensibilidade no atendimento, buscando garantir os seus direitos sempre com amparo na lei.
                 </p>
                 <p>
-                  Com mais de 25 anos de sólida experiência, o <strong>Dr. Fabio Saraiva</strong> fundou o escritório com um propósito claro: entregar um atendimento humanizado, ético e assertivo na defesa dos interesses dos seus clientes, especialmente em uma área que requer a atuação de profissionais altamente especializados e qualificados para enfrentar as gigantes da área da saúde suplementar no Brasil.
+                  Com mais de 25 anos de sólida experiência, o <strong>Dr. Fabio Saraiva</strong> é membro efetivo da Comissão Especial de Direito do Seguro e Resseguro da Ordem dos Advogados do Brasil - São Paulo. Fundou o escritório com um propósito claro: entregar um atendimento humanizado, ético e assertivo na defesa dos interesses dos seus clientes, especialmente em uma área que requer a atuação de profissionais altamente especializados e qualificados para enfrentar as gigantes da área da saúde suplementar no Brasil.
                 </p>
                 <p>
                 No Direito da Saúde, sabemos que a experiência e o rigor técnico precisam andar juntos.
@@ -428,7 +435,7 @@ export default function App() {
       </section>
 
       {/* DEPOIMENTOS (Secção Inserida) */}
-      <section className="py-24 bg-slate-50 border-t border-slate-200">
+      <section id="depoimentos" className="py-24 bg-slate-50 border-t border-slate-200">
         <div className="container mx-auto px-4 md:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Histórias de Sucesso</h2>
@@ -476,7 +483,7 @@ export default function App() {
                 ))}
               </div>
               <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
-                "Quando o plano de saúde se recusou a fornecer o meu medicamento de alto custo, fiquei sem saber o que fazer. A equipe do Saraiva & Advogados assumiu o caso e conseguiu a liberação judicial. Um trabalho excepcional e muito ágil!"
+                "Quando o plano de saúde se recusou a fornecer o meu medicamento de alto custo, fiquei sem saber o que fazer. A equipe do Saraiva & Advogados assumiu o caso e conseguiu a liberação judicial em tempo recorde. Um trabalho excepcional e muito ágil!"
               </p>
               <div className="flex items-center gap-3 border-t border-slate-100 pt-4">
                 <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800 font-bold">
@@ -669,9 +676,9 @@ export default function App() {
               </div>
               <p className="mb-6 max-w-md leading-relaxed">
                 Experiência adquirida durante mais de 25 anos de atuação. Atendimento personalizado e exclusivo com dedicação, ética e transparência na defesa da sua saúde.
-               <p>
+              </p>
+              <p className="mb-6 max-w-md leading-relaxed">
                 Fabio Tadeu Saraiva (OAB/SP: 184.971)
-                </p>
               </p>
             </div>
             
@@ -680,6 +687,7 @@ export default function App() {
               <ul className="space-y-3">
                 <li><a href="#solucoes" className="hover:text-amber-500 transition-colors">Áreas de Atuação</a></li>
                 <li><a href="#sobre" className="hover:text-amber-500 transition-colors">Sobre o Escritório</a></li>
+                <li><a href="#depoimentos" className="hover:text-amber-500 transition-colors">Depoimentos</a></li>
                 <li><a href="#faq" className="hover:text-amber-500 transition-colors">Dúvidas Frequentes</a></li>
                 <li><a href="#" className="hover:text-amber-500 transition-colors">Política de Privacidade (LGPD)</a></li>
               </ul>
@@ -757,6 +765,3 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
-
-
-
