@@ -38,6 +38,7 @@ export default function App() {
   const [caseDescription, setCaseDescription] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [aiAnalysis, setAiAnalysis] = useState<string | null>(null);
+  const [whatsappSummary, setWhatsappSummary] = useState("");
   const [aiError, setAiError] = useState("");
   
   // Estado para o Feed de Notícias
@@ -136,6 +137,7 @@ export default function App() {
     setIsAnalyzing(true);
     setAiError("");
     setAiAnalysis(null);
+    setWhatsappSummary("");
 
     let apiKey = "";
     try {
@@ -146,11 +148,12 @@ export default function App() {
       }
     } catch (e) {}
     
+    // Prompt atualizado para forçar a separação do resumo com a tag "RESUMO_WHATSAPP:"
     const systemPrompt = `Você é um assistente jurídico virtual (IA) do escritório 'Saraiva & Advogados', especializado em Direito da Saúde no Brasil. 
     Analise o relato do usuário e forneça:
     1. Uma breve avaliação (1 parágrafo) indicando se parece haver uma violação de direitos (ex: abusividade do plano, dever do SUS, indícios de erro médico).
     2. A recomendação clara de que um advogado especialista deve avaliar os documentos (laudos, negativas) para confirmar a viabilidade de uma liminar (Tutela de Urgência).
-    3. Um 'Resumo Estruturado': um texto curto e objetivo que o usuário possa enviar no WhatsApp do escritório para iniciar o atendimento.
+    3. OBRIGATORIAMENTE, separe a última parte do seu texto com a palavra-chave exata "RESUMO_WHATSAPP:" (em maiúsculas e com dois pontos). Logo após essa palavra-chave, escreva apenas o 'Resumo Estruturado' final em tópicos (Problema, Documentos, Ação Necessária) que o cliente enviará ao advogado.
     Seja empático, acolhedor, profissional e transmita urgência. NÃO dê garantias de causa ganha. Formate o texto usando quebras de linha e **negrito** (apenas isso, sem listas complexas).`;
 
     const prompt = `Relato do paciente/cliente: ${caseDescription}`;
@@ -185,7 +188,17 @@ export default function App() {
 
       const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
       if (text) {
-        setAiAnalysis(text);
+        // Lógica para cortar o texto apenas na parte do resumo para enviar ao WhatsApp
+        if (text.includes("RESUMO_WHATSAPP:")) {
+          const parts = text.split("RESUMO_WHATSAPP:");
+          // A interface mostra tudo estruturado
+          setAiAnalysis(parts[0].trim() + "\n\n**Resumo Estruturado para o WhatsApp:**\n" + parts[1].trim());
+          // O link do WhatsApp envia apenas o resumo
+          setWhatsappSummary(parts[1].trim());
+        } else {
+          setAiAnalysis(text);
+          setWhatsappSummary(text); // Fallback caso a IA não use a tag
+        }
       } else {
         setAiError("Não foi possível gerar a análise. Tente novamente.");
       }
@@ -478,7 +491,7 @@ export default function App() {
                     Tudo pronto para dar o próximo passo?
                   </p>
                   <a 
-                    href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Olá! Fiz a pré-análise do meu caso no site através da IA. Segue o resumo:\n\n")}${encodeURIComponent(aiAnalysis)}`} 
+                    href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Olá! Fiz a pré-análise do meu caso no site através da IA. Segue o resumo:\n\n")}${encodeURIComponent(whatsappSummary)}`} 
                     target="_blank" 
                     rel="noreferrer" 
                     className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20bd5a] text-white px-6 py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-transform hover:scale-105 shadow-md whitespace-nowrap"
