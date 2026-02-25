@@ -497,7 +497,7 @@ export default function App() {
                     className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20bd5a] text-white px-6 py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-transform hover:scale-105 shadow-md whitespace-nowrap"
                   >
                     <Send size={18} />
-                    Enviar Resumo para o Advogado
+                    Enviar Resumo para o Especialista
                   </a>
                 </div>
               </div>
@@ -646,4 +646,5 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
 
