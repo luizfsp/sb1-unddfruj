@@ -87,17 +87,23 @@ export default function App() {
       ];
 
       try {
-        // Usa o Google News RSS para buscar notícias de saúde no período de 1 ano (when:1y)
+        // Usa o Google News RSS para buscar notícias de saúde no período de 6 meses (when:6m) para evitar notícias muito antigas
         const searchQuery = '"plano de saúde" OR "erro médico" OR "direito da saúde" liminar STJ';
-        const googleNewsUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}+when:1y&hl=pt-BR&gl=BR&ceid=BR:pt-419`;
+        const googleNewsUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}+when:6m&hl=pt-BR&gl=BR&ceid=BR:pt-419`;
         
         const rssUrl = encodeURIComponent(googleNewsUrl);
         const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
         const data = await res.json();
         
         if (data && data.status === 'ok' && data.items) {
-          // O Google News já traz as notícias filtradas, só formatamos os títulos e descrições
-          let filtered: NewsItem[] = data.items.slice(0, 6).map((item: any) => {
+          
+          // Força a ordenação cronológica (da mais recente para a mais antiga)
+          const sortedItems = data.items.sort((a: any, b: any) => {
+            return new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime();
+          });
+
+          // O Google News já traz as notícias filtradas, só formatamos os títulos e descrições após ordenar
+          let filtered: NewsItem[] = sortedItems.slice(0, 6).map((item: any) => {
             let cleanTitle = item.title;
             // Remove o nome do portal do final do título do Google News (ex: " - ConJur" ou " - G1")
             const lastDashIndex = cleanTitle.lastIndexOf(' - ');
@@ -120,7 +126,7 @@ export default function App() {
             };
           });
 
-          // Se não houver notícias suficientes (muito raro com o Google News 1y), usa o fallback
+          // Se não houver notícias suficientes usa o fallback
           if (filtered.length < 3) {
             const missing = 3 - filtered.length;
             filtered = [...filtered, ...fallbackNews.slice(0, missing)];
