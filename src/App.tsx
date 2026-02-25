@@ -417,17 +417,17 @@ export default function App() {
               {
                 step: "02",
                 title: "Análise Gratuita",
-                desc: "Avaliamos a negativa, os laudos médicos e a viabilidade da ação."
+                desc: "Avaliamos o seu caso de forma minuciosa quanto a viabilidade da ação."
               },
               {
                 step: "03",
-                title: "Ação Urgente",
-                desc: "Entramos com o pedido de liminar na Justiça em tempo recorde."
+                title: "Pedido de Liminar",
+                desc: "Ingressamos com a ação apropriada com pedido de liminar buscando a garantia dos seus direitos."
               },
               {
                 step: "04",
                 title: "Tranquilidade",
-                desc: "Acompanhamento integral do processo, informando-o sem 'juridiquês'."
+                desc: "Informações atualizadas do processo em linguagem clara (sem “juridiquês”)."
               }
             ].map((item, index) => (
               <div key={index} className="relative z-10 flex flex-col items-center text-center group">
@@ -702,3 +702,4 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
