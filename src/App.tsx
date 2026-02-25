@@ -234,7 +234,7 @@ export default function App() {
 
           <nav className="hidden md:flex gap-8 items-center">
             <a href="#solucoes" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Áreas de Atuação</a>
-            <a href="#sobre" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>O Especialista</a>
+            <a href="#sobre" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Nossos Especialista</a>
             <a href="#depoimentos" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Depoimentos</a>
             <a href="#faq" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Dúvidas</a>
             <a href={whatsappLink} target="_blank" rel="noreferrer" className="bg-amber-500 hover:bg-amber-600 text-slate-900 px-6 py-2.5 rounded-full font-bold text-sm transition-transform hover:scale-105 shadow-lg">
@@ -267,7 +267,7 @@ export default function App() {
                 A sua saúde <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">não pode esperar.</span><br />
                 A busca pelos seus direitos também não.
               </h2>
-              <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl leading-relaxed">
+              <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl leading-relaxed text-justify">
                 Advocacia especializada contra <strong>abusos praticados por Operadoras de Planos de Saúde</strong> e <strong>Erros Médicos</strong>. Atuamos com rapidez para garantir o seu direito à saúde e à vida com pedido de liminares de urgência.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
@@ -376,7 +376,7 @@ export default function App() {
             </div>
             
             <div className="lg:w-1/2 mt-16 lg:mt-0">
-              <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">O Especialista</h2>
+              <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Nossos Especialista</h2>
               <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight">
                 Para nós, todo caso é um caso especial.
               </h3>
@@ -569,7 +569,7 @@ export default function App() {
           <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6">
             Você não está sozinho para enfrentar o sistema.
           </h2>
-          <p className="text-emerald-100 text-xl mb-10 max-w-2xl mx-auto">
+          <p className="text-emerald-100 text-xl mb-10 max-w-2xl mx-auto text-justify">
             Conte sempre com os nossos profissionais altamente especializados e capacitados para analisar o seu caso com total sigilo, segurança e assertividade na busca da defesa dos seus interesses e solução do problema.
           </p>
           <a href={whatsappLink} target="_blank" rel="noreferrer" className="inline-flex bg-amber-500 hover:bg-amber-400 text-slate-900 px-10 py-5 rounded-xl font-black text-xl items-center justify-center gap-3 transition-transform hover:scale-105 shadow-2xl">
@@ -588,7 +588,7 @@ export default function App() {
                 <Scale className="text-amber-500" size={32} />
                 <h4 className="text-xl font-bold text-white">SARAIVA & ADVOGADOS</h4>
               </div>
-              <p className="mb-4">Experiência adquirida durante mais de 25 anos de atuação. Atendimento personalizado e exclusivo com dedicação, ética e transparência na defesa da sua saúde.</p>
+              <p className="mb-4" text-justify>Experiência adquirida durante mais de 25 anos de atuação. Atendimento personalizado e exclusivo com dedicação, ética e transparência na defesa da sua saúde.</p>
               <p className="text-white font-bold uppercase tracking-widest text-xs">Fabio Tadeu Saraiva (OAB/SP: 184.971)</p>
             </div>
             <div className="md:col-span-3">
@@ -645,3 +645,4 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
