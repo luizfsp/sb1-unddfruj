@@ -88,69 +88,68 @@ export default function App() {
 
       try {
         // Query focada para o Google News (últimos 6 meses)
-        const searchQuery = 'plano de saúde STJ liminar when:6m';
+        const searchQuery = '"plano de saúde" OR "erro médico" STJ liminar when:6m';
         const googleNewsUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=pt-BR&gl=BR&ceid=BR:pt-419`;
         
-        // Substituímos o rss2json (que estava a ser bloqueado) por um proxy universal (allorigins)
-        // Isto permite-nos descarregar o XML original de forma segura e processá-lo localmente
-        const proxyUrl = `https://api.allorigins.win/get?disableCache=true&url=${encodeURIComponent(googleNewsUrl)}`;
-        const res = await fetch(proxyUrl);
+        // Retornamos ao rss2json (que é muito mais rápido e fiável), usando a URL do Google News
+        const rssUrl = encodeURIComponent(googleNewsUrl);
+        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+        
+        // Define um limite de tempo (timeout) de 5 segundos para a API não travar a página
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+        const res = await fetch(apiUrl, { signal: controller.signal });
+        clearTimeout(timeoutId); // Limpa o timeout se o fetch for bem-sucedido a tempo
+        
         const data = await res.json();
         
-        if (data && data.contents) {
-          // Processamento direto do XML no navegador (infalível)
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(data.contents, "text/xml");
-          const items = Array.from(xmlDoc.querySelectorAll("item"));
+        if (data && data.status === 'ok' && data.items && data.items.length > 0) {
           
-          if (items.length > 0) {
-            let fetchedNews: NewsItem[] = items.map((item) => {
-              let cleanTitle = item.querySelector("title")?.textContent || "";
-              
-              // Remove o nome do portal do final do título do Google News (ex: " - ConJur" ou " - G1")
-              const lastDashIndex = cleanTitle.lastIndexOf(' - ');
-              if (lastDashIndex !== -1) {
-                cleanTitle = cleanTitle.substring(0, lastDashIndex);
-              }
-              
-              let rawDesc = item.querySelector("description")?.textContent || "";
-              let cleanDesc = stripHtml(rawDesc);
-              
-              // O Google News às vezes traz apenas links na descrição. Se ficar muito curto, colocamos um texto apelativo.
-              if (cleanDesc.length < 30 || cleanDesc.includes(cleanTitle.substring(0, 20))) {
-                cleanDesc = "Clique para ler a matéria completa e conferir os detalhes desta decisão judicial em defesa dos direitos do paciente.";
-              }
-
-              return {
-                title: cleanTitle,
-                pubDate: item.querySelector("pubDate")?.textContent || new Date().toISOString(),
-                link: item.querySelector("link")?.textContent || "#",
-                description: cleanDesc
-              };
-            });
-
-            // Força a ordenação rigorosa (da mais recente para a mais antiga)
-            fetchedNews.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
-
-            // Selecionamos as 6 melhores notícias
-            let filtered = fetchedNews.slice(0, 6);
-
-            // Se por acaso houver menos de 3 notícias, usamos o fallback para completar o carrossel
-            if (filtered.length < 3) {
-              const missing = 3 - filtered.length;
-              filtered = [...filtered, ...fallbackNews.slice(0, missing)];
+          let fetchedNews: NewsItem[] = data.items.map((item: any) => {
+            let cleanTitle = item.title || "";
+            // Remove o nome do portal do final do título do Google News (ex: " - ConJur" ou " - G1")
+            const lastDashIndex = cleanTitle.lastIndexOf(' - ');
+            if (lastDashIndex !== -1) {
+              cleanTitle = cleanTitle.substring(0, lastDashIndex);
+            }
+            
+            let rawDesc = item.description || "";
+            let cleanDesc = stripHtml(rawDesc);
+            
+            // O Google News às vezes traz apenas links na descrição. Se ficar muito curto, colocamos um texto apelativo.
+            if (cleanDesc.length < 30 || cleanDesc.includes(cleanTitle.substring(0, 20))) {
+              cleanDesc = "Clique para ler a matéria completa e conferir os detalhes desta decisão judicial em defesa dos direitos do paciente.";
             }
 
-            setNews(filtered);
-            return; // Termina a execução com sucesso
+            return {
+              title: cleanTitle,
+              pubDate: item.pubDate,
+              link: item.link,
+              description: cleanDesc
+            };
+          });
+
+          // Força a ordenação rigorosa (da mais recente para a mais antiga)
+          fetchedNews.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
+
+          // Selecionamos as 6 melhores notícias
+          let filtered = fetchedNews.slice(0, 6);
+
+          // Se por acaso houver menos de 3 notícias, usamos o fallback para completar o carrossel
+          if (filtered.length < 3) {
+            const missing = 3 - filtered.length;
+            filtered = [...filtered, ...fallbackNews.slice(0, missing)];
           }
+
+          setNews(filtered);
+        } else {
+          // Se o JSON veio vazio ou com erro, força o uso do fallback
+          throw new Error("Formato de JSON inválido ou vazio");
         }
-        
-        // Se o XML veio vazio, força o uso do fallback
-        throw new Error("Formato de XML inválido ou vazio");
 
       } catch (error) {
-        console.warn("Aviso: Utilizando notícias de salvaguarda. Detalhe do erro:", error);
+        console.warn("Aviso: Utilizando notícias de salvaguarda por falha/lentidão na rede. Detalhe:", error);
         setNews(fallbackNews);
       } finally {
         setIsLoadingNews(false);
