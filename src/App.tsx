@@ -399,7 +399,7 @@ export default function App() {
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-amber-500 font-bold tracking-widest uppercase text-sm mb-3">Processo Simplificado</h2>
             <h3 className="text-3xl md:text-4xl font-extrabold mb-6">
-              Como garantimos o seu tratamento rapidamente
+              Como atuamos na busca da garantia dos seus direitos
             </h3>
           </div>
 
@@ -706,5 +706,6 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
 
 
