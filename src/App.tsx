@@ -65,18 +65,18 @@ export default function App() {
   // Efeito para carregar o Feed RSS de Notícias de forma nativa e robusta
   useEffect(() => {
     const fetchNews = async () => {
-      // Mantemos as notícias de salvaguarda focadas no nicho do escritório como vitrine em caso de falha
+      // Notícias de salvaguarda agora com links REAIS de pesquisa no ConJur e ANS para NUNCA dar erro 404
       const fallbackNews: NewsItem[] = [
         { 
           title: "STJ define que plano de saúde deve cobrir tratamento multidisciplinar", 
           pubDate: new Date().toISOString(), 
-          link: "https://www.migalhas.com.br/quentes/367332/stj-plano-de-saude-deve-cobrir-tratamento-multidisciplinar-para-tea", 
+          link: "https://www.conjur.com.br/?s=stj+plano+de+sa%C3%BAde+tratamento+multidisciplinar", 
           description: "A decisão reforça a obrigatoriedade da cobertura integral para beneficiários." 
         },
         { 
           title: "Operadora é condenada por negativa abusiva de cirurgia de urgência", 
           pubDate: new Date(Date.now() - 86400000).toISOString(), 
-          link: "https://www.migalhas.com.br/quentes/381525/plano-de-saude-deve-indenizar-por-negar-cirurgia-de-emergencia", 
+          link: "https://www.conjur.com.br/?s=operadora+condenada+negativa+abusiva+cirurgia", 
           description: "Justiça determinou o custeio imediato do procedimento e indenização por danos morais." 
         },
         { 
@@ -88,9 +88,8 @@ export default function App() {
       ];
 
       try {
-        // Como expandimos para notícias do Direito em geral, usamos diretamente
-        // o feed oficial de um portal conceituado (Migalhas), que é rápido e não bloqueia a API.
-        const rssUrl = encodeURIComponent('https://www.migalhas.com.br/rss');
+        // Utilizamos o feed do ConJur, que não bloqueia leituras e fornece notícias do Direito em Geral
+        const rssUrl = encodeURIComponent('https://www.conjur.com.br/feed/');
         const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
         
         // Define um limite de tempo (timeout) de 6 segundos para a API não travar a página
@@ -123,10 +122,10 @@ export default function App() {
             };
           });
 
-          // Selecionamos as 6 notícias mais recentes do portal
+          // Selecionamos as 6 notícias mais recentes do portal (sem filtros rigorosos para garantir volume)
           let filtered = fetchedNews.slice(0, 6);
 
-          // Se por acaso houver menos de 3 notícias, usamos o fallback para completar o carrossel
+          // Se por acaso houver menos de 3 notícias na resposta, usamos o fallback para completar o carrossel
           if (filtered.length < 3) {
             const missing = 3 - filtered.length;
             filtered = [...filtered, ...fallbackNews.slice(0, missing)];
