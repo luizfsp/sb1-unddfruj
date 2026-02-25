@@ -393,6 +393,61 @@ export default function App() {
         </div>
       </section>
 
+      {/* COMO FUNCIONA (PASSO A PASSO) */}
+      <section className="py-24 bg-blue-950 text-white">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-amber-500 font-bold tracking-widest uppercase text-sm mb-3">Processo Simplificado</h2>
+            <h3 className="text-3xl md:text-4xl font-extrabold mb-6">
+              Como garantimos o seu tratamento rapidamente
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+            {/* Linha conectora (visível apenas em telas grandes) */}
+            <div className="hidden md:block absolute top-12 left-[10%] right-[10%] h-0.5 bg-blue-800/50"></div>
+
+            {/* Passos */}
+            {[
+              {
+                step: "01",
+                title: "Contato Imediato",
+                desc: "Relate o seu caso pelo WhatsApp de forma 100% segura e sigilosa."
+              },
+              {
+                step: "02",
+                title: "Análise Gratuita",
+                desc: "Avaliamos a negativa, os laudos médicos e a viabilidade da ação."
+              },
+              {
+                step: "03",
+                title: "Ação Urgente",
+                desc: "Entramos com o pedido de liminar na Justiça em tempo recorde."
+              },
+              {
+                step: "04",
+                title: "Tranquilidade",
+                desc: "Acompanhamento integral do processo, informando-o sem 'juridiquês'."
+              }
+            ].map((item, index) => (
+              <div key={index} className="relative z-10 flex flex-col items-center text-center group">
+                <div className="w-24 h-24 rounded-full bg-blue-900 border-4 border-slate-900 flex items-center justify-center mb-6 shadow-xl group-hover:bg-amber-500 group-hover:border-amber-600 transition-colors duration-300">
+                  <span className="text-2xl font-black text-white">{item.step}</span>
+                </div>
+                <h4 className="text-xl font-bold mb-3">{item.title}</h4>
+                <p className="text-blue-200 text-sm leading-relaxed max-w-xs">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          
+          <div className="text-center mt-16">
+             <a href={whatsappLink} target="_blank" rel="noreferrer" className="inline-flex bg-white hover:bg-slate-100 text-blue-950 px-8 py-4 rounded-lg font-bold text-lg items-center justify-center gap-2 transition-all shadow-lg hover:-translate-y-1">
+                Iniciar o Passo 1 Agora
+             </a>
+          </div>
+        </div>
+      </section>
+
       {/* DEPOIMENTOS */}
       <section id="depoimentos" className="py-24 bg-slate-50 border-t border-slate-200">
         <div className="container mx-auto px-4 md:px-8">
@@ -647,6 +702,3 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
-
-
-
