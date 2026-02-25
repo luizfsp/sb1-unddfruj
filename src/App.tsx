@@ -10,7 +10,7 @@ import {
   Mail, 
   MessageCircle,
   Clock,
-  Award,
+  Award, 
   CheckCircle2,
   Sparkles,
   Loader2,
@@ -95,9 +95,7 @@ export default function App() {
         const data = await res.json();
         
         if (data && data.status === 'ok' && data.items) {
-          // Filtro leve para priorizar temas relevantes, mas sem ser restritivo demais para evitar quedas no fallback
-          const keywords = ['saúde', 'consumidor', 'stj', 'stf', 'justiça', 'direito', 'plano', 'médic', 'indenização'];
-          
+          // Mapeamento das notícias sem filtro restritivo para garantir volume e evitar fallback
           let filtered: NewsItem[] = data.items.map((item: any) => ({
             title: item.title,
             pubDate: item.pubDate,
@@ -105,7 +103,7 @@ export default function App() {
             description: stripHtml(item.description).substring(0, 150) + "..."
           }));
 
-          // Ordenação por data
+          // Ordenação por data (mais recente primeiro)
           filtered.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
           
           setNews(filtered.slice(0, 6));
@@ -333,10 +331,26 @@ export default function App() {
             </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <FeatureCard icon={<HeartPulse />} title="Planos de Saúde" desc="Revisão de reajustes ilegais, reversão de negativas para internação, cirurgias, exames e próteses." />
-            <FeatureCard icon={<ShieldAlert />} title="Medicamentos" desc="Pedido de liminar para fornecimento de medicamentos de alto custo negados pelo plano ou Estado." />
-            <FeatureCard icon={<CheckCircle2 />} title="Tratamentos" desc="Cobertura para terapias voltadas ao TEA, Home Care e demais doenças raras de forma assertiva." />
-            <FeatureCard icon={<FileWarning />} title="Erro Médico" desc="Responsabilidade civil e indenização por negligência, imprudência ou imperícia médica." />
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
+              <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><HeartPulse /></div>
+              <h4 className="text-xl font-bold mb-3">Planos de Saúde</h4>
+              <p className="text-slate-600 text-sm leading-relaxed">Revisão de reajustes ilegais, reversão de negativas para internação, cirurgias, exames e próteses.</p>
+            </div>
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
+              <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><ShieldAlert /></div>
+              <h4 className="text-xl font-bold mb-3">Medicamentos</h4>
+              <p className="text-slate-600 text-sm leading-relaxed">Pedido de liminar para fornecimento de medicamentos de alto custo negados pelo plano ou Estado.</p>
+            </div>
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
+              <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><CheckCircle2 /></div>
+              <h4 className="text-xl font-bold mb-3">Tratamentos</h4>
+              <p className="text-slate-600 text-sm leading-relaxed">Cobertura para terapias voltadas ao TEA, Home Care e demais doenças raras de forma assertiva.</p>
+            </div>
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
+              <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><FileWarning /></div>
+              <h4 className="text-xl font-bold mb-3">Erro Médico</h4>
+              <p className="text-slate-600 text-sm leading-relaxed">Responsabilidade civil e indenização por negligência, imprudência ou imperícia médica.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -363,7 +377,8 @@ export default function App() {
                 <p>
                   Com mais de 25 anos de sólida experiência, o <strong>Dr. Fabio Saraiva</strong> é membro efetivo da Comissão Especial de Direito do Seguro e Resseguro da Ordem dos Advogados do Brasil - São Paulo. Fundou o escritório com um propósito claro: entregar um atendimento humanizado, ético e assertivo na defesa dos interesses dos seus clientes, especialmente em uma área que requer a atuação de profissionais altamente especializados e qualificados para enfrentar as gigantes da área da saúde suplementar no Brasil.
                 </p>
-                <p>Um processo contra grandes operadoras exige uma advocacia artesanal, onde cada laudo médico e cada vírgula importam.</p>
+                <p>No Direito da Saúde, sabemos que a experiência e o rigor técnico precisam andar juntos. Um processo promovido contra grandes operadoras exige uma advocacia artesanal, onde cada laudo médico e cada vírgula importam.</p>
+                <p>Assim, nossa missão é ser o seu escudo jurídico. Protegemos famílias contra as práticas abusivas das operadoras de planos de saúde, de modo a assegurar o respeito e a dignidade dos pacientes no momento em que mais precisam.</p>
               </div>
             </div>
           </div>
@@ -378,9 +393,24 @@ export default function App() {
             <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">O que dizem os nossos clientes</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <TestimonialCard name="Maria Fernandes" text="O Dr. Fabio foi um anjo. Conseguiu a liminar para a cirurgia da minha mãe em menos de 48 horas. Atendimento humano e rápido." />
-            <TestimonialCard name="Carlos Eduardo Silva" text="A equipe assumiu meu caso de medicamento de alto custo e conseguiu a liberação judicial em tempo recorde. Trabalho excepcional!" />
-            <TestimonialCard name="Ana Paula Rezende" text="Aqui não fui tratada como número. O Dr. Fabio explicou tudo com clareza e lutou pela terapia intensiva do meu filho com TEA." />
+            <div className="bg-white rounded-2xl p-8 shadow-sm border relative mt-6 hover:shadow-lg transition-all">
+              <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg text-white"><Quote size={20} /></div>
+              <div className="flex gap-1 mb-4 mt-2">{[1,2,3,4,5].map(s => <Star key={s} className="text-amber-400 fill-amber-400" size={16} />)}</div>
+              <p className="text-slate-600 text-sm italic mb-6">"O Dr. Fabio foi um anjo. Conseguiu a liminar para a cirurgia da minha mãe em menos de 48 horas. Atendimento humano e rápido."</p>
+              <div className="border-t pt-4 font-bold text-slate-900 text-sm">Maria Fernandes</div>
+            </div>
+            <div className="bg-white rounded-2xl p-8 shadow-sm border relative mt-6 hover:shadow-lg transition-all">
+              <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg text-white"><Quote size={20} /></div>
+              <div className="flex gap-1 mb-4 mt-2">{[1,2,3,4,5].map(s => <Star key={s} className="text-amber-400 fill-amber-400" size={16} />)}</div>
+              <p className="text-slate-600 text-sm italic mb-6">"A equipe assumiu meu caso de medicamento de alto custo e conseguiu a liberação judicial em tempo recorde. Trabalho excepcional!"</p>
+              <div className="border-t pt-4 font-bold text-slate-900 text-sm">Carlos Eduardo Silva</div>
+            </div>
+            <div className="bg-white rounded-2xl p-8 shadow-sm border relative mt-6 hover:shadow-lg transition-all">
+              <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg text-white"><Quote size={20} /></div>
+              <div className="flex gap-1 mb-4 mt-2">{[1,2,3,4,5].map(s => <Star key={s} className="text-amber-400 fill-amber-400" size={16} />)}</div>
+              <p className="text-slate-600 text-sm italic mb-6">"Aqui não fui tratada como número. O Dr. Fabio explicou tudo com clareza e lutou pela terapia intensiva do meu filho com TEA."</p>
+              <div className="border-t pt-4 font-bold text-slate-900 text-sm">Ana Paula Rezende</div>
+            </div>
           </div>
         </div>
       </section>
@@ -417,7 +447,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* NOTÍCIAS (RECONFIGURADA) */}
+      {/* NOTÍCIAS */}
       <section id="noticias" className="py-24 bg-slate-100 border-t border-slate-200 overflow-hidden">
         <style>{`.hide-scrollbar::-webkit-scrollbar { display: none; }`}</style>
         <div className="container mx-auto px-4 md:px-8">
@@ -454,7 +484,7 @@ export default function App() {
         <div className="container mx-auto px-4 md:px-8 max-w-4xl">
           <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 text-center mb-16">Perguntas Frequentes</h3>
           <div className="space-y-4">
-            <FaqItem question="O plano negou meu tratamento. O que eu faço?" answer="Reúna a negativa por escrito e o laudo médico. O plano não pode interferir na conduta do médico assistente. Podemos ingressar com pedido de liminar para garantir o atendimento." />
+            <FaqItem question="O plano negou meu tratamento. O que eu faço?" answer="Não aceite o 'não' como resposta final. Reúna a negativa por escrito e o laudo médico. O plano não pode interferir na conduta do médico assistente. Podemos ingressar com pedido de liminar para garantir o atendimento." />
             <FaqItem question="Quanto tempo demora para a liminar ser analisada?" answer="Em casos urgentes, a Justiça costuma analisar pedidos de tutela de urgência em um prazo médio de 24 a 72 horas." />
             <FaqItem question="Atendem fora de São Paulo?" answer="Sim! O processo é 100% eletrônico no Brasil, permitindo atendimento em qualquer cidade com excelência via reuniões online." />
           </div>
@@ -478,6 +508,7 @@ export default function App() {
               <ul className="space-y-3">
                 <li><a href="#solucoes" className="hover:text-amber-500">Áreas de Atuação</a></li>
                 <li><a href="#sobre" className="hover:text-amber-500">Sobre o Escritório</a></li>
+                <li><a href="#depoimentos" className="hover:text-amber-500">Depoimentos</a></li>
                 <li><a href="#faq" className="hover:text-amber-500">Dúvidas Frequentes</a></li>
               </ul>
             </div>
@@ -503,31 +534,10 @@ export default function App() {
   );
 }
 
-function FeatureCard({ icon, title, desc }: { icon: any, title: string, desc: string }) {
-  return (
-    <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
-      <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600">{icon}</div>
-      <h4 className="text-xl font-bold mb-3">{title}</h4>
-      <p className="text-slate-600 text-sm leading-relaxed">{desc}</p>
-    </div>
-  );
-}
-
-function TestimonialCard({ name, text }: { name: string, text: string }) {
-  return (
-    <div className="bg-white rounded-2xl p-8 shadow-sm border relative mt-6 hover:shadow-lg transition-all">
-      <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg text-white"><Quote size={20} /></div>
-      <div className="flex gap-1 mb-4 mt-2">{[1,2,3,4,5].map(s => <Star key={s} className="text-amber-400 fill-amber-400" size={16} />)}</div>
-      <p className="text-slate-600 text-sm italic mb-6">"{text}"</p>
-      <div className="border-t pt-4 font-bold text-slate-900 text-sm">{name}</div>
-    </div>
-  );
-}
-
 function FaqItem({ question, answer }: { question: string, answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="border rounded-xl bg-white overflow-hidden">
+    <div className="border border-slate-200 rounded-xl bg-white overflow-hidden">
       <button onClick={() => setIsOpen(!isOpen)} className="w-full px-6 py-5 text-left flex justify-between items-center">
         <span className="font-bold text-slate-900">{question}</span>
         <ChevronDown className={`text-blue-600 transition-transform ${isOpen ? 'rotate-180' : ''}`} size={20} />
