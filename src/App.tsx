@@ -691,7 +691,7 @@ export default function App() {
         <img 
           src="/WhatsApp_Logo.png" 
           alt="WhatsApp" 
-          className="w-8 h-8 object-contain" 
+          className="w-14 h-14 object-contain" 
         />
       </a>
     </div>
@@ -712,6 +712,7 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
 
 
 
