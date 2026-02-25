@@ -222,24 +222,23 @@ export default function App() {
       {/* HEADER */}
       <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-3' : 'bg-slate-900/95 backdrop-blur-sm py-5'}`}>
         <div className="container mx-auto px-4 md:px-8 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <Scale className={isScrolled ? 'text-blue-900' : 'text-amber-500'} size={32} />
-            <div>
-              <h1 className={`text-xl font-bold tracking-tight leading-none ${isScrolled ? 'text-blue-950' : 'text-white'}`}>
-                SARAIVA & ADVOGADOS
-              </h1>
-              <p className={`text-xs font-medium tracking-widest uppercase ${isScrolled ? 'text-slate-500' : 'text-slate-400'}`}>
-                Associados
-              </p>
-            </div>
-          </div>
+          
+          <a href="#" className="flex items-center">
+            {/* O logotipo usa o caminho da pasta public para funcionar no Vercel sem falhas */}
+            <img 
+              src="/Logo 2_Fundo Transparente.png" 
+              alt="Saraiva & Advogados Associados" 
+              className="h-16 w-auto object-contain transition-all duration-300"
+            />
+          </a>
+
           <nav className="hidden md:flex gap-8 items-center">
             <a href="#solucoes" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Áreas de Atuação</a>
             <a href="#sobre" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>O Especialista</a>
             <a href="#depoimentos" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Depoimentos</a>
             <a href="#faq" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Dúvidas</a>
             <a href={whatsappLink} target="_blank" rel="noreferrer" className="bg-amber-500 hover:bg-amber-600 text-slate-900 px-6 py-2.5 rounded-full font-bold text-sm transition-transform hover:scale-105 shadow-lg">
-              Falar com um Especialista
+              Fale Conosco
             </a>
           </nav>
         </div>
@@ -646,5 +645,3 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
-
-
