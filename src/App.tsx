@@ -146,7 +146,12 @@ export default function App() {
       }
     } catch (e) {}
     
-    const systemPrompt = `Você é um assistente jurídico virtual (IA) do escritório 'Saraiva & Advogados', especializado em Direito da Saúde no Brasil. Analise o relato do usuário e forneça uma breve avaliação, recomendação e um resumo estruturado para o WhatsApp. Formate com quebras de linha e **negrito**.`;
+    const systemPrompt = `Você é um assistente jurídico virtual (IA) do escritório 'Saraiva & Advogados', especializado em Direito da Saúde no Brasil. 
+    Analise o relato do usuário e forneça:
+    1. Uma breve avaliação (1 parágrafo) indicando se parece haver uma violação de direitos (ex: abusividade do plano, dever do SUS, indícios de erro médico).
+    2. A recomendação clara de que um advogado especialista deve avaliar os documentos (laudos, negativas) para confirmar a viabilidade de uma liminar (Tutela de Urgência).
+    3. Um 'Resumo Estruturado': um texto curto e objetivo que o usuário possa enviar no WhatsApp do escritório para iniciar o atendimento.
+    Seja empático, acolhedor, profissional e transmita urgência. NÃO dê garantias de causa ganha. Formate o texto usando quebras de linha e **negrito** (apenas isso, sem listas complexas).`;
 
     const prompt = `Relato do paciente/cliente: ${caseDescription}`;
 
@@ -413,7 +418,7 @@ export default function App() {
           <div className="text-center mb-12">
             <div className="inline-flex items-center justify-center p-3 bg-amber-100 rounded-full mb-4 text-amber-600"><Sparkles size={32} /></div>
             <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Análise Assistida por IA</h3>
-            <p className="text-slate-600 text-lg">Descreva seu problema abaixo para uma avaliação preliminar rápida. Em seguida, você poderá enviar esse relatório inicial de forma automática para a nossa equipe avaliar e entrar em contato com você.</p>
+            <p className="text-slate-600 text-lg">Descreva seu problema abaixo para uma avaliação preliminar rápida.</p>
           </div>
           <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
             <textarea
@@ -430,9 +435,30 @@ export default function App() {
               </button>
             </div>
             {aiAnalysis && (
-              <div className="mt-8 pt-8 border-t border-slate-200">
-                <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm text-slate-700 text-sm" dangerouslySetInnerHTML={formatAIResponse(aiAnalysis)} />
-                <a href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(aiAnalysis)}`} target="_blank" rel="noreferrer" className="mt-6 w-full bg-[#25D366] text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2"><Send size={18} /> Enviar para o Advogado</a>
+              <div className="mt-8 pt-8 border-t border-slate-200 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <h4 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                  <CheckCircle2 className="text-emerald-500" size={24} />
+                  Parecer Preliminar da IA:
+                </h4>
+                <div 
+                  className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm text-slate-700 leading-relaxed text-sm md:text-base"
+                  dangerouslySetInnerHTML={formatAIResponse(aiAnalysis)}
+                />
+                
+                <div className="mt-6 flex flex-col sm:flex-row gap-4 items-center justify-between bg-blue-50 p-4 rounded-xl border border-blue-100">
+                  <p className="text-sm text-blue-800 font-medium">
+                    Tudo pronto para dar o próximo passo?
+                  </p>
+                  <a 
+                    href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Olá! Fiz a pré-análise do meu caso no site através da IA. Segue o resumo:\n\n")}${encodeURIComponent(aiAnalysis)}`} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20bd5a] text-white px-6 py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-transform hover:scale-105 shadow-md whitespace-nowrap"
+                  >
+                    <Send size={18} />
+                    Enviar Resumo para o Advogado
+                  </a>
+                </div>
               </div>
             )}
           </div>
@@ -579,4 +605,3 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
-
