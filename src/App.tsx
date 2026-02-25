@@ -47,6 +47,12 @@ export default function App() {
   // Ref com tipagem HTMLDivElement para permitir o acesso a offsetWidth e scrollBy
   const carouselRef = useRef<HTMLDivElement>(null);
 
+  // Tipagem string para html (Usamos "function" para poder ser chamada dentro do useEffect)
+  function stripHtml(html: string) {
+    let doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || "";
+  }
+
   // Efeito para mudar a cor do cabeçalho ao fazer scroll
   useEffect(() => {
     const handleScroll = () => {
@@ -81,38 +87,47 @@ export default function App() {
       ];
 
       try {
-        // Trocámos do portal Migalhas para o ConJur (que não bloqueia a leitura automática)
-        const rssUrl = encodeURIComponent('https://www.conjur.com.br/feed/');
+        // Usa o Google News RSS para buscar notícias de saúde no período de 1 ano (when:1y)
+        const searchQuery = '"plano de saúde" OR "erro médico" OR "direito da saúde" liminar STJ';
+        const googleNewsUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}+when:1y&hl=pt-BR&gl=BR&ceid=BR:pt-419`;
+        
+        const rssUrl = encodeURIComponent(googleNewsUrl);
         const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
         const data = await res.json();
         
-        if (data && data.status === 'ok') {
-          // Filtro para tentar encontrar notícias relacionadas à saúde/consumidor
-          const keywords = ['saúde', 'médic', 'plano', 'ans', 'paciente', 'hospital', 'liminar', 'stj', 'consumidor', 'indenização'];
-          let filtered: NewsItem[] = data.items.filter((item: any) => 
-            keywords.some(kw => item.title.toLowerCase().includes(kw) || item.description.toLowerCase().includes(kw))
-          ).map((item: any) => ({
-            title: item.title,
-            pubDate: item.pubDate,
-            link: item.link,
-            description: item.description
-          }));
+        if (data && data.status === 'ok' && data.items) {
+          // O Google News já traz as notícias filtradas, só formatamos os títulos e descrições
+          let filtered: NewsItem[] = data.items.slice(0, 6).map((item: any) => {
+            let cleanTitle = item.title;
+            // Remove o nome do portal do final do título do Google News (ex: " - ConJur" ou " - G1")
+            const lastDashIndex = cleanTitle.lastIndexOf(' - ');
+            if (lastDashIndex !== -1) {
+              cleanTitle = cleanTitle.substring(0, lastDashIndex);
+            }
+            
+            let cleanDesc = stripHtml(item.description || "");
+            
+            // O Google News às vezes traz apenas links na descrição. Se ficar muito curto, colocamos um texto elegante.
+            if (cleanDesc.length < 30 || cleanDesc.includes(cleanTitle.substring(0, 20))) {
+              cleanDesc = "Clique para ler a matéria completa e conferir os detalhes desta decisão judicial em defesa dos direitos do paciente.";
+            }
 
-          // Se não encontrar notícias suficientes do nicho, mostra as últimas gerais
-          if (filtered.length < 3) {
-            filtered = data.items.slice(0, 6).map((item: any) => ({
-              title: item.title,
+            return {
+              title: cleanTitle,
               pubDate: item.pubDate,
               link: item.link,
-              description: item.description
-            }));
-          } else {
-            filtered = filtered.slice(0, 6);
+              description: cleanDesc
+            };
+          });
+
+          // Se não houver notícias suficientes (muito raro com o Google News 1y), usa o fallback
+          if (filtered.length < 3) {
+            const missing = 3 - filtered.length;
+            filtered = [...filtered, ...fallbackNews.slice(0, missing)];
           }
 
           setNews(filtered);
         } else {
-          // Em vez de atirar (throw) um erro crítico, apenas informamos o log e usamos o fallback
           console.warn("A API de notícias não retornou os dados corretamente. Usando notícias de fallback.");
           setNews(fallbackNews);
         }
@@ -132,12 +147,6 @@ export default function App() {
       const scrollAmount = direction === 'left' ? -carouselRef.current.offsetWidth + 50 : carouselRef.current.offsetWidth - 50;
       carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
-  };
-
-  // Tipagem string para html
-  const stripHtml = (html: string) => {
-    let doc = new DOMParser().parseFromString(html, 'text/html');
-    return doc.body.textContent || "";
   };
 
   const whatsappNumber = "5511962817392";
@@ -759,7 +768,7 @@ export default function App() {
                       {item.title}
                     </h4>
                     <p className="text-slate-600 text-sm leading-relaxed mb-6 line-clamp-3">
-                      {stripHtml(item.description)}
+                      {item.description}
                     </p>
                   </div>
                   <a 
@@ -904,7 +913,6 @@ export default function App() {
   );
 }
 
-// Tipagem adicionada aos parâmetros question e answer para evitar o erro TS7031
 function FaqItem({ question, answer }: { question: string, answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
 
