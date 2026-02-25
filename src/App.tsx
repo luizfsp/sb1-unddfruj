@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { 
   Scale, 
   HeartPulse, 
@@ -19,7 +19,10 @@ import {
   ChevronLeft,
   ChevronRight,
   Calendar,
-  ExternalLink
+  ExternalLink,
+  MessageSquareWarning,
+  Star,
+  Quote
 } from 'lucide-react';
 
 // Interface para definir a estrutura dos itens de notícias e resolver os erros de "never[]"
@@ -230,6 +233,7 @@ export default function App() {
           <nav className="hidden md:flex gap-8 items-center">
             <a href="#solucoes" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Áreas de Atuação</a>
             <a href="#sobre" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>O Especialista</a>
+            <a href="#depoimentos" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Depoimentos</a>
             <a href="#faq" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Dúvidas</a>
             <a href={whatsappLink} target="_blank" rel="noreferrer" className="bg-amber-500 hover:bg-amber-600 text-slate-900 px-6 py-2.5 rounded-full font-bold text-sm transition-transform hover:scale-105 shadow-lg">
               Fale Conosco
@@ -268,7 +272,11 @@ export default function App() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <a href={whatsappLink} target="_blank" rel="noreferrer" className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(5,150,105,0.4)] hover:-translate-y-1">
                   <MessageCircle size={24} />
-                  Falar com um Especialista Agora
+                  Falar com um Especialista
+                </a>
+                <a href={whatsappLinkUrgency} target="_blank" rel="noreferrer" className="bg-red-600 hover:bg-red-500 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:-translate-y-1">
+                  <MessageSquareWarning size={24} />
+                  Atendimento de Urgência
                 </a>
               </div>
             </div>
@@ -499,6 +507,95 @@ export default function App() {
              <a href={whatsappLink} target="_blank" rel="noreferrer" className="inline-flex bg-white hover:bg-slate-100 text-blue-950 px-8 py-4 rounded-lg font-bold text-lg items-center justify-center gap-2 transition-all shadow-lg hover:-translate-y-1">
                 Iniciar o Passo 1 Agora
              </a>
+          </div>
+        </div>
+      </section>
+
+      {/* DEPOIMENTOS */}
+      <section id="depoimentos" className="py-24 bg-slate-50 border-t border-slate-200">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Histórias de Sucesso</h2>
+            <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">
+              O que dizem os nossos clientes
+            </h3>
+            <p className="text-slate-600 text-lg">
+              A nossa maior recompensa é a satisfação e o alívio das famílias que ajudamos a proteger nos momentos de maior vulnerabilidade.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Depoimento 1 */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 relative mt-6 hover:shadow-xl hover:border-blue-100 transition-all duration-300 group">
+              <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg group-hover:scale-110 transition-transform">
+                <Quote className="text-white" size={24} />
+              </div>
+              <div className="flex gap-1 mb-4 mt-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star key={star} className="text-amber-400 fill-amber-400" size={18} />
+                ))}
+              </div>
+              <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
+                "O Dr. Fabio foi um verdadeiro anjo na nossa vida. Quando o plano de saúde negou a cirurgia oncológica da minha mãe de forma abusiva, ele conseguiu a liminar em menos de 48 horas. Um atendimento impecável, rápido e extremamente humano."
+              </p>
+              <div className="flex items-center gap-3 border-t border-slate-100 pt-4">
+                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-800 font-bold">
+                  MF
+                </div>
+                <div>
+                  <p className="font-bold text-slate-900 text-sm">Maria Fernandes</p>
+                  <p className="text-xs text-slate-500">Ação contra Plano de Saúde</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Depoimento 2 */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 relative mt-6 hover:shadow-xl hover:border-blue-100 transition-all duration-300 group">
+              <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg group-hover:scale-110 transition-transform">
+                <Quote className="text-white" size={24} />
+              </div>
+              <div className="flex gap-1 mb-4 mt-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star key={star} className="text-amber-400 fill-amber-400" size={18} />
+                ))}
+              </div>
+              <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
+                "Quando o plano de saúde se recusou a fornecer o meu medicamento de alto custo, fiquei sem saber o que fazer. A equipe do Saraiva & Advogados assumiu o caso e conseguiu a liberação judicial em tempo recorde. Um trabalho excepcional e muito ágil!"
+              </p>
+              <div className="flex items-center gap-3 border-t border-slate-100 pt-4">
+                <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800 font-bold">
+                  CE
+                </div>
+                <div>
+                  <p className="font-bold text-slate-900 text-sm">Carlos Eduardo Silva</p>
+                  <p className="text-xs text-slate-500">Medicamento de Alto Custo</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Depoimento 3 */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 relative mt-6 hover:shadow-xl hover:border-blue-100 transition-all duration-300 group">
+              <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg group-hover:scale-110 transition-transform">
+                <Quote className="text-white" size={24} />
+              </div>
+              <div className="flex gap-1 mb-4 mt-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star key={star} className="text-amber-400 fill-amber-400" size={18} />
+                ))}
+              </div>
+              <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
+                "Diferente de outros escritórios, aqui não fui tratada como apenas mais um número de processo. O Dr. Fabio explicou-me todos os passos com clareza e lutou incansavelmente para garantir a terapia intensiva para o meu filho com TEA."
+              </p>
+              <div className="flex items-center gap-3 border-t border-slate-100 pt-4">
+                <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-800 font-bold">
+                  AP
+                </div>
+                <div>
+                  <p className="font-bold text-slate-900 text-sm">Ana Paula Rezende</p>
+                  <p className="text-xs text-slate-500">Tratamento TEA</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
