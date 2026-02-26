@@ -383,7 +383,7 @@ export default function App() {
                 <p>Somos uma advocacia especializada no Direito da Saúde.</p>
                 <p>Atuamos com ética e sensibilidade no atendimento, buscando garantir os seus direitos sempre com amparo na lei.</p>
                 <p>
-                  Com mais de 25 anos de sólida experiência, o <strong>Dr. Fabio Saraiva</strong> é membro efetivo da Comissão Especial de Direito do Seguro e Resseguro e da Comissão de Defesa do Consumidor da Ordem dos Advogados do Brasil - São Paulo. Fundou o escritório com um propósito claro: entregar um atendimento humanizado, ético e assertivo na defesa dos interesses dos seus clientes, especialmente em uma área que requer a atuação de profissionais altamente especializados e qualificados para enfrentar as gigantes da área da saúde suplementar no Brasil.
+                  Com mais de 25 anos de sólida experiência, o <strong>Dr. Fabio Saraiva</strong> é membro efetivo das Comissões Especiais de Direito Médico e de Saúde, Direito do Seguro e Resseguro e de Defesa do Consumidor da Ordem dos Advogados do Brasil - São Paulo. Fundou o escritório com um propósito claro: entregar um atendimento humanizado, ético e assertivo na defesa dos interesses dos seus clientes, especialmente em uma área que requer a atuação de profissionais altamente especializados e qualificados para enfrentar as gigantes da área da saúde suplementar no Brasil.
                 </p>
                 <p>No Direito da Saúde, sabemos que a experiência e o rigor técnico precisam andar juntos. Um processo promovido contra grandes operadoras exige uma advocacia artesanal, onde cada laudo médico e cada vírgula importam.</p>
                 <p>Assim, nossa missão é ser o seu escudo jurídico. Protegemos famílias contra as práticas abusivas das operadoras de planos de saúde, de modo a assegurar o respeito e a dignidade dos pacientes no momento em que mais precisam.</p>
@@ -712,6 +712,7 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
 
 
 
