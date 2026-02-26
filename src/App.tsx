@@ -342,7 +342,7 @@ export default function App() {
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><HeartPulse /></div>
               <h4 className="text-xl font-bold text-slate-900 mb-3">Planos de Saúde</h4>
-              <p className="text-slate-600 text-sm leading-relaxed text-justify">Revisão de reajustes abusivos, reversão de negativas para internação, tratamento médico, internação, cirurgias, fornecimento de medicamentos, exames, negativa de reembolso, entre outros.</p>
+              <p className="text-slate-600 text-sm leading-relaxed text-justify">Revisão de reajustes abusivos, reversão de negativas para internação, tratamento médico, cirurgias, fornecimento de medicamentos, exames, negativa de reembolso, entre outros.</p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><ShieldAlert /></div>
@@ -712,6 +712,7 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
 
 
 
