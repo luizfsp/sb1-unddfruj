@@ -674,7 +674,7 @@ export default function App() {
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail className="text-blue-600 shrink-0" size={20} />
-                  <span>saraiva@saraivaeadvogados.com.br</span>
+                  <span>contato@saraivaeadvogados.com.br</span>
                 </li>
               </ul>
             </div>
@@ -712,6 +712,7 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
+
 
 
 
