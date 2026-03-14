@@ -342,7 +342,7 @@ export default function App() {
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><HeartPulse /></div>
               <h4 className="text-xl font-bold text-slate-900 mb-3">Planos de Saúde</h4>
-              <p className="text-slate-600 text-sm leading-relaxed text-justify">Nossos advogados atuam contra práticas abusivas de operadoras de planos de saúde em assuntos como revisão de reajustes abusivos, reversão de negativas de reembolso, liminar contra negativa para internação, tratamento médico, cirurgias, incluindo bariátrica e exames decorrente de alegação de carência ou doença preexistente, fornecimento de medicamentos de alto custo, entre outros.</p>
+              <p className="text-slate-600 text-sm leading-relaxed text-justify">Nossos advogados atuam contra práticas abusivas de operadoras de planos de saúde em assuntos como revisão de reajustes abusivos; reversão de negativas de reembolso; liminares contra negativa para internação; tratamento médico; cirurgias em geral (incluindo bariátrica e cirurgia plástica reparadora); exames de alta complexidade decorrente de alegação de carência, doença preexistente ou que está fora do rol de procedimentos da ANS; fornecimento de medicamentos de alto custo, entre outros.</p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><ShieldAlert /></div>
@@ -357,7 +357,7 @@ export default function App() {
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><FileWarning /></div>
               <h4 className="text-xl font-bold text-slate-900 mb-3">Erro Médico</h4>
-              <p className="text-slate-600 text-sm leading-relaxed text-justify">Ação indenizatória decorrente de responsabilidade civil médica decorrente de negligência, imprudência ou imperícia.</p>
+              <p className="text-slate-600 text-sm leading-relaxed text-justify">Ação indenizatória decorrente de responsabilidade civil médica por negligência, imprudência ou imperícia.</p>
             </div>
           </div>
         </div>
