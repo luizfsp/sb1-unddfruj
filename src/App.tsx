@@ -160,6 +160,7 @@ export default function App() {
       for (let i = 0; i < retries; i++) {
         try {
           const response = await fetch(url, options);
+          
           if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
             throw new Error(`HTTP ${response.status}: ${errorData?.error?.message || response.statusText}`);
@@ -269,7 +270,7 @@ export default function App() {
                 Advocacia especializada contra <strong>abusos praticados por Operadoras de Planos de Saúde</strong> e <strong>Erros Médicos</strong>. Atuamos com rapidez para garantir o seu direito à saúde e à vida com pedido de liminares de urgência.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <a href={whatsappLink} target="_blank" rel="noreferrer" className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(5,150,105,0.4)] hover:-translate-y-1">
+                <a href={whatsappLink} target="_blank" rel="noreferrer" className="bg-yellow-600 hover:bg-yellow-500 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(5,150,105,0.4)] hover:-translate-y-1">
                   <img src="/WhatsApp_Logo.png" alt="WhatsApp" className="w-6 h-6 object-contain" />
                   Falar com um Especialista
                 </a>
