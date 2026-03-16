@@ -49,7 +49,7 @@ export default function App() {
     const apiKey = ''; // A chave da API é injetada no ambiente de execução
     const systemPrompt = `Você é um assistente jurídico virtual (IA) do escritório 'Saraiva & Advogados', especializado em Direito da Saúde no Brasil. 
     Analise o relato do usuário e forneça:
-    1. Uma breve avaliação (1 parágrafo) indicando se parece haver uma violação de direitos (ex: abusividade do plano, dever do SUS, indícios de erro médico).
+    1. Uma breve avaliação (1 parágrafo) indicando se parece haver uma violação de direitos (ex: abusividade do plano, indícios de erro médico).
     2. A recomendação clara de que um advogado especialista deve avaliar os documentos (laudos, negativas) para confirmar a viabilidade de uma liminar (Tutela de Urgência).
     3. Um 'Resumo Estruturado': um texto curto e objetivo que o usuário possa enviar no WhatsApp do escritório para iniciar o atendimento.
     Seja empático, acolhedor, profissional e transmita urgência. NÃO dê garantias de causa ganha. Formate o texto usando quebras de linha e **negrito** (apenas isso, sem listas complexas).`;
@@ -203,7 +203,7 @@ export default function App() {
               </h2>
               <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl leading-relaxed">
                 Advocacia altamente especializada contra negativas de{' '}
-                <strong>Planos de Saúde</strong>, <strong>SUS</strong> e{' '}
+                <strong>Planos de Saúde</strong> e{' '}
                 <strong>Erros Médicos</strong>. Agimos com rapidez para garantir
                 o seu direito à vida através de liminares de urgência.
               </p>
@@ -341,7 +341,7 @@ export default function App() {
               </h4>
               <p className="text-slate-600 text-sm mb-6 leading-relaxed">
                 Ações rápidas com pedido de liminar para obtenção de remédios
-                importados ou oncológicos não fornecidos pelo SUS ou Convênio.
+                importados ou oncológicos não fornecidos pelo Convênio.
               </p>
               <a
                 href={whatsappLink}
