@@ -18,7 +18,6 @@ import {
   ChevronRight,
   Calendar,
   ExternalLink,
-  MessageSquareWarning,
   Star,
   Quote
 } from 'lucide-react';
