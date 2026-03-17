@@ -275,7 +275,7 @@ export default function App() {
                   Falar com um Especialista
                 </a>
                 <a href={whatsappLinkUrgency} target="_blank" rel="noreferrer" className="bg-red-600 hover:bg-red-500 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:-translate-y-1">
-                  <MessageSquareWarning size={24} />
+                  <img src="/whatsapp_PNG20.png" alt="WhatsApp" className="w-6 h-6 object-contain" />
                   Atendimento de Urgência
                 </a>
               </div>
