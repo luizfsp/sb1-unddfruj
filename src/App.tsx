@@ -266,7 +266,7 @@ export default function App() {
                 A busca pelos seus direitos também não.
               </h2>
               <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl leading-relaxed text-justify">
-                Advocacia especializada contra <strong>abusos praticados por Operadoras de Planos de Saúde</strong> e <strong>Erros Médicos</strong>. Atuamos com rapidez para garantir o seu direito à saúde e à vida com pedido de liminares de urgência.
+                Advocacia especializada na atuação contra Operadoras de Planos de Saúde. Atuamos com rapidez para garantir o seu direito à saúde e à vida com pedido de liminares de urgência em casos de negativas abusivas e ilegais.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <a href={whatsappLink} target="_blank" rel="noreferrer" className="bg-yellow-600 hover:bg-yellow-500 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(5,150,105,0.4)] hover:-translate-y-1">
@@ -317,7 +317,7 @@ export default function App() {
             <div className="flex flex-col items-center text-center px-4 pt-8 md:pt-0">
               <ShieldAlert className="text-blue-800 mb-3" size={40} />
               <h3 className="text-xl font-bold text-slate-900 mb-2 mt-2">Liminares de Urgência</h3>
-              <p className="text-slate-600 font-medium text-sm px-4">Atuação ágil para garantir tratamentos e medicamentos vitais.</p>
+              <p className="text-slate-600 font-medium text-sm px-4">Atuação ágil para garantir tratamentos e medicamentos vitais negados indevidamente pelas Operadoras de Plano de Saúde.</p>
             </div>
             <div className="flex flex-col items-center text-center px-4 pt-8 md:pt-0">
               <MapPin className="text-blue-800 mb-3" size={40} />
@@ -356,7 +356,7 @@ export default function App() {
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><FileWarning /></div>
               <h4 className="text-xl font-bold text-slate-900 mb-3">Erro Médico</h4>
-              <p className="text-slate-600 text-sm leading-relaxed text-justify">Ação indenizatória decorrente de responsabilidade civil médica por negligência, imprudência ou imperícia.</p>
+              <p className="text-slate-600 text-sm leading-relaxed text-justify">Atuação na defesa dos interesses dos nossos clientes em casos que envolvem discussão de erro médico por negligência, imprudência ou imperícia.</p>
             </div>
           </div>
         </div>
@@ -620,7 +620,7 @@ export default function App() {
       </section>
 
       {/* CTA FINAL */}
-      <section className="py-20 bg-emerald-700 relative overflow-hidden">
+      <section className="py-20 bg-blue-600 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6">
