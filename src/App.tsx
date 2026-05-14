@@ -226,7 +226,7 @@ export default function App() {
             <img 
               src="/Logo 2_Fundo Transparente.png" 
               alt="Saraiva & Advogados Associados" 
-              className="h-16 w-auto object-contain transition-all duration-300"
+              className="h-20 md:h-24 w-auto object-contain transition-all duration-300"
             />
           </a>
 
@@ -711,13 +711,3 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
