@@ -385,7 +385,7 @@ export default function App() {
                   Com mais de 25 anos de sólida experiência, o <strong>Dr. Fabio Saraiva</strong> é membro efetivo das Comissões Especiais de Direito Médico e de Saúde, Direito do Seguro e Resseguro e de Defesa do Consumidor da Ordem dos Advogados do Brasil - São Paulo. Fundou o escritório com um propósito claro: entregar um atendimento humanizado, ético e assertivo na defesa dos interesses dos seus clientes, especialmente em uma área que requer a atuação de profissionais altamente especializados e qualificados para enfrentar as gigantes da área da saúde suplementar no Brasil.
                 </p>
                 <p>No Direito da Saúde, sabemos que a experiência e o rigor técnico precisam andar juntos. Um processo promovido contra grandes operadoras exige uma advocacia artesanal, onde cada laudo médico e cada vírgula importam.</p>
-                <p>Assim, nossa missão é ser o seu escudo jurídico. Protegemos famílias contra as práticas abusivas das operadoras de planos de saúde, de modo a assegurar o respeito e a dignidade dos pacientes no momento em que mais precisam.</p>
+                <p>Nossa missão é ser o seu escudo jurídico. Protegemos famílias contra as práticas abusivas das operadoras de planos de saúde, de modo a assegurar o respeito e a dignidade dos pacientes no momento em que mais precisam, assim como defendemos os interesses dos profissionais da área médica perante ao órgão de classe e ações indenizatória de responsabilidade civil decorrente de alegação de erro médico.</p>
               </div>
             </div>
           </div>
