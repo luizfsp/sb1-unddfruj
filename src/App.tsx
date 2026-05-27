@@ -341,12 +341,12 @@ export default function App() {
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><HeartPulse /></div>
               <h4 className="text-xl font-bold text-slate-900 mb-3">Planos de Saúde</h4>
-              <p className="text-slate-600 text-sm leading-relaxed text-justify">Nossos advogados atuam contra práticas abusivas de operadoras de planos de saúde em assuntos como revisão de reajustes abusivos; reversão de negativas de reembolso; liminares contra negativa para internação; tratamento médico; cirurgias em geral (incluindo bariátrica e cirurgia plástica reparadora); exames de alta complexidade decorrente de alegação de carência, doença preexistente ou que está fora do rol de procedimentos da ANS; fornecimento de medicamentos de alto custo, entre outros.</p>
+              <p className="text-slate-600 text-sm leading-relaxed text-justify">Nossos advogados atuam contra práticas abusivas de operadoras de planos de saúde em assuntos como: 1) liminares contra negativa para internação, exames e tratamento médico; 2) cirurgias em geral (incluindo bariátrica e cirurgia plástica reparadora); 3) exames de alta complexidade decorrente de alegação de carência, doença preexistente ou que está fora do rol de procedimentos da ANS; 4) reversão de negativas de reembolso; 5) fornecimento de medicamentos, 6) Descredenciamento de Hospitais, Laboratórios, Clínicas, entre outros.</p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><ShieldAlert /></div>
-              <h4 className="text-xl font-bold text-slate-900 mb-3">Descredenciamento Indevido</h4>
-              <p className="text-slate-600 text-sm leading-relaxed text-justify">Pedido de liminar para manutenção de Hospital, Clínicas, Laboratórios e prestadores de serviço em caso de descredenciamento irregular pela operadora de saúde.</p>
+              <h4 className="text-xl font-bold text-slate-900 mb-3">Reajuste Abusivo</h4>
+              <p className="text-slate-600 text-sm leading-relaxed text-justify">Atuamos na revisão de reajustes abusivos praticados pelas operadoras de plano de saúde, amparado em cálculos contábeis/atuariais, inclusive com pedido de liminar, possibilitando a redução do valor da mensalidade e restituição dos valores pagos a maior dos últimos 3 anos devidamente corrigido.</p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
               <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><CheckCircle2 /></div>
