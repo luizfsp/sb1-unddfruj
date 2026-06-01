@@ -219,7 +219,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-800 scroll-smooth">
       
       {/* HEADER */}
       <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-3' : 'bg-slate-900/95 backdrop-blur-sm py-5'}`}>
@@ -273,12 +273,23 @@ export default function App() {
               <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl leading-relaxed text-justify">
                 Advocacia especializada na atuação contra Operadoras de Planos de Saúde. Atuamos com rapidez para garantir o seu direito à saúde e à vida com pedido de liminares de urgência em casos de negativas abusivas e ilegais.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <a href={whatsappLink} target="_blank" rel="noreferrer" className="bg-yellow-600 hover:bg-yellow-500 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(5,150,105,0.4)] hover:-translate-y-1">
+              
+              {/* ÁREA DE BOTÕES DO INÍCIO (ATUALIZADA COM O NOVO BOTÃO DE ANÁLISE COM IA EM DESTAQUE) */}
+              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 justify-center md:justify-start items-stretch sm:items-center">
+                {/* Botão de Destaque: Pré-Análise com IA */}
+                <a href="#analisador-ia" className="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 px-8 py-4 rounded-lg font-black text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:-translate-y-1">
+                  <Sparkles size={20} className="animate-pulse" />
+                  Análise Gratuita com IA
+                </a>
+                
+                {/* Falar com Especialista (WhatsApp) */}
+                <a href={whatsappLink} target="_blank" rel="noreferrer" className="bg-yellow-600 hover:bg-yellow-500 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(202,138,4,0.3)] hover:-translate-y-1">
                   <img src="/whatsapp_PNG20.png" alt="WhatsApp" className="w-6 h-6 object-contain" />
                   Falar com um Especialista
                 </a>
-                <a href={whatsappLinkUrgency} target="_blank" rel="noreferrer" className="bg-red-600 hover:bg-red-500 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:-translate-y-1">
+                
+                {/* Atendimento de Urgência (WhatsApp Urgente) */}
+                <a href={whatsappLinkUrgency} target="_blank" rel="noreferrer" className="bg-red-600 hover:bg-red-500 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:-translate-y-1">
                   <img src="/whatsapp_PNG20.png" alt="WhatsApp" className="w-6 h-6 object-contain" />
                   Atendimento de Urgência
                 </a>
@@ -580,7 +591,7 @@ export default function App() {
               {
                 step: "04",
                 title: "Tranquilidade",
-                desc: "Informações atualizadas do processo em linguagem clara (sem “juridiquês”)."
+                desc: "Informações atualizadas do processo in linguagem clara (sem “juridiquês”)."
               }
             ].map((item, index) => (
               <div key={index} className="relative z-10 flex flex-col items-center text-center group">
