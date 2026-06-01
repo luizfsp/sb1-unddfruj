@@ -43,6 +43,14 @@ export default function App() {
   const [isLoadingNews, setIsLoadingNews] = useState(true);
   const carouselRef = useRef<HTMLDivElement>(null);
 
+  // Sugestões rápidas para preenchimento do formulário de IA
+  const presetCases = [
+    { label: "Negativa de Cirurgia", text: "O meu plano de saúde recusou cobrir a minha cirurgia, alegando que o procedimento não está no rol da ANS ou que estou em período de carência." },
+    { label: "Medicamento de Alto Custo", text: "Preciso de um medicamento de alto custo prescrito pelo meu médico, mas a operadora de saúde negou o fornecimento." },
+    { label: "Aumento Abusivo", text: "A mensalidade do meu plano de saúde sofreu um reajuste extremamente alto e abusivo por mudança de faixa etária ou sinistralidade." },
+    { label: "Tratamento TEA", text: "O plano de saúde está a limitar o número de sessões ou a recusar a cobertura para o tratamento multidisciplinar de autismo (TEA) do meu filho." }
+  ];
+
   function stripHtml(html: string) {
     const doc = new DOMParser().parseFromString(html, 'text/html');
     return doc.body.textContent || "";
@@ -64,7 +72,7 @@ export default function App() {
           title: "STJ define que plano de saúde deve cobrir tratamento multidisciplinar", 
           pubDate: new Date().toISOString(), 
           link: "https://www.conjur.com.br/?s=stj+plano+de+sa%C3%BAde", 
-          description: "A decisão reforça a obrigatoriedade da cobertura integral para beneficiários em tratamentos específicos." 
+          description: "A decisão reforça a obrigatoriedade da cobertura integral para beneficiários in tratamentos específicos." 
         },
         { 
           title: "Justiça condena plano de saúde por negativa abusiva de cirurgia de urgência", 
@@ -145,7 +153,6 @@ export default function App() {
       }
     } catch (e) {}
     
-    // Prompt atualizado para forçar a separação do resumo com a tag "RESUMO_WHATSAPP:"
     const systemPrompt = `Você é um assistente jurídico virtual (IA) do escritório 'Saraiva & Advogados', especializado em Direito da Saúde no Brasil. 
     Analise o relato do usuário e forneça:
     1. Uma breve avaliação (1 parágrafo) indicando se parece haver uma violação de direitos (ex: abusividade do plano e indícios de erro médico).
@@ -186,16 +193,13 @@ export default function App() {
 
       const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
       if (text) {
-        // Lógica para cortar o texto apenas na parte do resumo para enviar ao WhatsApp
         if (text.includes("RESUMO_WHATSAPP:")) {
           const parts = text.split("RESUMO_WHATSAPP:");
-          // A interface mostra tudo estruturado
           setAiAnalysis(parts[0].trim() + "\n\n**Resumo Estruturado para o WhatsApp:**\n" + parts[1].trim());
-          // O link do WhatsApp envia apenas o resumo
           setWhatsappSummary(parts[1].trim());
         } else {
           setAiAnalysis(text);
-          setWhatsappSummary(text); // Fallback caso a IA não use a tag
+          setWhatsappSummary(text);
         }
       } else {
         setAiError("Não foi possível gerar a análise. Tente novamente.");
@@ -222,7 +226,7 @@ export default function App() {
         <div className="container mx-auto px-4 md:px-8 flex justify-between items-center">
           
           <a href="#" className="flex items-center">
-            {/* O logotipo usa o caminho da pasta public para funcionar no Vercel sem falhas */}
+            {/* Logótipo com escala dinâmica optimizada (maior no computador, equilibrado no telemóvel) */}
             <img 
               src="/Logo 2_Fundo Transparente.png" 
               alt="Saraiva & Advogados Associados" 
@@ -232,6 +236,7 @@ export default function App() {
 
           <nav className="hidden md:flex gap-8 items-center">
             <a href="#solucoes" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Áreas de Atuação</a>
+            <a href="#analisador-ia" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Análise com IA</a>
             <a href="#sobre" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Nossos Especialistas</a>
             <a href="#depoimentos" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Depoimentos</a>
             <a href="#faq" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Dúvidas</a>
@@ -362,6 +367,155 @@ export default function App() {
         </div>
       </section>
 
+      {/* SECÇÃO DO ANALISADOR DE IA (POSIÇÃO DE DESTAQUE PREMIUM LOGO ABAIXO DAS ESPECIALIDADES) */}
+      <section id="analisador-ia" className="py-24 bg-gradient-to-b from-slate-900 via-blue-950 to-slate-950 text-white relative overflow-hidden">
+        {/* Elementos decorativos de luz e fundo */}
+        <div className="absolute inset-0 opacity-30 pointer-events-none">
+          <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] bg-amber-500/10 rounded-full filter blur-3xl"></div>
+          <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-500/10 rounded-full filter blur-3xl"></div>
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        </div>
+
+        <div className="container mx-auto px-4 md:px-8 max-w-6xl relative z-10">
+          <div className="flex flex-col lg:flex-row gap-12 items-center">
+            
+            {/* Coluna Esquerda: Texto de Enquadramento e Proposta de Valor */}
+            <div className="lg:w-5/12 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 px-4 py-2 rounded-full mb-6 backdrop-blur-sm animate-pulse text-xs font-bold uppercase tracking-wider">
+                <Sparkles size={16} />
+                Sistema Ativo de Pré-Avaliação
+              </div>
+              <h3 className="text-3xl md:text-5xl font-extrabold text-white leading-tight mb-6">
+                Descubra os seus direitos <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">em segundos.</span>
+              </h3>
+              <p className="text-slate-300 text-base md:text-lg mb-8 leading-relaxed text-justify">
+                Utilize a nossa tecnologia exclusiva baseada em Inteligência Artificial para obter um parecer preliminar instantâneo sobre a sua situação. 
+              </p>
+              
+              <div className="space-y-4 hidden lg:block">
+                <div className="flex items-start gap-3">
+                  <div className="bg-blue-900/50 p-2 rounded-lg border border-blue-700/50 text-amber-400">
+                    <CheckCircle2 size={18} />
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-white text-sm">Privacidade Total</h5>
+                    <p className="text-slate-400 text-xs">Os seus dados são encriptados de ponta a ponta.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="bg-blue-900/50 p-2 rounded-lg border border-blue-700/50 text-amber-400">
+                    <CheckCircle2 size={18} />
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-white text-sm">Integração Direta</h5>
+                    <p className="text-slate-400 text-xs">O resultado gera um resumo estruturado para o seu advogado no WhatsApp.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Coluna Direita: O Painel do Formulário Interativo */}
+            <div className="lg:w-7/12 w-full">
+              <div className="bg-slate-900/85 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl backdrop-blur-md relative">
+                {/* Linha brilhante no topo do card */}
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
+
+                <div className="mb-6">
+                  <span className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
+                    Selecione um exemplo rápido de problema ou digite abaixo:
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {presetCases.map((preset, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          setCaseDescription(preset.text);
+                          setAiAnalysis(null);
+                          setAiError("");
+                        }}
+                        className={`text-xs px-3 py-2 rounded-lg border transition-all font-semibold ${
+                          caseDescription === preset.text 
+                            ? 'bg-amber-500 border-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20' 
+                            : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900'
+                        }`}
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="relative">
+                  <label htmlFor="case-description" className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                    Descreva o seu caso com detalhe:
+                  </label>
+                  <textarea
+                    id="case-description"
+                    rows={5}
+                    className="w-full rounded-2xl bg-slate-950 border-slate-800 border p-4 text-slate-200 placeholder-slate-600 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all resize-none shadow-inner text-sm leading-relaxed"
+                    placeholder="O meu plano de saúde recusou cobrir o meu tratamento assistencial especializado urgente..."
+                    value={caseDescription}
+                    onChange={(e) => setCaseDescription(e.target.value)}
+                  ></textarea>
+                </div>
+
+                {aiError && <p className="text-red-400 text-xs mt-3 flex items-center gap-1 font-semibold">⚠️ {aiError}</p>}
+                
+                <div className="mt-5 flex justify-end">
+                  <button 
+                    onClick={analyzeCaseWithAI} 
+                    disabled={isAnalyzing || !caseDescription.trim()} 
+                    className="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 disabled:bg-slate-800 disabled:text-slate-600 text-slate-950 px-8 py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/10 cursor-pointer"
+                  >
+                    {isAnalyzing ? (
+                      <>
+                        <Loader2 className="animate-spin" size={18} />
+                        Analisando a sua situação...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles size={18} />
+                        Analisar Caso Instantaneamente
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {/* Bloco de Resposta Gerada por Inteligência Artificial */}
+                {aiAnalysis && (
+                  <div className="mt-8 pt-6 border-t border-slate-800 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <h4 className="text-base font-bold text-amber-400 mb-4 flex items-center gap-2">
+                      <CheckCircle2 className="text-emerald-400" size={20} />
+                      Orientação Preliminar Gerada:
+                    </h4>
+                    <div 
+                      className="bg-slate-950 p-6 rounded-2xl border border-slate-800 text-slate-300 leading-relaxed text-sm shadow-md"
+                      dangerouslySetInnerHTML={formatAIResponse(aiAnalysis)}
+                    />
+                    
+                    <div className="mt-6 flex flex-col sm:flex-row gap-4 items-center justify-between bg-blue-950/40 p-4 rounded-2xl border border-blue-900/30">
+                      <p className="text-xs text-blue-300 font-medium text-center sm:text-left mb-2 sm:mb-0">
+                        O parecer gerou um resumo pronto para envio no WhatsApp.
+                      </p>
+                      <a 
+                        href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Olá! Fiz a pré-análise do meu caso no site através da IA. Segue o resumo estruturado:\n\n")}${encodeURIComponent(whatsappSummary)}`} 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20bd5a] text-white px-6 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-transform hover:scale-105 shadow-md whitespace-nowrap"
+                      >
+                        <Send size={16} />
+                        Enviar Resumo ao Especialista
+                      </a>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* SOBRE */}
       <section id="sobre" className="py-24 bg-white">
         <div className="container mx-auto px-4 md:px-8">
@@ -477,87 +631,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* IA ANALISADOR RESTAURADO CONFORME IMAGEM */}
-      <section className="py-24 bg-white relative overflow-hidden">
-        <div className="container mx-auto px-4 md:px-8 max-w-4xl relative z-10">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center p-3 bg-amber-100 rounded-full mb-4 text-amber-600">
-              <Sparkles size={32} />
-            </div>
-            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">
-              Tecnologia a seu favor
-            </h2>
-            <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-              Pré-Avaliação Assistida por Inteligência Artificial
-            </h3>
-            <p className="text-slate-600 text-lg leading-relaxed max-w-3xl mx-auto">
-              Avaliação de forma rápida pelos nossos profissionais especializados. Descreva brevemente o seu problema (Exemplo: Reajuste abusivo; negativa de internação; negativa de tratamento, outros). A nossa IA analisará de forma rápida e direcionará o seu caso para atendimento de um especialista.
-            </p>
-          </div>
-          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
-            <label htmlFor="case-description" className="block text-sm font-bold text-slate-700 mb-2">
-              Descreva o que aconteceu:
-            </label>
-            <textarea
-              id="case-description"
-              rows={5}
-              className="w-full rounded-xl border-slate-300 border p-4 text-slate-700 focus:ring-2 focus:ring-amber-500 outline-none transition-all resize-none shadow-inner"
-              placeholder="O meu plano de saúde negou a cobertura da minha cirurgia oncológica alegando que não consta no rol, mas o meu médico disse que o caso é urgente..."
-              value={caseDescription}
-              onChange={(e) => setCaseDescription(e.target.value)}
-            ></textarea>
-            {aiError && <p className="text-red-500 text-sm mt-3">{aiError}</p>}
-            <div className="mt-6 flex justify-end">
-              <button 
-                onClick={analyzeCaseWithAI} 
-                disabled={isAnalyzing || !caseDescription.trim()} 
-                className="bg-blue-900 hover:bg-blue-800 disabled:bg-blue-900/50 text-white px-6 py-3 rounded-lg font-bold flex items-center gap-2 transition-all"
-              >
-                {isAnalyzing ? (
-                  <>
-                    <Loader2 className="animate-spin" size={18} />
-                    Analisando o seu caso...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles size={18} className="text-amber-400" />
-                    Analisar meu caso com IA
-                    <Sparkles size={18} className="text-amber-400" />
-                  </>
-                )}
-              </button>
-            </div>
-            {aiAnalysis && (
-              <div className="mt-8 pt-8 border-t border-slate-200 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <h4 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-                  <CheckCircle2 className="text-emerald-500" size={24} />
-                  Parecer Preliminar da IA:
-                </h4>
-                <div 
-                  className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm text-slate-700 leading-relaxed text-sm md:text-base"
-                  dangerouslySetInnerHTML={formatAIResponse(aiAnalysis)}
-                />
-                
-                <div className="mt-6 flex flex-col sm:flex-row gap-4 items-center justify-between bg-blue-50 p-4 rounded-xl border border-blue-100">
-                  <p className="text-sm text-blue-800 font-medium">
-                    Tudo pronto para dar o próximo passo?
-                  </p>
-                  <a 
-                    href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Olá! Fiz a pré-análise do meu caso no site através da IA. Segue o resumo:\n\n")}${encodeURIComponent(whatsappSummary)}`} 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20bd5a] text-white px-6 py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-transform hover:scale-105 shadow-md whitespace-nowrap"
-                  >
-                    <Send size={18} />
-                    Enviar Resumo para o Especialista
-                  </a>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
       {/* NOTÍCIAS */}
       <section id="noticias" className="py-24 bg-slate-100 border-t border-slate-200 overflow-hidden">
         <style>{`.hide-scrollbar::-webkit-scrollbar { display: none; }`}</style>
@@ -611,7 +684,7 @@ export default function App() {
               question="A operadora pode cancelar o meu contrato ou suspender o tratamento se eu ingressar com uma ação judicial?" 
               answer="Não! Nenhuma operadora pode promover retaliações contra um cliente que buscou os seus direitos. Essa prática é ilegal e se ocorrer, a justiça determina o restabelecimento imediato do contrato, inclusive com a condenação da operadora a pagar indenização por danos morais." 
             />
-             <FaqItem 
+            <FaqItem 
               question="Meu plano de saúde descredenciou o Hospital Albert Einstein em São Paulo e não fui comunicado. Tenho direito a exigir a manutenção do hospital no meu plano?" 
               answer="Tratando-se de um hospital de referência no Brasil reconhecido internacionalmente, sem substituto de excelência assistencial, inovação tecnológica, de equipe médica, entre outros fatores, além de não ter havido uma comunicação prévia ou redução da mensalidade paga, esse descredenciamento pode ser considerado abusivo, garantindo o direito de o consumidor buscar a manutenção do credenciamento, entre outros direitos como redução do valor da mensalidade paga. Se o consumidor estiver em tratamento médico e este tratamento for suspenso devido ao descredenciamento, poderá pleitear uma liminar para manutenção do tratamento, assim como se for surpreendido quando de um atendimento de urgência/emergência em pronto socorro e não for atendido, com direito inclusive de pleitear indenização por danos morais sofridos em ambos os casos." 
             />
@@ -630,7 +703,7 @@ export default function App() {
             Conte sempre com os nossos profissionais altamente especializados e capacitados para analisar o seu caso com total sigilo, segurança e assertividade na busca da defesa dos seus interesses e solução do problema.
           </p>
           <a href={whatsappLink} target="_blank" rel="noreferrer" className="inline-flex bg-amber-500 hover:bg-amber-400 text-slate-900 px-10 py-5 rounded-xl font-black text-xl items-center justify-center gap-3 transition-transform hover:scale-105 shadow-2xl">
-            <Phone size={28} />
+            <img src="/whatsapp_PNG20.png" alt="WhatsApp" className="w-7 h-7 object-contain" />
             Falar com um Especialista
           </a>
         </div>
@@ -686,7 +759,7 @@ export default function App() {
       </footer>
 
       {/* WHATSAPP FLOAT */}
-           <a href={whatsappLink} target="_blank" rel="noreferrer" className="fixed bottom-6 right-6 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50">
+      <a href={whatsappLink} target="_blank" rel="noreferrer" className="fixed bottom-6 right-6 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50">
         <img 
           src="/WhatsApp_Logo.png" 
           alt="WhatsApp" 
