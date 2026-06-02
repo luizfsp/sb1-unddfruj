@@ -419,7 +419,7 @@ export default function App() {
                   </div>
                   <div>
                     <h5 className="font-bold text-white text-sm">Integração Direta</h5>
-                    <p className="text-slate-400 text-xs">O resultado gera um resumo estruturado para o seu advogado no WhatsApp.</p>
+                    <p className="text-slate-400 text-xs">O resultado gera um resumo estruturado para os nossos advogados no WhatsApp.</p>
                   </div>
                 </div>
               </div>
@@ -534,7 +534,7 @@ export default function App() {
             <div className="lg:w-1/2 relative">
               <div className="relative">
                 <img src="https://i.ibb.co/s9PyNDNW/firefox-1f-HADh-BJWx.jpg" alt="Escritório" className="rounded-lg shadow-2xl w-4/5 ml-auto"/>
-                <img src="https://i.ibb.co/KzDCcZBV/456324765.jpg" alt="Detalhe" className="rounded-lg shadow-xl absolute -bottom-12 -left-4 w-3/5 border-8 border-white"/>
+                <img src="https://i.ibb.co/HfW3qVCZ/Whats-App-Image-2026-06-01-at-20-46-27.jpg" alt="Detalhe" className="rounded-lg shadow-xl absolute -bottom-12 -left-4 w-3/5 border-8 border-white"/>
               </div>
             </div>
             
