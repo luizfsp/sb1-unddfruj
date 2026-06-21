@@ -364,7 +364,7 @@ export default function App() {
                 Atendimento Rápido e Seguro
               </div>
               <h3 className="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
-                Fale com um <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-amber-600">especialista.</span>
+                Fale com um <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-700 to-sky-800">especialista.</span>
               </h3>
               <p className="text-slate-600 text-base md:text-lg mb-8 leading-relaxed text-justify">
                 Preencha o formulário para enviar os detalhes da sua situação diretamente ao e-mail do Dr. Fabio Saraiva. Avaliaremos o seu relato de forma cuidadosa e ágil para retornar o contato.
@@ -441,7 +441,7 @@ export default function App() {
                             }}
                             className={`text-xs px-3 py-2 rounded-lg border transition-all font-semibold ${
                               caseDescription === preset.text 
-                                ? 'bg-amber-500 border-amber-500 text-white font-bold shadow-md shadow-amber-500/20' 
+                                ? 'bg-sky-700 border-sky-700 text-white font-bold shadow-md shadow-amber-500/20' 
                                 : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-100'
                             }`}
                           >
@@ -533,7 +533,7 @@ export default function App() {
                       <button 
                         type="submit"
                         disabled={isSubmitting || !caseDescription.trim() || !clientName.trim() || !clientEmail.trim()} 
-                        className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 disabled:bg-slate-100 disabled:text-slate-400 text-slate-900 px-8 py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/10 cursor-pointer"
+                        className="w-full sm:w-auto bg-sky-700 hover:bg-amber-600 disabled:bg-slate-100 disabled:text-slate-400 text-slate-900 px-8 py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/10 cursor-pointer"
                       >
                         {isSubmitting ? (
                           <>
