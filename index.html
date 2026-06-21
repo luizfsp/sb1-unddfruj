@@ -9,6 +9,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-NQS57MSX');</script>
 <!-- End Google Tag Manager -->
 
+    <!-- Event snippet for Cliques no WhatsApp conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script>
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-17947863886/OIrBCM7focMcEM7Wmu5C',
+      'event_callback': callback
+  });
+  return false;
+}
+</script>
     
     <meta charset="UTF-8" />
     
