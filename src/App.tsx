@@ -235,7 +235,7 @@ export default function App() {
               </div>
               <h2 className="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-6">
                 A sua saúde <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">não pode esperar.</span><br />
-                A busca pelos seus direitos também não.
+                
               </h2>
               <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl leading-relaxed text-justify">
                 Advocacia especializada na atuação contra Operadoras de Planos de Saúde. Atuamos com rapidez para garantir o seu direito à saúde e à vida com pedido de liminares de urgência em casos de negativas abusivas e ilegais.
