@@ -346,12 +346,12 @@ export default function App() {
       </section>
 
       {/* SECÇÃO DO FORMULÁRIO DE CONTATO DIRETO POR E-MAIL */}
-      <section id="contato-formulario" className="py-24 bg-gradient-to-b from-slate-900 via-blue-950 to-slate-950 text-white relative overflow-hidden">
+      <section id="contato-formulario" className="py-24 bg-white text-slate-800 relative overflow-hidden">
         {/* Elementos decorativos de luz e fundo */}
-        <div className="absolute inset-0 opacity-30 pointer-events-none">
-          <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] bg-amber-500/10 rounded-full filter blur-3xl"></div>
-          <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-500/10 rounded-full filter blur-3xl"></div>
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] bg-amber-500/5 rounded-full filter blur-3xl"></div>
+          <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full filter blur-3xl"></div>
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
         </div>
 
         <div className="container mx-auto px-4 md:px-8 max-w-6xl relative z-10">
@@ -359,34 +359,34 @@ export default function App() {
             
             {/* Coluna Esquerda: Texto de Enquadramento e Proposta de Valor */}
             <div className="lg:w-5/12 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 px-4 py-2 rounded-full mb-6 backdrop-blur-sm text-xs font-bold uppercase tracking-wider">
+              <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-100 text-amber-700 px-4 py-2 rounded-full mb-6 backdrop-blur-sm text-xs font-bold uppercase tracking-wider">
                 <Mail size={16} />
                 Atendimento Rápido e Seguro
               </div>
-              <h3 className="text-3xl md:text-5xl font-extrabold text-white leading-tight mb-6">
-                Fale com um <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">especialista.</span>
+              <h3 className="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
+                Fale com um <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-amber-600">especialista.</span>
               </h3>
-              <p className="text-slate-300 text-base md:text-lg mb-8 leading-relaxed text-justify">
+              <p className="text-slate-600 text-base md:text-lg mb-8 leading-relaxed text-justify">
                 Preencha o formulário para enviar os detalhes da sua situação diretamente ao e-mail do Dr. Fabio Saraiva. Avaliaremos o seu relato de forma cuidadosa e ágil para retornar o contato.
               </p>
               
               <div className="space-y-4 hidden lg:block">
                 <div className="flex items-start gap-3">
-                  <div className="bg-blue-900/50 p-2 rounded-lg border border-blue-700/50 text-amber-400">
+                  <div className="bg-blue-50 border border-blue-100 p-2 rounded-lg text-blue-800">
                     <CheckCircle2 size={18} />
                   </div>
                   <div>
-                    <h5 className="font-bold text-white text-sm">Privacidade Total</h5>
-                    <p className="text-slate-400 text-xs">Os seus dados são protegidos e tratados sob rigoroso sigilo profissional.</p>
+                    <h5 className="font-bold text-slate-900 text-sm">Privacidade Total</h5>
+                    <p className="text-slate-600 text-xs">Os seus dados são protegidos e tratados sob rigoroso sigilo profissional.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="bg-blue-900/50 p-2 rounded-lg border border-blue-700/50 text-amber-400">
+                  <div className="bg-blue-50 border border-blue-100 p-2 rounded-lg text-blue-800">
                     <CheckCircle2 size={18} />
                   </div>
                   <div>
-                    <h5 className="font-bold text-white text-sm">Retorno Garantido</h5>
-                    <p className="text-slate-400 text-xs">Análise técnica com retorno ágil via e-mail ou WhatsApp informado.</p>
+                    <h5 className="font-bold text-slate-900 text-sm">Retorno Garantido</h5>
+                    <p className="text-slate-600 text-xs">Análise técnica com retorno ágil via e-mail ou WhatsApp informado.</p>
                   </div>
                 </div>
               </div>
@@ -394,23 +394,23 @@ export default function App() {
 
             {/* Coluna Direita: O Painel do Formulário Interativo */}
             <div className="lg:w-7/12 w-full">
-              <div className="bg-slate-900/85 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl backdrop-blur-md relative min-h-[400px] flex flex-col justify-center">
+              <div className="bg-slate-50 border border-slate-100 rounded-3xl p-6 md:p-8 shadow-xl relative min-h-[400px] flex flex-col justify-center">
                 {/* Linha brilhante no topo do card */}
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
 
                 {formSubmitted ? (
                   <div className="text-center py-10 px-4 animate-in fade-in zoom-in-95 duration-500">
-                    <div className="bg-emerald-500/10 border border-emerald-500/30 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-emerald-400">
+                    <div className="bg-emerald-50 border border-emerald-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-emerald-600">
                       <CheckCircle2 size={40} className="animate-pulse" />
                     </div>
-                    <h4 className="text-2xl font-black text-white mb-4">Mensagem Enviada com Sucesso!</h4>
-                    <p className="text-slate-300 text-sm leading-relaxed max-w-md mx-auto mb-8 text-justify">
+                    <h4 className="text-2xl font-black text-slate-900 mb-4">Mensagem Enviada com Sucesso!</h4>
+                    <p className="text-slate-600 text-sm leading-relaxed max-w-md mx-auto mb-8 text-justify">
                       Agradecemos o seu contato. Suas informações e a descrição do caso foram enviadas com segurança diretamente ao e-mail do Dr. Fabio Saraiva.
                       <br /><br />
                       Analisaremos todos os detalhes da sua situação com o máximo de critério e entraremos em contato em breve através dos canais informados.
                     </p>
-                    <div className="border-t border-slate-800 pt-6">
-                      <p className="text-xs text-slate-400 mb-4">
+                    <div className="border-t border-slate-200 pt-6">
+                      <p className="text-xs text-slate-500 mb-4">
                         Deseja falar com um especialista por mensagem agora mesmo?
                       </p>
                       <a 
@@ -427,7 +427,7 @@ export default function App() {
                 ) : (
                   <form onSubmit={handleFormSubmit} className="space-y-4">
                     <div className="mb-2">
-                      <span className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
+                      <span className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
                         Selecione um exemplo rápido de problema para preencher a descrição:
                       </span>
                       <div className="flex flex-wrap gap-2">
@@ -441,8 +441,8 @@ export default function App() {
                             }}
                             className={`text-xs px-3 py-2 rounded-lg border transition-all font-semibold ${
                               caseDescription === preset.text 
-                                ? 'bg-amber-500 border-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20' 
-                                : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900'
+                                ? 'bg-amber-500 border-amber-500 text-white font-bold shadow-md shadow-amber-500/20' 
+                                : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-100'
                             }`}
                           >
                             {preset.label}
@@ -453,17 +453,17 @@ export default function App() {
 
                     {/* Campo de Nome Completo */}
                     <div className="relative">
-                      <label htmlFor="client-name" className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                      <label htmlFor="client-name" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                         Seu Nome Completo:
                       </label>
                       <div className="relative">
-                        <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500">
+                        <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                           <User size={18} />
                         </span>
                         <input
                           id="client-name"
                           type="text"
-                          className="w-full rounded-2xl bg-slate-950 border-slate-800 border pl-11 pr-4 py-3.5 text-slate-200 placeholder-slate-600 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all shadow-inner text-sm"
+                          className="w-full rounded-2xl bg-white border-slate-200 border pl-11 pr-4 py-3.5 text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all shadow-sm text-sm"
                           placeholder="Ex: Maria da Silva"
                           value={clientName}
                           onChange={(e) => setClientName(e.target.value)}
@@ -474,17 +474,17 @@ export default function App() {
                     {/* Grid de E-mail e Telefone */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="relative">
-                        <label htmlFor="client-email" className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                        <label htmlFor="client-email" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                           Seu E-mail de Contato:
                         </label>
                         <div className="relative">
-                          <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500">
+                          <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                             <Mail size={18} />
                           </span>
                           <input
                             id="client-email"
                             type="email"
-                            className="w-full rounded-2xl bg-slate-950 border-slate-800 border pl-11 pr-4 py-3.5 text-slate-200 placeholder-slate-600 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all shadow-inner text-sm"
+                            className="w-full rounded-2xl bg-white border-slate-200 border pl-11 pr-4 py-3.5 text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all shadow-sm text-sm"
                             placeholder="Ex: maria@exemplo.com"
                             value={clientEmail}
                             onChange={(e) => setClientEmail(e.target.value)}
@@ -493,17 +493,17 @@ export default function App() {
                       </div>
                       
                       <div className="relative">
-                        <label htmlFor="client-phone" className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                        <label htmlFor="client-phone" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                           Seu WhatsApp / Telefone (com DDD):
                         </label>
                         <div className="relative">
-                          <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500">
+                          <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                             <Phone size={18} />
                           </span>
                           <input
                             id="client-phone"
                             type="tel"
-                            className="w-full rounded-2xl bg-slate-950 border-slate-800 border pl-11 pr-4 py-3.5 text-slate-200 placeholder-slate-600 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all shadow-inner text-sm"
+                            className="w-full rounded-2xl bg-white border-slate-200 border pl-11 pr-4 py-3.5 text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all shadow-sm text-sm"
                             placeholder="Ex: (11) 99999-9999"
                             value={clientPhone}
                             onChange={(e) => setClientPhone(e.target.value)}
@@ -514,26 +514,26 @@ export default function App() {
 
                     {/* Descrição do Caso */}
                     <div className="relative">
-                      <label htmlFor="case-description" className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                      <label htmlFor="case-description" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                         Conte-me sobre o seu caso:
                       </label>
                       <textarea
                         id="case-description"
                         rows={4}
-                        className="w-full rounded-2xl bg-slate-950 border-slate-800 border p-4 text-slate-200 placeholder-slate-600 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all resize-none shadow-inner text-sm leading-relaxed"
+                        className="w-full rounded-2xl bg-white border-slate-200 border p-4 text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all resize-none shadow-sm text-sm leading-relaxed"
                         placeholder="Descreva aqui o ocorrido com o máximo de detalhes possível (ex: recusa de cobertura de cirurgia, reajuste abusivo, medicamento de alto custo...)"
                         value={caseDescription}
                         onChange={(e) => setCaseDescription(e.target.value)}
                       ></textarea>
                     </div>
 
-                    {formError && <p className="text-red-400 text-xs mt-2 flex items-center gap-1 font-semibold">⚠️ {formError}</p>}
+                    {formError && <p className="text-red-500 text-xs mt-2 flex items-center gap-1 font-semibold">⚠️ {formError}</p>}
                     
                     <div className="mt-5 flex justify-end">
                       <button 
                         type="submit"
                         disabled={isSubmitting || !caseDescription.trim() || !clientName.trim() || !clientEmail.trim()} 
-                        className="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 disabled:bg-slate-800 disabled:text-slate-600 text-slate-950 px-8 py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/10 cursor-pointer"
+                        className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 disabled:bg-slate-100 disabled:text-slate-400 text-slate-900 px-8 py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/10 cursor-pointer"
                       >
                         {isSubmitting ? (
                           <>
