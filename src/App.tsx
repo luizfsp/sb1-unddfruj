@@ -396,7 +396,7 @@ export default function App() {
             <div className="lg:w-7/12 w-full">
               <div className="bg-slate-50 border border-slate-100 rounded-3xl p-6 md:p-8 shadow-xl relative min-h-[400px] flex flex-col justify-center">
                 {/* Linha brilhante no topo do card */}
-                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-sky-500 to-transparent"></div>
 
                 {formSubmitted ? (
                   <div className="text-center py-10 px-4 animate-in fade-in zoom-in-95 duration-500">
