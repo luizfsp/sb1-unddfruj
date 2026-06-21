@@ -10,7 +10,6 @@ import {
   Clock,
   Award, 
   CheckCircle2,
-  Sparkles,
   Loader2,
   Send,
   Newspaper,
@@ -19,7 +18,8 @@ import {
   Calendar,
   ExternalLink,
   Star,
-  Quote
+  Quote,
+  User
 } from 'lucide-react';
 
 // Interface para definir a estrutura dos itens de notícias
@@ -32,11 +32,13 @@ interface NewsItem {
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [clientName, setClientName] = useState("");
+  const [clientEmail, setClientEmail] = useState("");
+  const [clientPhone, setClientPhone] = useState("");
   const [caseDescription, setCaseDescription] = useState("");
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [aiAnalysis, setAiAnalysis] = useState<string | null>(null);
-  const [whatsappSummary, setWhatsappSummary] = useState("");
-  const [aiError, setAiError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formError, setFormError] = useState("");
   
   // Estado para o Feed de Notícias
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -133,89 +135,54 @@ export default function App() {
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=Ol%C3%A1,%20gostaria%20de%20uma%20orienta%C3%A7%C3%A3o%20jur%C3%ADdica%20na%20%C3%A1rea%20da%20sa%C3%BAde.`;
   const whatsappLinkUrgency = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("URGÊNCIA: Olá! Preciso de um atendimento de urgência referente a Direito da Saúde. Poderiam me ajudar imediatamente?")}`;
 
-  const analyzeCaseWithAI = async () => {
+  const handleFormSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+
+    if (!clientName.trim()) {
+      setFormError("Por favor, preencha o seu nome completo.");
+      return;
+    }
+    if (!clientEmail.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientEmail.trim())) {
+      setFormError("Por favor, preencha um e-mail de contato válido.");
+      return;
+    }
     if (!caseDescription.trim()) {
-      setAiError("Por favor, descreva o seu caso brevemente.");
+      setFormError("Por favor, descreva o seu caso brevemente.");
       return;
     }
 
-    setIsAnalyzing(true);
-    setAiError("");
-    setAiAnalysis(null);
-    setWhatsappSummary("");
-
-    let apiKey = "";
-    try {
-      // @ts-ignore
-      if (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_GEMINI_API_KEY) {
-        // @ts-ignore
-        apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-      }
-    } catch (e) {}
-    
-    const systemPrompt = `Você é um assistente jurídico virtual (IA) do escritório 'Saraiva & Advogados', especializado em Direito da Saúde no Brasil. 
-    Analise o relato do usuário e forneça:
-    1. Uma breve avaliação (1 parágrafo) indicando se parece haver uma violação de direitos (ex: abusividade do plano e indícios de erro médico).
-    2. A recomendação clara de que um advogado especialista deve avaliar os documentos (laudos, negativas) para confirmar a viabilidade de uma liminar (Tutela de Urgência).
-    3. OBRIGATORIAMENTE, separe a última parte do seu texto com a palavra-chave exata "RESUMO_WHATSAPP:" (em maiúsculas e com dois pontos). Logo após essa palavra-chave, escreva apenas o 'Resumo Estruturado' final em tópicos (Problema, Documentos, Ação Necessária) que o cliente enviará ao advogado.
-    Seja empático, acolhedor, profissional e transmita urgência. NÃO dê garantias de causa ganha. Formate o texto usando quebras de linha e **negrito** (apenas isso, sem listas complexas).`;
-
-    const prompt = `Relato do paciente/cliente: ${caseDescription}`;
-
-    const fetchWithRetry = async (url: string, options: RequestInit, retries = 5, delay = 1000): Promise<any> => {
-      for (let i = 0; i < retries; i++) {
-        try {
-          const response = await fetch(url, options);
-          
-          if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(`HTTP ${response.status}: ${errorData?.error?.message || response.statusText}`);
-          }
-          return await response.json();
-        } catch (e: any) {
-          if (i === retries - 1) throw e;
-          await new Promise(res => setTimeout(res, delay * Math.pow(2, i)));
-        }
-      }
-    };
+    setIsSubmitting(true);
+    setFormError("");
 
     try {
-      const modelName = apiKey ? "gemini-2.5-flash" : "gemini-2.5-flash-preview-09-2025";
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
-      const result = await fetchWithRetry(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          systemInstruction: { parts: [{ text: systemPrompt }] }
+          access_key: "aff42f13-87de-4a1d-8979-4a2a108b4433",
+          name: clientName,
+          email: clientEmail,
+          phone: clientPhone || "Não informado",
+          message: caseDescription,
+          subject: `Novo Contato Jurídico - ${clientName}`,
+          from_name: "Site Saraiva & Advogados",
         })
       });
 
-      const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (text) {
-        if (text.includes("RESUMO_WHATSAPP:")) {
-          const parts = text.split("RESUMO_WHATSAPP:");
-          setAiAnalysis(parts[0].trim() + "\n\n**Resumo Estruturado para o WhatsApp:**\n" + parts[1].trim());
-          setWhatsappSummary(parts[1].trim());
-        } else {
-          setAiAnalysis(text);
-          setWhatsappSummary(text);
-        }
+      const result = await response.json();
+      if (result.success) {
+        setFormSubmitted(true);
       } else {
-        setAiError("Não foi possível gerar a análise. Tente novamente.");
+        setFormError(result.message || "Ocorreu um erro ao enviar a sua mensagem. Tente novamente.");
       }
     } catch (error: any) {
-      setAiError(`Erro de conexão: ${error.message}`);
+      setFormError(`Erro de conexão ao enviar: ${error.message || "Verifique sua conexão e tente novamente."}`);
     } finally {
-      setIsAnalyzing(false);
+      setIsSubmitting(false);
     }
-  };
-
-  const formatAIResponse = (text: string) => {
-    const formattedText = text
-      .replace(/\*\*(.*?)\*\*/g, '<strong class="text-slate-900">$1</strong>')
-      .replace(/\n/g, '<br />');
-    return { __html: formattedText };
   };
 
   return (
@@ -236,7 +203,7 @@ export default function App() {
 
           <nav className="hidden md:flex gap-8 items-center">
             <a href="#solucoes" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Áreas de Atuação</a>
-            <a href="#analisador-ia" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Análise com IA</a>
+            <a href="#contato-formulario" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Fale Conosco</a>
             <a href="#sobre" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Nossos Especialistas</a>
             <a href="#depoimentos" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Depoimentos</a>
             <a href="#faq" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Dúvidas</a>
@@ -274,12 +241,12 @@ export default function App() {
                 Advocacia especializada na atuação contra Operadoras de Planos de Saúde. Atuamos com rapidez para garantir o seu direito à saúde e à vida com pedido de liminares de urgência em casos de negativas abusivas e ilegais.
               </p>
               
-              {/* ÁREA DE BOTÕES DO INÍCIO (ATUALIZADA COM O NOVO BOTÃO DE ANÁLISE COM IA EM DESTAQUE) */}
+              {/* ÁREA DE BOTÕES DO INÍCIO */}
               <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 justify-center md:justify-start items-stretch sm:items-center">
-                {/* Botão de Destaque: Pré-Análise com IA */}
-                <a href="#analisador-ia" className="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 px-8 py-4 rounded-lg font-black text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:-translate-y-1">
-                  <Sparkles size={20} className="animate-pulse" />
-                  Análise Gratuita com IA
+                {/* Botão de Destaque: Enviar Caso por E-mail */}
+                <a href="#contato-formulario" className="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 px-8 py-4 rounded-lg font-black text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:-translate-y-1">
+                  <Mail size={20} />
+                  Enviar Caso por E-mail
                 </a>
                 
                 {/* Falar com Especialista (WhatsApp) */}
@@ -378,8 +345,8 @@ export default function App() {
         </div>
       </section>
 
-      {/* SECÇÃO DO ANALISADOR DE IA (POSIÇÃO DE DESTAQUE PREMIUM LOGO ABAIXO DAS ESPECIALIDADES) */}
-      <section id="analisador-ia" className="py-24 bg-gradient-to-b from-slate-900 via-blue-950 to-slate-950 text-white relative overflow-hidden">
+      {/* SECÇÃO DO FORMULÁRIO DE CONTATO DIRETO POR E-MAIL */}
+      <section id="contato-formulario" className="py-24 bg-gradient-to-b from-slate-900 via-blue-950 to-slate-950 text-white relative overflow-hidden">
         {/* Elementos decorativos de luz e fundo */}
         <div className="absolute inset-0 opacity-30 pointer-events-none">
           <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] bg-amber-500/10 rounded-full filter blur-3xl"></div>
@@ -392,15 +359,15 @@ export default function App() {
             
             {/* Coluna Esquerda: Texto de Enquadramento e Proposta de Valor */}
             <div className="lg:w-5/12 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 px-4 py-2 rounded-full mb-6 backdrop-blur-sm animate-pulse text-xs font-bold uppercase tracking-wider">
-                <Sparkles size={16} />
-                Sistema Ativo de Pré-Avaliação
+              <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 px-4 py-2 rounded-full mb-6 backdrop-blur-sm text-xs font-bold uppercase tracking-wider">
+                <Mail size={16} />
+                Atendimento Rápido e Seguro
               </div>
               <h3 className="text-3xl md:text-5xl font-extrabold text-white leading-tight mb-6">
-                Descubra os seus direitos <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">em segundos.</span>
+                Fale com um <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">especialista.</span>
               </h3>
               <p className="text-slate-300 text-base md:text-lg mb-8 leading-relaxed text-justify">
-                Utilize a nossa tecnologia exclusiva baseada em Inteligência Artificial para obter um parecer preliminar instantâneo sobre a sua situação. 
+                Preencha o formulário para enviar os detalhes da sua situação diretamente ao e-mail do Dr. Fabio Saraiva. Avaliaremos o seu relato de forma cuidadosa e ágil para retornar o contato.
               </p>
               
               <div className="space-y-4 hidden lg:block">
@@ -410,7 +377,7 @@ export default function App() {
                   </div>
                   <div>
                     <h5 className="font-bold text-white text-sm">Privacidade Total</h5>
-                    <p className="text-slate-400 text-xs">Os seus dados são encriptados de ponta a ponta.</p>
+                    <p className="text-slate-400 text-xs">Os seus dados são protegidos e tratados sob rigoroso sigilo profissional.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -418,8 +385,8 @@ export default function App() {
                     <CheckCircle2 size={18} />
                   </div>
                   <div>
-                    <h5 className="font-bold text-white text-sm">Integração Direta</h5>
-                    <p className="text-slate-400 text-xs">O resultado gera um resumo estruturado para os nossos advogados no WhatsApp.</p>
+                    <h5 className="font-bold text-white text-sm">Retorno Garantido</h5>
+                    <p className="text-slate-400 text-xs">Análise técnica com retorno ágil via e-mail ou WhatsApp informado.</p>
                   </div>
                 </div>
               </div>
@@ -427,98 +394,161 @@ export default function App() {
 
             {/* Coluna Direita: O Painel do Formulário Interativo */}
             <div className="lg:w-7/12 w-full">
-              <div className="bg-slate-900/85 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl backdrop-blur-md relative">
+              <div className="bg-slate-900/85 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl backdrop-blur-md relative min-h-[400px] flex flex-col justify-center">
                 {/* Linha brilhante no topo do card */}
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
 
-                <div className="mb-6">
-                  <span className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
-                    Selecione um exemplo rápido de problema ou digite abaixo:
-                  </span>
-                  <div className="flex flex-wrap gap-2">
-                    {presetCases.map((preset, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => {
-                          setCaseDescription(preset.text);
-                          setAiAnalysis(null);
-                          setAiError("");
-                        }}
-                        className={`text-xs px-3 py-2 rounded-lg border transition-all font-semibold ${
-                          caseDescription === preset.text 
-                            ? 'bg-amber-500 border-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20' 
-                            : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900'
-                        }`}
-                      >
-                        {preset.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="relative">
-                  <label htmlFor="case-description" className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                    Descreva o seu caso com detalhe:
-                  </label>
-                  <textarea
-                    id="case-description"
-                    rows={5}
-                    className="w-full rounded-2xl bg-slate-950 border-slate-800 border p-4 text-slate-200 placeholder-slate-600 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all resize-none shadow-inner text-sm leading-relaxed"
-                    placeholder="O meu plano de saúde recusou cobrir o meu tratamento assistencial especializado urgente..."
-                    value={caseDescription}
-                    onChange={(e) => setCaseDescription(e.target.value)}
-                  ></textarea>
-                </div>
-
-                {aiError && <p className="text-red-400 text-xs mt-3 flex items-center gap-1 font-semibold">⚠️ {aiError}</p>}
-                
-                <div className="mt-5 flex justify-end">
-                  <button 
-                    onClick={analyzeCaseWithAI} 
-                    disabled={isAnalyzing || !caseDescription.trim()} 
-                    className="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 disabled:bg-slate-800 disabled:text-slate-600 text-slate-950 px-8 py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/10 cursor-pointer"
-                  >
-                    {isAnalyzing ? (
-                      <>
-                        <Loader2 className="animate-spin" size={18} />
-                        Analisando a sua situação...
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles size={18} />
-                        Analisar Caso Instantaneamente
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                {/* Bloco de Resposta Gerada por Inteligência Artificial */}
-                {aiAnalysis && (
-                  <div className="mt-8 pt-6 border-t border-slate-800 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <h4 className="text-base font-bold text-amber-400 mb-4 flex items-center gap-2">
-                      <CheckCircle2 className="text-emerald-400" size={20} />
-                      Orientação Preliminar Gerada:
-                    </h4>
-                    <div 
-                      className="bg-slate-950 p-6 rounded-2xl border border-slate-800 text-slate-300 leading-relaxed text-sm shadow-md"
-                      dangerouslySetInnerHTML={formatAIResponse(aiAnalysis)}
-                    />
-                    
-                    <div className="mt-6 flex flex-col sm:flex-row gap-4 items-center justify-between bg-blue-950/40 p-4 rounded-2xl border border-blue-900/30">
-                      <p className="text-xs text-blue-300 font-medium text-center sm:text-left mb-2 sm:mb-0">
-                        O parecer gerou um resumo pronto para envio no WhatsApp.
+                {formSubmitted ? (
+                  <div className="text-center py-10 px-4 animate-in fade-in zoom-in-95 duration-500">
+                    <div className="bg-emerald-500/10 border border-emerald-500/30 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-emerald-400">
+                      <CheckCircle2 size={40} className="animate-pulse" />
+                    </div>
+                    <h4 className="text-2xl font-black text-white mb-4">Mensagem Enviada com Sucesso!</h4>
+                    <p className="text-slate-300 text-sm leading-relaxed max-w-md mx-auto mb-8 text-justify">
+                      Agradecemos o seu contato. Suas informações e a descrição do caso foram enviadas com segurança diretamente ao e-mail do Dr. Fabio Saraiva.
+                      <br /><br />
+                      Analisaremos todos os detalhes da sua situação com o máximo de critério e entraremos em contato em breve através dos canais informados.
+                    </p>
+                    <div className="border-t border-slate-800 pt-6">
+                      <p className="text-xs text-slate-400 mb-4">
+                        Deseja falar com um especialista por mensagem agora mesmo?
                       </p>
                       <a 
-                        href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Olá! Fiz a pré-análise do meu caso no site através da IA. Segue o resumo estruturado:\n\n")}${encodeURIComponent(whatsappSummary)}`} 
+                        href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Olá! Sou ${clientName}. Enviei os detalhes do meu caso pelo formulário do site e gostaria de um retorno.`)}`} 
                         target="_blank" 
                         rel="noreferrer" 
-                        className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20bd5a] text-white px-6 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-transform hover:scale-105 shadow-md whitespace-nowrap"
+                        className="inline-flex bg-[#25D366] hover:bg-[#20bd5a] text-white px-8 py-4 rounded-xl font-bold text-sm items-center justify-center gap-2 transition-transform hover:scale-105 shadow-md"
                       >
-                        <Send size={16} />
-                        Enviar Resumo ao Especialista
+                        <img src="/whatsapp_PNG20.png" alt="WhatsApp" className="w-5 h-5 object-contain" />
+                        Falar no WhatsApp Agora
                       </a>
                     </div>
                   </div>
+                ) : (
+                  <form onSubmit={handleFormSubmit} className="space-y-4">
+                    <div className="mb-2">
+                      <span className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
+                        Selecione um exemplo rápido de problema para preencher a descrição:
+                      </span>
+                      <div className="flex flex-wrap gap-2">
+                        {presetCases.map((preset, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => {
+                              setCaseDescription(preset.text);
+                              setFormError("");
+                            }}
+                            className={`text-xs px-3 py-2 rounded-lg border transition-all font-semibold ${
+                              caseDescription === preset.text 
+                                ? 'bg-amber-500 border-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20' 
+                                : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900'
+                            }`}
+                          >
+                            {preset.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Campo de Nome Completo */}
+                    <div className="relative">
+                      <label htmlFor="client-name" className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                        Seu Nome Completo:
+                      </label>
+                      <div className="relative">
+                        <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500">
+                          <User size={18} />
+                        </span>
+                        <input
+                          id="client-name"
+                          type="text"
+                          className="w-full rounded-2xl bg-slate-950 border-slate-800 border pl-11 pr-4 py-3.5 text-slate-200 placeholder-slate-600 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all shadow-inner text-sm"
+                          placeholder="Ex: Maria da Silva"
+                          value={clientName}
+                          onChange={(e) => setClientName(e.target.value)}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Grid de E-mail e Telefone */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="relative">
+                        <label htmlFor="client-email" className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                          Seu E-mail de Contato:
+                        </label>
+                        <div className="relative">
+                          <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500">
+                            <Mail size={18} />
+                          </span>
+                          <input
+                            id="client-email"
+                            type="email"
+                            className="w-full rounded-2xl bg-slate-950 border-slate-800 border pl-11 pr-4 py-3.5 text-slate-200 placeholder-slate-600 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all shadow-inner text-sm"
+                            placeholder="Ex: maria@exemplo.com"
+                            value={clientEmail}
+                            onChange={(e) => setClientEmail(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="relative">
+                        <label htmlFor="client-phone" className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                          Seu WhatsApp / Telefone (com DDD):
+                        </label>
+                        <div className="relative">
+                          <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500">
+                            <Phone size={18} />
+                          </span>
+                          <input
+                            id="client-phone"
+                            type="tel"
+                            className="w-full rounded-2xl bg-slate-950 border-slate-800 border pl-11 pr-4 py-3.5 text-slate-200 placeholder-slate-600 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all shadow-inner text-sm"
+                            placeholder="Ex: (11) 99999-9999"
+                            value={clientPhone}
+                            onChange={(e) => setClientPhone(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Descrição do Caso */}
+                    <div className="relative">
+                      <label htmlFor="case-description" className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                        Conte-me sobre o seu caso:
+                      </label>
+                      <textarea
+                        id="case-description"
+                        rows={4}
+                        className="w-full rounded-2xl bg-slate-950 border-slate-800 border p-4 text-slate-200 placeholder-slate-600 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all resize-none shadow-inner text-sm leading-relaxed"
+                        placeholder="Descreva aqui o ocorrido com o máximo de detalhes possível (ex: recusa de cobertura de cirurgia, reajuste abusivo, medicamento de alto custo...)"
+                        value={caseDescription}
+                        onChange={(e) => setCaseDescription(e.target.value)}
+                      ></textarea>
+                    </div>
+
+                    {formError && <p className="text-red-400 text-xs mt-2 flex items-center gap-1 font-semibold">⚠️ {formError}</p>}
+                    
+                    <div className="mt-5 flex justify-end">
+                      <button 
+                        type="submit"
+                        disabled={isSubmitting || !caseDescription.trim() || !clientName.trim() || !clientEmail.trim()} 
+                        className="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 disabled:bg-slate-800 disabled:text-slate-600 text-slate-950 px-8 py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/10 cursor-pointer"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="animate-spin" size={18} />
+                            Enviando sua mensagem...
+                          </>
+                        ) : (
+                          <>
+                            <Send size={18} />
+                            Enviar Formulário por E-mail
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
                 )}
               </div>
             </div>
