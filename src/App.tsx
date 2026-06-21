@@ -520,7 +520,7 @@ export default function App() {
                       <textarea
                         id="case-description"
                         rows={4}
-                        className="w-full rounded-2xl bg-white border-slate-200 border p-4 text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all resize-none shadow-sm text-sm leading-relaxed"
+                        className="w-full rounded-2xl bg-white border-slate-200 border p-4 text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition-all resize-none shadow-sm text-sm leading-relaxed"
                         placeholder="Descreva aqui o ocorrido com o máximo de detalhes possível (ex: recusa de cobertura de cirurgia, reajuste abusivo, medicamento de alto custo...)"
                         value={caseDescription}
                         onChange={(e) => setCaseDescription(e.target.value)}
@@ -533,7 +533,7 @@ export default function App() {
                       <button 
                         type="submit"
                         disabled={isSubmitting || !caseDescription.trim() || !clientName.trim() || !clientEmail.trim()} 
-                        className="w-full sm:w-auto bg-sky-700 hover:bg-amber-600 disabled:bg-slate-100 disabled:text-slate-400 text-slate-900 px-8 py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/10 cursor-pointer"
+                        className="w-full sm:w-auto bg-sky-700 hover:bg-amber-600 disabled:bg-slate-100 disabled:text-slate-400 text-slate-900 px-8 py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shadow-lg shadow-sky-500/10 cursor-pointer"
                       >
                         {isSubmitting ? (
                           <>
