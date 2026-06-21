@@ -441,7 +441,7 @@ export default function App() {
                             }}
                             className={`text-xs px-3 py-2 rounded-lg border transition-all font-semibold ${
                               caseDescription === preset.text 
-                                ? 'bg-sky-700 border-sky-700 text-white font-bold shadow-md shadow-amber-500/20' 
+                                ? 'bg-sky-700 border-sky-700 text-white font-bold shadow-md shadow-sky-500/20' 
                                 : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-100'
                             }`}
                           >
