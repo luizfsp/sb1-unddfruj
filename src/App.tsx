@@ -413,7 +413,7 @@ export default function App() {
                 Fale com um <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-700 to-sky-800">especialista.</span>
               </h3>
               <p className="text-slate-600 text-base md:text-lg mb-8 leading-relaxed text-justify">
-                Preencha o formulário para enviar os detalhes da sua situação diretamente ao e-mail do Dr. Fabio Saraiva. Avaliaremos o seu relato de forma cuidadosa e ágil para retornar o contato.
+                Preencha o formulário para enviar os detalhes da sua situação diretamente ao e-mail da equipe do Dr. Fabio Saraiva. Avaliaremos o seu relato de forma cuidadosa e ágil para retornar o contato.
               </p>
               
               <div className="space-y-4 hidden lg:block">
@@ -451,7 +451,7 @@ export default function App() {
                     </div>
                     <h4 className="text-2xl font-black text-slate-900 mb-4">Mensagem Enviada com Sucesso!</h4>
                     <p className="text-slate-600 text-sm leading-relaxed max-w-md mx-auto mb-8 text-justify">
-                      Agradecemos o seu contato. Suas informações e a descrição do caso foram enviadas com segurança diretamente ao e-mail do Dr. Fabio Saraiva.
+                      Agradecemos o seu contato. Suas informações e a descrição do caso foram enviadas com segurança diretamente ao e-mail da equipe do Dr. Fabio Saraiva.
                       <br /><br />
                       Analisaremos todos os detalhes da sua situação com o máximo de critério e entraremos em contato em breve através dos canais informados.
                     </p>
@@ -598,7 +598,7 @@ export default function App() {
                 <p>Somos uma advocacia especializada no Direito da Saúde.</p>
                 <p>Atuamos com ética e sensibilidade no atendimento, buscando garantir os seus direitos sempre com amparo na lei.</p>
                 <p>
-                  Com mais de 25 anos de sólida experiência, o <strong>Dr. Fabio Saraiva</strong> é membro efetivo das Comissões Especiais de Direito Médico e de Saúde, Direito do Seguro e Resseguro e de Defesa do Consumidor da Ordem dos Advogados do Brasil - São Paulo. Fundou o escritório com um propósito claro: entregar um atendimento humanizado, ético e assertivo na defesa dos interesses dos seus clientes, especialmente em uma área que requer a atuação de profissionais altamente especializados e qualificados para enfrentar as gigantes da área da saúde suplementar no Brasil.
+                  Com mais de 25 anos de sólida experiência, nosso escritório é liderado pelo <strong>Dr. Fabio Saraiva</strong>, membro efetivo das <u>Comissões Especiais de Direito Médico e de Saúde</u>, <u>Defesa do Consumidor</u> e <u>Direito do Seguro e Resseguro da Ordem dos Advogados do Brasil - São Paulo</u>. Fundou o escritório com um propósito claro: entregar um atendimento humanizado, ético e assertivo na defesa dos interesses dos seus clientes, especialmente em uma área que requer a atuação de profissionais altamente especializados e qualificados para enfrentar as gigantes da área da saúde suplementar no Brasil.
                 </p>
                 <p>No Direito da Saúde, sabemos que a experiência e o rigor técnico precisam andar juntos. Um processo promovido contra grandes operadoras exige uma advocacia artesanal, onde cada laudo médico e cada vírgula importam.</p>
                 <p>Nossa missão é ser o seu escudo jurídico. Protegemos famílias contra as práticas abusivas das operadoras de planos de saúde, de modo a assegurar o respeito e a dignidade dos pacientes no momento em que mais precisam, assim como defendemos os interesses dos profissionais da área médica perante ao órgão de classe e ações indenizatória de responsabilidade civil decorrente de alegação de erro médico.</p>
