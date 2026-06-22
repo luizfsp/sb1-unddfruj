@@ -189,7 +189,7 @@ export default function App() {
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 scroll-smooth">
       
       {/* HEADER */}
-      <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-3' : 'bg-slate-900/95 backdrop-blur-sm py-5'}`}>
+      <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-3' : 'bg-blue-950/90 backdrop-blur-sm py-5'}`}>
         <div className="container mx-auto px-4 md:px-8 flex justify-between items-center">
           
           <a href="#" className="flex items-center">
@@ -214,10 +214,10 @@ export default function App() {
       </header>
 
       {/* HERO SECTION */}
-      <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 bg-slate-900 overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl"></div>
-          <div className="absolute top-48 -left-24 w-72 h-72 bg-emerald-600 rounded-full mix-blend-multiply filter blur-3xl"></div>
+      <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 bg-blue-950 overflow-hidden">
+        <div className="absolute inset-0 opacity-25">
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-sky-600/30 rounded-full filter blur-3xl"></div>
+          <div className="absolute top-48 -left-24 w-72 h-72 bg-blue-500/20 rounded-full filter blur-3xl"></div>
         </div>
 
         <div className="container mx-auto px-4 md:px-8 relative z-10">
@@ -233,7 +233,7 @@ export default function App() {
                 </span>
               </div>
               <h2 className="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-6">
-                A sua saúde <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">não pode esperar.</span><br />
+                A sua saúde <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-200 to-sky-400">não pode esperar.</span><br />
                 
               </h2>
               <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl leading-relaxed text-justify">
