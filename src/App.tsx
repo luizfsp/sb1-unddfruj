@@ -564,7 +564,7 @@ export default function App() {
                         ) : (
                           <>
                             <Send size={18} />
-                            Enviar Formulário por E-mail
+                            Enviar Formulário
                           </>
                         )}
                       </button>
