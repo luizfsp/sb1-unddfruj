@@ -16,7 +16,6 @@ import {
   Calendar,
   ExternalLink,
   Star,
-  Quote,
   User,
   FileCheck,
   Scale,
@@ -129,6 +128,7 @@ export default function App() {
   const whatsappNumber = "5511962817392";
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=Ol%C3%A1,%20gostaria%20de%20uma%20orienta%C3%A7%C3%A3o%20jur%C3%ADdica%20na%20%C3%A1rea%20da%20sa%C3%BAde.`;
   const whatsappLinkUrgency = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("URGÊNCIA: Olá! Preciso de um atendimento de urgência referente a Direito da Saúde. Poderiam me ajudar imediatamente?")}`;
+  const googleMapsLink = "https://www.google.com/maps/place/Saraiva+%26+Advogados+Associados/@-14.4095261,-51.31668,4z/data=!3m1!4b1!4m6!3m5!1s0x94ce5bbc948bf5c1:0xe06e22bfbf9da60e!8m2!3d-14.4095262!4d-51.31668!16s%2Fg%2F11nq0_hg79?entry=ttu&g_ep=EgoyMDI2MDYxNi4wIKXMDSoASAFQAw%3D%3D";
 
   const handleFormSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -663,33 +663,202 @@ export default function App() {
         </div>
       </section>
 
-      {/* DEPOIMENTOS */}
+      {/* DEPOIMENTOS (GOOGLE REVIEWS) */}
       <section id="depoimentos" className="py-24 bg-slate-50 border-t border-slate-200">
         <div className="container mx-auto px-4 md:px-8">
+          
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Histórias de Sucesso</h2>
-            <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">O que dizem os nossos clientes</h3>
+            <div className="inline-flex items-center gap-2 bg-white border border-slate-200 px-4 py-2 rounded-full mb-6 shadow-sm">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
+              </svg>
+              <span className="text-xs font-bold text-slate-700">
+                Avaliações de Clientes no Google Maps
+              </span>
+            </div>
+            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Casos de Sucesso</h2>
+            <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">O que dizem os nossos clientes</h3>
+            <div className="flex items-center justify-center gap-2 mb-6">
+              <span className="text-lg font-black text-slate-950">5.0</span>
+              <div className="flex gap-0.5">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <Star key={s} className="text-amber-400 fill-amber-400 w-5 h-5" />
+                ))}
+              </div>
+              <span className="text-slate-500 text-sm">(Nota máxima baseada em avaliações reais)</span>
+            </div>
           </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-2xl p-8 shadow-sm border relative mt-6 hover:shadow-lg transition-all">
-              <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg text-white"><Quote size={20} /></div>
-              <div className="flex gap-1 mb-4 mt-2">{[1,2,3,4,5].map(s => <Star key={s} className="text-amber-400 fill-amber-400" size={16} />)}</div>
-              <p className="text-slate-600 text-sm italic mb-6">"O Dr. Fabio foi um anjo. Conseguiu a liminar para a cirurgia da minha mãe em menos de 48 horas. Atendimento humano e rápido."</p>
-              <div className="border-t pt-4 font-bold text-slate-900 text-sm">Maria Fernandes</div>
+            {/* Card 1: Nilcemara Moliterno */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center font-bold text-slate-700 text-lg">
+                      N
+                    </div>
+                    <div>
+                      <h4 className="font-extrabold text-slate-900 text-sm">Nilcemara Moliterno</h4>
+                      <p className="text-xs text-slate-500">6 avaliações</p>
+                    </div>
+                  </div>
+                  <div className="text-slate-400">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
+                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="flex gap-0.5">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <Star key={s} className="text-amber-400 fill-amber-400 w-4 h-4" />
+                    ))}
+                  </div>
+                  <span className="text-slate-400 text-xs">• Há 3 dias</span>
+                  <span className="bg-blue-50 text-blue-700 border border-blue-100 text-[10px] px-1.5 py-0.5 rounded font-black uppercase tracking-wider scale-90">Novo</span>
+                </div>
+
+                <p className="text-slate-600 text-sm leading-relaxed text-justify mb-6 whitespace-pre-line">
+                  "Excelente trabalho!
+                  Gostaria de agradecer imensamente a toda a equipe do escritório pelo profissionalismo e dedicação. Eles cuidaram de um processo meu delicado e o resultado foi um verdadeiro sucesso.
+                  São profissionais extremamente experientes, ágeis e empáticos em cada etapa do processo. Passaram muita segurança em um momento difícil. Recomendo de olhos fechados!"
+                </p>
+              </div>
+              
+              <div className="border-t border-slate-100 pt-4 flex justify-between items-center text-xs">
+                <span className="text-slate-400 font-medium">Avaliação Verificada</span>
+                <a href={googleMapsLink} target="_blank" rel="noreferrer" className="text-blue-600 hover:text-blue-800 font-bold flex items-center gap-1">
+                  Ver no Google <ExternalLink size={14} />
+                </a>
+              </div>
             </div>
-            <div className="bg-white rounded-2xl p-8 shadow-sm border relative mt-6 hover:shadow-lg transition-all">
-              <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg text-white"><Quote size={20} /></div>
-              <div className="flex gap-1 mb-4 mt-2">{[1,2,3,4,5].map(s => <Star key={s} className="text-amber-400 fill-amber-400" size={16} />)}</div>
-              <p className="text-slate-600 text-sm italic mb-6">"A equipe assumiu meu caso de medicamento de alto custo e conseguiu a liberação judicial em tempo recorde. Trabalho excepcional!"</p>
-              <div className="border-t pt-4 font-bold text-slate-900 text-sm">Carlos Eduardo Silva</div>
+
+            {/* Card 2: Marcela Torres */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-slate-500 border border-slate-600 flex items-center justify-center font-bold text-white text-lg relative">
+                      M
+                      <span className="absolute -bottom-1 -right-1 bg-amber-500 text-white rounded-full p-0.5 border border-white">
+                        <Star size={10} className="fill-white text-white" />
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="font-extrabold text-slate-900 text-sm">Marcela Torres</h4>
+                      <p className="text-xs text-slate-500">Local Guide • 44 avaliações</p>
+                    </div>
+                  </div>
+                  <div className="text-slate-400">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
+                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="flex gap-0.5">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <Star key={s} className="text-amber-400 fill-amber-400 w-4 h-4" />
+                    ))}
+                  </div>
+                  <span className="text-slate-400 text-xs">• Há 1 semana</span>
+                  <span className="bg-blue-50 text-blue-700 border border-blue-100 text-[10px] px-1.5 py-0.5 rounded font-black uppercase tracking-wider scale-90">Novo</span>
+                </div>
+
+                <p className="text-slate-600 text-sm leading-relaxed text-justify mb-6 whitespace-pre-line">
+                  "Todo o trabalho do Dr. Fabio e sua equipe do escritório Saraiva & Advogados, é embasado no que há de mais atual, sempre muito solícitos, resolutivos e empenhados em auxiliar e orientar técnica e verdadeiramente em seus casos.
+                  Obrigada pelo trabalho!"
+                </p>
+              </div>
+              
+              <div className="border-t border-slate-100 pt-4 flex justify-between items-center text-xs">
+                <span className="text-slate-400 font-medium">Avaliação Verificada</span>
+                <a href={googleMapsLink} target="_blank" rel="noreferrer" className="text-blue-600 hover:text-blue-800 font-bold flex items-center gap-1">
+                  Ver no Google <ExternalLink size={14} />
+                </a>
+              </div>
             </div>
-            <div className="bg-white rounded-2xl p-8 shadow-sm border relative mt-6 hover:shadow-lg transition-all">
-              <div className="absolute -top-6 left-8 bg-blue-600 rounded-full p-3 shadow-lg text-white"><Quote size={20} /></div>
-              <div className="flex gap-1 mb-4 mt-2">{[1,2,3,4,5].map(s => <Star key={s} className="text-amber-400 fill-amber-400" size={16} />)}</div>
-              <p className="text-slate-600 text-sm italic mb-6">"Aqui não fui tratada como número. O Dr. Fabio explicou tudo com clareza e lutou pela terapia intensiva do meu filho com TEA."</p>
-              <div className="border-t pt-4 font-bold text-slate-900 text-sm">Ana Paula Rezende</div>
+
+            {/* Card 3: Wagner Pereira */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-[#1a73e8] border border-blue-600 flex items-center justify-center font-bold text-white text-lg relative">
+                      W
+                      <span className="absolute -bottom-1 -right-1 bg-amber-500 text-white rounded-full p-0.5 border border-white">
+                        <Star size={10} className="fill-white text-white" />
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="font-extrabold text-slate-900 text-sm">Wagner Pereira</h4>
+                      <p className="text-xs text-slate-500">Local Guide • 24 avaliações</p>
+                    </div>
+                  </div>
+                  <div className="text-slate-400">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
+                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="flex gap-0.5">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <Star key={s} className="text-amber-400 fill-amber-400 w-4 h-4" />
+                    ))}
+                  </div>
+                  <span className="text-slate-400 text-xs">• Há 1 semana</span>
+                  <span className="bg-blue-50 text-blue-700 border border-blue-100 text-[10px] px-1.5 py-0.5 rounded font-black uppercase tracking-wider scale-90">Novo</span>
+                </div>
+
+                <p className="text-slate-600 text-sm leading-relaxed text-justify mb-6 whitespace-pre-line">
+                  "O Dr. Fábio Saraiva é um excelente profissional! Sempre muito atencioso, prestativo e disponível para ajudar. Explica os assuntos de forma clara e objetiva, transmite segurança nas orientações e responde com rapidez. Além do conhecimento técnico, destaco a prontidão e o comprometimento em buscar as melhores soluções. Recomendo com confiança."
+                </p>
+              </div>
+              
+              <div className="border-t border-slate-100 pt-4 flex justify-between items-center text-xs">
+                <span className="text-slate-400 font-medium">Avaliação Verificada</span>
+                <a href={googleMapsLink} target="_blank" rel="noreferrer" className="text-blue-600 hover:text-blue-800 font-bold flex items-center gap-1">
+                  Ver no Google <ExternalLink size={14} />
+                </a>
+              </div>
             </div>
+
           </div>
+
+          <div className="text-center mt-16">
+            <a 
+              href={googleMapsLink} 
+              target="_blank" 
+              rel="noreferrer" 
+              className="inline-flex bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 px-8 py-4 rounded-xl font-bold text-sm items-center justify-center gap-3 transition-transform hover:scale-105 shadow-sm"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
+              </svg>
+              Ver todas as avaliações no Google
+            </a>
+          </div>
+
         </div>
       </section>
 
