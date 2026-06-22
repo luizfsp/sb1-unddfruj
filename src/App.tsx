@@ -45,14 +45,6 @@ export default function App() {
   const [isLoadingNews, setIsLoadingNews] = useState(true);
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Sugestões rápidas para preenchimento do formulário de IA
-  const presetCases = [
-    { label: "Negativa de Cirurgia", text: "O meu plano de saúde recusou cobrir a minha cirurgia, alegando que o procedimento não está no rol da ANS ou que estou em período de carência." },
-    { label: "Medicamento de Alto Custo", text: "Preciso de um medicamento de alto custo prescrito pelo meu médico, mas a operadora de saúde negou o fornecimento." },
-    { label: "Aumento Abusivo", text: "A mensalidade do meu plano de saúde sofreu um reajuste extremamente alto e abusivo por mudança de faixa etária ou sinistralidade." },
-    { label: "Tratamento TEA", text: "O plano de saúde está a limitar o número de sessões ou a recusar a cobertura para o tratamento multidisciplinar de autismo (TEA) do meu filho." }
-  ];
-
   function stripHtml(html: string) {
     const doc = new DOMParser().parseFromString(html, 'text/html');
     return doc.body.textContent || "";
@@ -242,14 +234,8 @@ export default function App() {
               
               {/* ÁREA DE BOTÕES DO INÍCIO */}
               <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 justify-center md:justify-start items-stretch sm:items-center">
-                {/* Botão de Destaque: Enviar Caso por E-mail */}
-                <a href="#contato-formulario" className="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 px-8 py-4 rounded-lg font-black text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:-translate-y-1">
-                  <Mail size={20} />
-                  Enviar Caso por E-mail
-                </a>
-                
                 {/* Falar com Especialista (WhatsApp) */}
-                <a href={whatsappLink} target="_blank" rel="noreferrer" className="bg-yellow-600 hover:bg-yellow-500 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(202,138,4,0.3)] hover:-translate-y-1">
+                <a href={whatsappLink} target="_blank" rel="noreferrer" className="bg-sky-500 hover:bg-sky-400 text-blue-950 px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(14,165,233,0.4)] hover:-translate-y-1">
                   <img src="/whatsapp_PNG20.png" alt="WhatsApp" className="w-6 h-6 object-contain" />
                   Falar com um Especialista
                 </a>
@@ -424,32 +410,7 @@ export default function App() {
                     </div>
                   </div>
                 ) : (
-                  <form onSubmit={handleFormSubmit} className="space-y-4">
-                    <div className="mb-2">
-                      <span className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
-                        Selecione um exemplo rápido de problema para preencher a descrição:
-                      </span>
-                      <div className="flex flex-wrap gap-2">
-                        {presetCases.map((preset, idx) => (
-                          <button
-                            key={idx}
-                            type="button"
-                            onClick={() => {
-                              setCaseDescription(preset.text);
-                              setFormError("");
-                            }}
-                            className={`text-xs px-3 py-2 rounded-lg border transition-all font-semibold ${
-                              caseDescription === preset.text 
-                                ? 'bg-sky-700 border-sky-700 text-white font-bold shadow-md shadow-sky-500/20' 
-                                : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-100'
-                            }`}
-                          >
-                            {preset.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
+                  <form onSubmit={handleFormSubmit} className="space-y-6">
                     {/* Campo de Nome Completo */}
                     <div className="relative">
                       <label htmlFor="client-name" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
@@ -518,7 +479,7 @@ export default function App() {
                       </label>
                       <textarea
                         id="case-description"
-                        rows={4}
+                        rows={5}
                         className="w-full rounded-2xl bg-white border-slate-200 border p-4 text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition-all resize-none shadow-sm text-sm leading-relaxed"
                         placeholder="Descreva aqui o ocorrido com o máximo de detalhes possível (ex: recusa de cobertura de cirurgia, reajuste abusivo, medicamento de alto custo...)"
                         value={caseDescription}
@@ -733,16 +694,16 @@ export default function App() {
       </section>
 
       {/* CTA FINAL */}
-      <section className="py-20 bg-blue-600 relative overflow-hidden">
+      <section className="py-20 bg-blue-950 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6">
             Você não está sozinho para enfrentar o sistema.
           </h2>
-          <p className="text-emerald-100 text-xl mb-10 max-w-2xl mx-auto text-justify">
+          <p className="text-slate-300 text-xl mb-10 max-w-2xl mx-auto text-justify">
             Conte sempre com os nossos profissionais altamente especializados e capacitados para analisar o seu caso com total sigilo, segurança e assertividade na busca da defesa dos seus interesses e solução do problema.
           </p>
-          <a href={whatsappLink} target="_blank" rel="noreferrer" className="inline-flex bg-amber-500 hover:bg-amber-400 text-slate-900 px-10 py-5 rounded-xl font-black text-xl items-center justify-center gap-3 transition-transform hover:scale-105 shadow-2xl">
+          <a href={whatsappLink} target="_blank" rel="noreferrer" className="inline-flex bg-sky-500 hover:bg-sky-400 text-blue-950 px-10 py-5 rounded-xl font-black text-xl items-center justify-center gap-3 transition-all hover:shadow-[0_0_20px_rgba(14,165,233,0.4)] hover:-translate-y-1">
             <img src="/whatsapp_PNG20.png" alt="WhatsApp" className="w-7 h-7 object-contain" />
             Falar com um Especialista
           </a>
