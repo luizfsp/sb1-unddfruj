@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { 
-  HeartPulse, 
   ShieldAlert, 
-  FileWarning, 
   ChevronDown, 
   MapPin, 
   Phone, 
@@ -19,7 +17,12 @@ import {
   ExternalLink,
   Star,
   Quote,
-  User
+  User,
+  FileCheck,
+  Scale,
+  Pill,
+  Stethoscope,
+  ShieldCheck
 } from 'lucide-react';
 
 // Interface para definir a estrutura dos itens de notícias
@@ -305,30 +308,88 @@ export default function App() {
               Como podemos defender o seu direito à saúde?
             </h3>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
-              <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><HeartPulse /></div>
-              <h4 className="text-xl font-bold text-slate-900 mb-3">Planos de Saúde</h4>
-              <p className="text-slate-600 text-sm leading-relaxed text-justify">Nossos advogados atuam contra práticas abusivas de operadoras de planos de saúde em assuntos como: 1) liminares contra negativa para internação, exames e tratamento médico; 2) cirurgias em geral (incluindo bariátrica e cirurgia plástica reparadora); 3) exames de alta complexidade decorrente de alegação de carência, doença preexistente ou que está fora do rol de procedimentos da ANS; 4) reversão de negativas de reembolso; 5) fornecimento de medicamentos, 6) Descredenciamento de Hospitais, Laboratórios, Clínicas, entre outros.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Card 1: Liminares de Urgência */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all flex flex-col justify-between">
+              <div>
+                <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600">
+                  <ShieldAlert size={28} />
+                </div>
+                <h4 className="text-xl font-bold text-slate-900 mb-3">Liminares de Urgência</h4>
+                <p className="text-slate-600 text-sm leading-relaxed text-justify">
+                  Atuamos de forma rápida e efetiva contra negativas abusivas de internação, cirurgias, tratamentos e exames de urgência e emergência para resguardo da sua saúde.
+                </p>
+              </div>
             </div>
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
-              <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><ShieldAlert /></div>
-              <h4 className="text-xl font-bold text-slate-900 mb-3">Reajuste Abusivo</h4>
-              <p className="text-slate-600 text-sm leading-relaxed text-justify">Atuamos na revisão de reajustes abusivos praticados pelas operadoras de plano de saúde, amparado em cálculos contábeis/atuariais, inclusive com pedido de liminar, possibilitando a redução do valor da mensalidade e restituição dos valores pagos a maior dos últimos 3 anos devidamente corrigido.</p>
+
+            {/* Card 2: Reversão de Negativas */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all flex flex-col justify-between">
+              <div>
+                <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600">
+                  <FileCheck size={28} />
+                </div>
+                <h4 className="text-xl font-bold text-slate-900 mb-3">Reversão de Negativas</h4>
+                <p className="text-slate-600 text-sm leading-relaxed text-justify">
+                  Adoção de medidas judiciais contra cobranças irregulares realizadas contra o beneficiário por Hospitais devido a negativa de cobertura do tratamento realizado pela operadora de plano de saúde.
+                </p>
+              </div>
             </div>
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
-              <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><CheckCircle2 /></div>
-              <h4 className="text-xl font-bold text-slate-900 mb-3">Seguros em Geral</h4>
-              <p className="text-slate-600 text-sm leading-relaxed text-justify">Ações contra seguradoras por negativas indevidas de pagamento de seguro de vida de agravamento de risco, negativa de pagamento de seguro automóvel, entre outros.</p>
+
+            {/* Card 3: Reajuste Abusivo */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all flex flex-col justify-between">
+              <div>
+                <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600">
+                  <Scale size={28} />
+                </div>
+                <h4 className="text-xl font-bold text-slate-900 mb-3">Reajuste Abusivo</h4>
+                <p className="text-slate-600 text-sm leading-relaxed text-justify">
+                  Ação revisional de reajustes abusivos praticados pelas operadoras de planos de saúde, possibilitando a redução da mensalidade e restituição dos valores pagos dos últimos 3 anos.
+                </p>
+              </div>
             </div>
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all">
-              <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600"><FileWarning /></div>
-              <h4 className="text-xl font-bold text-slate-900 mb-3">Erro Médico</h4>
-              <p className="text-slate-600 text-sm leading-relaxed text-justify">Atuação na defesa dos interesses dos nossos clientes em casos que envolvem discussão de erro médico por negligência, imprudência ou imperícia.</p>
+
+            {/* Card 4: Medicamentos */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all flex flex-col justify-between">
+              <div>
+                <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600">
+                  <Pill size={28} />
+                </div>
+                <h4 className="text-xl font-bold text-slate-900 mb-3">Medicamentos</h4>
+                <p className="text-slate-600 text-sm leading-relaxed text-justify">
+                  Pedido de liminar contra operadoras de plano de saúde devido a negativa de fornecimento de medicamentos de alto custo necessário ao tratamento.
+                </p>
+              </div>
+            </div>
+
+            {/* Card 5: Erro Médico */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all flex flex-col justify-between">
+              <div>
+                <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600">
+                  <Stethoscope size={28} />
+                </div>
+                <h4 className="text-xl font-bold text-slate-900 mb-3">Erro Médico</h4>
+                <p className="text-slate-600 text-sm leading-relaxed text-justify">
+                  Atuação na defesa dos interesses dos nossos clientes e médicos em casos que envolvem alegação de erro médico decorrentes de negligência, imprudência ou imperícia.
+                </p>
+              </div>
+            </div>
+
+            {/* Card 6: Seguros em Geral */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all flex flex-col justify-between">
+              <div>
+                <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 text-blue-600">
+                  <ShieldCheck size={28} />
+                </div>
+                <h4 className="text-xl font-bold text-slate-900 mb-3">Seguros em Geral</h4>
+                <p className="text-slate-600 text-sm leading-relaxed text-justify">
+                  Ações contra seguradoras por negativas indevidas de pagamento de indenização e cobertura em seguro de vida, seguro automóvel, entre outros.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* SECÇÃO DO FORMULÁRIO DE CONTATO DIRETO POR E-MAIL */}
       <section id="contato-formulario" className="py-24 bg-white text-slate-800 relative overflow-hidden">
