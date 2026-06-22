@@ -305,7 +305,7 @@ export default function App() {
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Áreas de Especialidade</h2>
             <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">
-              Como podemos defender o seu direito à saúde?
+              Algumas das nossas especialidades na área da saúde.
             </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -632,12 +632,12 @@ export default function App() {
               {
                 step: "02",
                 title: "Análise Gratuita",
-                desc: "Avaliamos o seu caso de forma minuciosa quanto a viabilidade da ação."
+                desc: "Analisamos o seu caso de forma rápida e minuciosa quanto aos seus direitos."
               },
               {
                 step: "03",
                 title: "Pedido de Liminar",
-                desc: "Ingressamos com a ação apropriada com pedido de liminar buscando a garantia dos seus direitos."
+                desc: "Após análise e aprovação, adotamos as medidas necessárias, inclusive com pedido de liminar de urgência."
               },
               {
                 step: "04",
@@ -759,7 +759,7 @@ export default function App() {
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6">
-            Você não está sozinho para enfrentar o sistema.
+            Você não está sozinho! Conte sempre conosco na defesa dos seus direitos.
           </h2>
           <p className="text-slate-300 text-xl mb-10 max-w-2xl mx-auto text-justify">
             Conte sempre com os nossos profissionais altamente especializados e capacitados para analisar o seu caso com total sigilo, segurança e assertividade na busca da defesa dos seus interesses e solução do problema.
