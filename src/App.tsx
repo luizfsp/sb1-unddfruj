@@ -153,7 +153,7 @@ export default function App() {
       id: 1,
       slug: "liminar",
       title: "Como Conseguir uma Liminar Contra o Plano de Saúde em Casos de Urgência",
-      image: "/Liminar.jpeg",
+      image: "/liminar.jpeg",
       excerpt: "Descobrir que o plano de saúde negou sua cobertura no momento em que você mais precisa gera angústia. Saiba como a Justiça pode reverter isso rapidamente.",
       intro: "Descobrir que o plano de saúde negou sua cobertura no momento em que você ou sua família mais precisam gera revolta e muita angústia. Em momentos de emergência médica, sabemos que cada minuto conta e a burocracia não pode custar a sua saúde. A boa notícia é que a Justiça entende essa urgência.",
       subtitle: "Como a Liminar pode salvar o seu tratamento",
