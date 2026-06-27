@@ -203,6 +203,91 @@ export default function App() {
     }
   ];
 
+  const [showAllCases, setShowAllCases] = useState(false);
+
+  const courtCases = [
+    {
+      id: 1,
+      parties: "A.T.S. e outro x Bradesco Saúde e Rede D'Or São Luiz",
+      court: "1ª Vara do Juizado Especial Cível - JEC Central",
+      issue: "Negativa de OPME com cobrança hospitalar indevida.",
+      outcome: "Liminar Concedida",
+      summary: "Tutela Antecipada Concedida para garantir o fornecimento de todos os materiais necessários à cirurgia, suspendendo a cobrança.",
+      excerpt: `Ante o exposto, DEFIRO PARCIALMENTE a tutela de urgência para que a corré REDE D'OR SÃO LUIZ S.A. se abstenha imediatamente de cobrar, por quaisquer meios, notadamente a inscrição em cadastros de proteção ao crédito, quaisquer débitos supostamente existentes em nome da autora referente à dívida relacionada ao insumo utilizado no procedimento (Ácido Hialurônico Sinovial), sob pena de multa de R$ 1.000,00 (um mil reais) por cada ato de cobrança indevido, ou, em se tratando de inscrição em cadastros de inadimplentes, sob pena de multa de R$ 500,00 (quinhentos reais) por dia de atraso, limitada a R$ 10.000,00 (dez mil reais).`
+    },
+    {
+      id: 2,
+      parties: "A.A.O.S x Sulamérica Saúde",
+      court: "5ª Vara Cível do Foro Regional de Santana/SP",
+      issue: "Negativa de exame de Alta Complexidade com cobrança hospitalar.",
+      outcome: "Liminar Concedida",
+      summary: "Tutela Antecipada Concedida para garantir a cobertura de todos os exames necessários, suspendendo a cobrança.",
+      excerpt: `...defiro a tutela de urgência e, em consequência, determino à parte requerida Sul América, que proceda com a cobertura atinente a atual cobrança do credenciado Hospital Albert Einstein em decorrência do exame "RM Parede de Vaso" (angio-rm/angioressonância), realizado quando da internação da parte autora no período de 14/08/2025 a 16/08/2025. Os valores deverão ser adimplidos pela parte ré diretamente junto àquele credenciado.`
+    },
+    {
+      id: 3,
+      parties: "A.A.N e outra x Sulamérica Saúde",
+      court: "5ª Vara Cível do Foro Regional de Santo Amaro/SP",
+      issue: "Negativa de exame de Alta Complexidade e Tratamento Oncológico.",
+      outcome: "Liminar Concedida",
+      summary: "Tutela Antecipada Concedida para garantir a realização dos exames necessários e todo tratamento oncológico.",
+      excerpt: `Assim, ante o exposto, presentes os requisitos legais, DEFIRO PARCIALMENTE a Tutela antecipada, já que presentes os requisitos do artigo 273 do Código de Processo Civil, para determinar à ré autorize de imediato todos os exames necessários e já requeridos pela autora e os demais que poderá o médico requerer, os custeando, bem como custeie o tratamento quimioterápico e internações, cirurgias e demais intervenções necessárias ou seja, custeie todas as despesas médico-hospitalares da autora para tratamento do tumor da mama direita, no Hospital SANTA CRUZ (fls. 35)...`
+    },
+    {
+      id: 4,
+      parties: "J.R.J x Itaúseg Saúde S/A",
+      court: "35ª Vara Cível do Foro Central",
+      issue: "Reajuste abusivo por faixa etária a partir dos 60 anos de idade.",
+      outcome: "Liminar Concedida",
+      summary: "Tutela Antecipada Concedida para determinar a aplicação de reajustes autorizados pela ANS desde quando os autores completaram 60 anos, reduzindo a parcela em 3 mil reais mensais.",
+      excerpt: `Presentes, os demais requisitos consistentes em perigo de dano e risco ao resultado útil do processo, na medida em que a manutenção da cobrança dos valores das mensalidades pode estar onerando em demasia o consumidor o que pode lhe gerar dissabores que podem resvalar em prejuízo patrimonial. Ante o exposto, DEFIRO o pedido de tutela de urgência para que a Requerida providencie a revisão imediata das parcelas do contrato dos autores a partir de quando completaram 60 anos, aplicando exclusivamente os reajustes máximos autorizados pela ANS para planos individuais e familiares, para que seja mantido o equilíbrio contratual até contraordem deste Juízo, o que deverá ser feito já para a próxima mensalidade a vencer, sob pena de incidência de multa, por cobrança a maior realizada (multa mensal), de R$ 2.000,00.`
+    },
+    {
+      id: 5,
+      parties: "J.G.L.B x Amil Assistência Médica",
+      court: "5ª Vara Cível do Foro Regional de Itaquera",
+      issue: "Negativa de Internação e Cirurgia de Urgência sob alegação de carência.",
+      outcome: "Liminar Concedida",
+      summary: "Tutela Antecipada Concedida para determinar a internação e cirurgia da autora nos termos requeridos pelo médico assistente.",
+      excerpt: `O perigo de dano também está presente, diante da possibilidade de agravamento do quadro clínico e de comprometimento neurológico irreversível decorrente da demora na realização do tratamento indicado. Ademais, a medida é reversível. Presentes, portanto, os requisitos do art. 300 do Código de Processo Civil, DEFIRO a tutela de urgência para determinar que a ré, no prazo de 03 (três) dias, autorize e custeie a internação e cirurgia de urgência indicadas pelo médico assistente da autora, nos termos constantes do relatório médico que instruiu a inicial, a serem realizadas pelo Dr. João Paulo Souza de Castro, CRM/SP nº 178.247, integrante da rede credenciada da operadora. No mesmo prazo, a ré deverá comprovar o cumprimento da determinação judicial, sob pena de aplicação das sanções legais cabíveis. Esta decisão vale como ofício, a ser encaminhado pela parte autora à requerida.`
+    },
+    {
+      id: 6,
+      parties: "C.C.R.S x Sulamérica Saúde e Hospital São Camilo",
+      court: "1ª Vara Cível do Foro Regional de Santana",
+      issue: "Negativa de OPME com cobrança hospitalar indevida.",
+      outcome: "Liminar Concedida",
+      summary: "Tutela Antecipada Concedida para garantir o fornecimento de todos os materiais necessários à cirurgia, suspendendo a cobrança.",
+      excerpt: `Vislumbro, no caso em tela, o preenchimento dos requisitos legais previstos no artigo 300 do Código de Processo Civil. Há probabilidade do direito alegado. Com efeito, enquanto perdurar a discussão quanto à existência ou não do débito, temerário o apontamento nos services de proteção ao crédito. Outrossim, há urgência no pedido ante o risco de dano de difícil reparação, posto que o apontamento asseguradamente causará restrição de crédito, representando evidente prejuízo. Assim, uma vez preenchidos os requisitos legais, DEFIRO o pedido de tutela antecipada, determinando que o primeiro réu, Hospital São Camilo, suspenda a exigibilidade e os atos de cobrança do débito sub judice, no valor de R$ 84.000,00 (oitenta e quatro mil reais), bem como se abstenha de negativar o nome da autora junto aos órgãos de proteção ao crédito em razão do valor acima mencionado, enquanto perdurar a demanda judicial, sob pena de multa diária de R$ 200,00 (duzentos reais), limitada a R$ 10.000,00 (dez mil reais).`
+    },
+    {
+      id: 7,
+      parties: "M.C.M.D e outra x Porto Seguro – Seguro Saúde",
+      court: "9ª Vara Cível do Foro de São José dos Campos",
+      issue: "Negativa de internação de urgência e tratamento sob alegação estar o plano em período de carência.",
+      outcome: "Ação Procedente",
+      summary: "Sentença: Após liminar concedida, a ação foi julgada procedente confirmando a tutela e condenando a Porto Seguro em danos morais e ressarcimento das despesas antecipadas.",
+      excerpt: `Diante do exposto, a) JULGO PARCIALMENTE PROCEDENTE o pedido em face da 1ª ré, PORTO SEGURO – SEGURO SAÚDE S/A, para: (i) CONFIRMAR a tutela de urgência concedida no Evento 7, declarando nula a cláusula contratual que impõe carência superior a 24 horas em situações de urgência/emergência; (ii) CONDENAR a 1ª ré ao ressarcimento de R$ 529,75 em favor das autoras, correspondente a R$ 500,00 de ambulância e R$ 29,75 de refeição, com correção monetária desde cada desembolso e juros de mora ao mês (no termos do CC, art. 406); (iii) CONDENAR a 1ª ré ao pagamento de danos morais de R$ 4.000,00 em favor da 1ª autora (M C M D) e de R$ 6.000,00 em favor da 2ª autora (N L M D), ambos com correção monetária e juros de mora ao mês desde esta data (Súmula 362/STJ – quando a obrigação se tornou certa, líquida e, com isso, exigível).`
+    },
+    {
+      id: 8,
+      parties: "A.T.S e outro x Bradesco Saúde e Rede D'Or São Luiz",
+      court: "1ª Vara do Juizado Especial Cível - JEC Central",
+      issue: "Negativa de OPME com cobrança hospitalar indevida.",
+      outcome: "Ação Procedente",
+      summary: "Sentença julgou a ação procedente, anulou a cobrança em face da paciente e condenou as Rés ao pagamento de danos morais.",
+      excerpt: `Ante o exposto, JULGO PARCIALMENTE PROCEDENTE a demanda, nos seguintes termos: a) declaro a inexigibilidade do débito de R$ 19.080,00 (dezenove mil e oitenta reais) em favor dos autores. b) condeno o réu BRADESCO SAÚDE S/A em obrigação de fazer, consistente em custear a despesa hospitalar de R$ 19.080,00 (dezenove mil e oitenta reais) diretamente ao réu SÃO LUIZ. c) condeno os réus, solidariamente, ao pagamento de R$ 8.000,00 (oito mil reais) (R$ 4.000,00 para cada coautor), a título de dano moral, com correção monetária pelo IPCA, a contar do arbitramento (Súmula 362, STJ), acrescido de juros de mora pela taxa Selic, deduzido dela o IPCA, ao mês, desde a citação (artigos 389 e 406, § 1º, do CC, na redação da Lei n. 14.905/2024). d) rejeito o pedido de declaração de nulidade das cláusulas 1.5, 2.1, 2.2 e 2.3 do contrato firmado com o réu SÃO LUIZ.`
+    },
+    {
+      id: 9,
+      parties: "A.A.N e outra x Sulamérica Saúde",
+      court: "5ª Vara Cível do Foro Regional de Santo Amaro/SP",
+      issue: "Negativa de exame de Alta Complexidade e Tratamento Oncológico.",
+      outcome: "Ação Procedente",
+      summary: "Sentença. Ação julgada procedente para confirmar a tutela antecipada concedida e garantir a realização de todos os exames necessários e tratamento oncológico.",
+      excerpt: `Posto isso, JULGO PARCIALMENTE PROCEDENTES os pedidos iniciais para DECLARAR NULA DE PLENO DIREITO POR SER ABUSIVA as cláusulas restritiva chamada “cobertura parcial temporária” excluidora de determinados procedimentos e exames constante do contrato celebrado entre as partes, com base na legislação supra mencionada, CONDENANDO a requerida a custear todos os exames realizados pela autora e arcar com todos os gastos para o tratamento da nova doença diagnosticada aos 16/07/2011... Em conseqüência, JULGO PROCEDENTE o pedido de danos morais para CONDENAR a ré ao pagamento aos autores à guisa de DANOS MORAIS o valor de R$ 12.000,00, devidamente corrigido desde a data da sentença e acrescido de juros de 1% ao mês, desde a citação até o efetivo pagamento.`
+    }
+  ];
 
   const handleFormSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -283,6 +368,7 @@ export default function App() {
                 <a href="#solucoes" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Áreas de Atuação</a>
                 <a href="#sobre" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Nossos Especialistas</a>
                 <a href="#depoimentos" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Depoimentos</a>
+                <a href="#vitorias" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Vitórias Judiciais</a>
                 <a href="#artigos" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Artigos</a>
                 <a href="#faq" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Dúvidas</a>
                 <a href="#contato-formulario" rel="noreferrer" className="bg-amber-500 hover:bg-amber-600 text-slate-900 px-6 py-2.5 rounded-full font-bold text-sm transition-transform hover:scale-105 shadow-lg">
@@ -756,6 +842,96 @@ export default function App() {
                 Iniciar o Passo 1 Agora
              </a>
           </div>
+        </div>
+      </section>
+
+      {/* VITÓRIAS JUDICIAIS RECENTES */}
+      <section id="vitorias" className="py-24 bg-slate-100 border-t border-slate-200">
+        <div className="container mx-auto px-4 md:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Decisões Judiciais Reais</h2>
+            <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
+              Nossas Vitórias Judiciais Recentes
+            </h3>
+            <p className="text-slate-600 text-sm leading-relaxed max-w-xl mx-auto">
+              Veja abaixo alguns casos reais patrocinados por nosso escritório, demonstrando a atuação prática no restabelecimento do direito à saúde dos nossos clientes.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {courtCases
+              .slice(0, showAllCases ? courtCases.length : 3)
+              .map((item) => (
+                <div 
+                  key={item.id} 
+                  className="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between"
+                >
+                  <div>
+                    {/* Badge e Autoridade */}
+                    <div className="flex justify-between items-start gap-2 mb-6">
+                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 text-[10px] font-black uppercase tracking-wider px-2.5 py-1.5 rounded-full">
+                        {item.outcome}
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-bold">
+                        Processo Real
+                      </span>
+                    </div>
+
+                    {/* Partes e Juizado */}
+                    <h4 className="text-slate-900 font-black text-lg mb-2 leading-snug">
+                      {item.parties}
+                    </h4>
+                    <p className="text-xs text-blue-700 font-extrabold mb-4 flex items-center gap-1">
+                      {item.court}
+                    </p>
+
+                    <div className="border-t border-slate-100 pt-4 mb-4">
+                      <h5 className="text-xs font-black uppercase text-slate-400 mb-1">Discussão:</h5>
+                      <p className="text-slate-700 font-semibold text-xs leading-relaxed mb-3">
+                        {item.issue}
+                      </p>
+                      <h5 className="text-xs font-black uppercase text-slate-400 mb-1">Medida Concedida:</h5>
+                      <p className="text-slate-600 text-xs leading-relaxed">
+                        {item.summary}
+                      </p>
+                    </div>
+
+                    {/* Recorte Decisão */}
+                    <div className="mt-4 bg-slate-50 border-l-4 border-amber-500 rounded-r-xl p-4 font-mono text-[11px] text-slate-600 select-none relative max-h-[160px] overflow-y-auto hide-scrollbar">
+                      <span className="absolute top-1 right-2 text-2xl font-black text-slate-200 pointer-events-none">”</span>
+                      <p className="leading-relaxed italic text-justify">
+                        "{item.excerpt}"
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-slate-100 pt-4 mt-6">
+                    <a 
+                      href={whatsappLink} 
+                      target="_blank" 
+                      rel="noreferrer" 
+                      className="w-full inline-flex bg-blue-950 hover:bg-amber-500 text-white hover:text-slate-950 py-3 rounded-xl font-bold text-xs items-center justify-center gap-2 transition-all"
+                    >
+                      <img src="/whatsapp_PNG20.png" alt="WhatsApp" className="w-4 h-4 object-contain brightness-0 invert hover:brightness-100 hover:invert-0" />
+                      Consultar caso semelhante
+                    </a>
+                  </div>
+                </div>
+              ))}
+          </div>
+
+          {courtCases.length > 3 && (
+            <div className="text-center mt-12">
+              <button 
+                onClick={() => setShowAllCases(!showAllCases)} 
+                className="inline-flex bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 px-8 py-4 rounded-xl font-bold text-sm items-center justify-center gap-2 transition-all hover:scale-105 shadow-sm"
+              >
+                {showAllCases ? "Ver menos decisões" : `Ver mais decisões (${courtCases.length - 3})`}
+              </button>
+            </div>
+          )}
+
         </div>
       </section>
 
