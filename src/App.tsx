@@ -870,9 +870,9 @@ export default function App() {
         <div className="container mx-auto px-4 md:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Decisões Judiciais Reais</h2>
+            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Casos de Sucesso</h2>
             <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-              Nossas Vitórias Judiciais Recentes
+              Algumas das Nossas Vitórias Judiciais
             </h3>
             <p className="text-slate-600 text-sm leading-relaxed max-w-xl mx-auto">
               Veja abaixo alguns casos reais patrocinados por nosso escritório, demonstrando a atuação prática no restabelecimento do direito à saúde dos nossos clientes.
@@ -968,10 +968,10 @@ export default function App() {
                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
               </svg>
               <span className="text-xs font-bold text-slate-700">
-                Avaliações de Clientes no Google Maps
+                Avaliações de Clientes no Google
               </span>
             </div>
-            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Casos de Sucesso</h2>
+            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Depoimentos</h2>
             <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">O que dizem os nossos clientes</h3>
             <div className="flex items-center justify-center gap-2 mb-6">
               <span className="text-lg font-black text-slate-950">5.0</span>
