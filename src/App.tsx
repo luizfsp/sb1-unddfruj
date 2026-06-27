@@ -145,6 +145,9 @@ export default function App() {
     } else if (artigoParam === 'especialista') {
       setActiveArticle(3);
       window.scrollTo(0, 0);
+    } else if (artigoParam === 'reajuste') {
+      setActiveArticle(4);
+      window.scrollTo(0, 0);
     }
   }, []);
 
@@ -188,7 +191,7 @@ export default function App() {
       id: 3,
       slug: "especialista",
       title: "Por que você precisa de um Advogado Especialista em Direito da Saúde Suplementar?",
-      image: "/suplementar.jpeg",
+      image: "/advogado.jpg",
       excerpt: "Enfrentar operadoras de saúde exige alta capacitação técnica. Saiba por que contar com um especialista faz toda a diferença.",
       intro: "Enfrentar grandes operadoras de saúde e seguradoras não é uma tarefa para amadores. O Direito da Saúde Suplementar é uma área altamente técnica, cheia de resoluções complexas da ANS, normas do Conselho Federal de Medicina e constantes mudanças na jurisprudência, especialmente dos tribunais superiores.\n\nContratar um advogado generalista pode colocar o seu direito à saúde em risco.",
       subtitle: "Nossa missão é focada em Você!",
@@ -199,6 +202,23 @@ export default function App() {
       ],
       conclusion: "No Saraiva e Advogados, nós vivenciamos o Direito da Saúde por meio de profissionais qualificados e especializados no assunto. Nosso foco é combater os abusos das operadoras e seguradoras e garantir os seus direitos. Sua saúde e seu patrimônio importam. Confie sua defesa a quem realmente entende do assunto.",
       ctaText: "Entende que sofreu algum abuso do seu plano de saúde? Agende uma consulta com nossos especialistas e faça valer os seus direitos.",
+      ctaLink: whatsappLink
+    },
+    {
+      id: 4,
+      slug: "reajuste",
+      title: "Aumento abusivo no Plano de Saúde por idade e falso coletivo-empresarial: como a Justiça protege você",
+      image: "/suplementar.jpeg",
+      excerpt: "Muitas operadoras de saúde aplicam reajustes desproporcionais aos 59 anos ou em falsos planos de pequenas empresas. Veja como agir contra esse abuso.",
+      intro: "Chegar à terceira idade deveria ser sinônimo de tranquilidade. No entanto, muitas operadoras de saúde aplicam reajustes desproporcionais e abusivos aos 59 anos (ou em outras faixas etárias) com um único objetivo: forçar o consumidor a cancelar o contrato.\n\nEsta prática de reajustes abusivos ocorre também em planos de saúde de pequenos empresários, como MEI e micro-empresa, onde muitas vezes há apenas membros da mesma família, o que foi reconhecido pelo STJ como “falso coletivo” ou “falso empresarial”, em que os reajustes não possuem teto definido pela ANS.",
+      subtitle: "Não Aceite Pagar Mais do Que o Justo",
+      bullets: [
+        { title: "Anulação do Reajuste", text: "A Justiça pode considerar o percentual abusivo e determinar a redução imediata da sua mensalidade." },
+        { title: "Devolução de Valores", text: "Você pode ter o direito de receber de volta, com juros e correção, tudo o que pagou a mais nos últimos anos." },
+        { title: "Manutenção do Plano", text: "O processo garante que você continue com o seu plano de saúde ativo, pagando um valor justo e proporcional." }
+      ],
+      conclusion: "Essa prática é conhecida como \"expulsão velada\" e os tribunais brasileiros têm sido rigorosos contra ela. Se a sua mensalidade dobrou ou sofreu um aumento que comprometeu sua renda, saiba que na maioria dos casos é possível reverter essa situação judicialmente.",
+      ctaText: "Acha que seu boleto está caro demais? Envie uma cópia para nossa equipe e receba uma análise gratuita do seu reajuste.",
       ctaLink: whatsappLink
     }
   ];
@@ -850,9 +870,9 @@ export default function App() {
         <div className="container mx-auto px-4 md:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Casos de Sucesso</h2>
+            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Decisões Judiciais Reais</h2>
             <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-              Algumas das Nossas Vitórias Judiciais
+              Nossas Vitórias Judiciais Recentes
             </h3>
             <p className="text-slate-600 text-sm leading-relaxed max-w-xl mx-auto">
               Veja abaixo alguns casos reais patrocinados por nosso escritório, demonstrando a atuação prática no restabelecimento do direito à saúde dos nossos clientes.
@@ -948,10 +968,10 @@ export default function App() {
                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
               </svg>
               <span className="text-xs font-bold text-slate-700">
-                Avaliações de Clientes no Google
+                Avaliações de Clientes no Google Maps
               </span>
             </div>
-            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Depoimentos</h2>
+            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Casos de Sucesso</h2>
             <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">O que dizem os nossos clientes</h3>
             <div className="flex items-center justify-center gap-2 mb-6">
               <span className="text-lg font-black text-slate-950">5.0</span>
@@ -1148,7 +1168,7 @@ export default function App() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {articles.map((item) => (
               <div 
                 key={item.id} 
@@ -1444,7 +1464,7 @@ function ArticlePageView({
           <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-8 text-center md:text-left">
             Leia também outros artigos do Dr. Fabio
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {articles
               .filter(a => a.id !== article.id)
               .map((item) => (
