@@ -7,7 +7,7 @@ import {
   Mail, 
   Clock,
   Award, 
-  CheckCircle2,
+  ArrowLeft,  CheckCircle2,
   Loader2,
   Send,
   Newspaper,
@@ -130,6 +130,80 @@ export default function App() {
   const whatsappLinkUrgency = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("URGÊNCIA: Olá! Preciso de um atendimento de urgência referente a Direito da Saúde. Poderiam me ajudar imediatamente?")}`;
   const googleMapsLink = "https://www.google.com/maps/place/Saraiva+%26+Advogados+Associados/@-14.4095261,-51.31668,4z/data=!3m1!4b1!4m6!3m5!1s0x94ce5bbc948bf5c1:0xe06e22bfbf9da60e!8m2!3d-14.4095262!4d-51.31668!16s%2Fg%2F11nq0_hg79?entry=ttu&g_ep=EgoyMDI2MDYxNi4wIKXMDSoASAFQAw%3D%3D";
 
+  const [activeArticle, setActiveArticle] = useState<number | null>(null);
+
+  // Efeito para tratar os links de Google Ads com parâmetros ?artigo=...
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const artigoParam = params.get('artigo');
+    if (artigoParam === 'liminar') {
+      setActiveArticle(1);
+      window.scrollTo(0, 0);
+    } else if (artigoParam === 'negativa') {
+      setActiveArticle(2);
+      window.scrollTo(0, 0);
+    } else if (artigoParam === 'especialista') {
+      setActiveArticle(3);
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
+  const articles = [
+    {
+      id: 1,
+      slug: "liminar",
+      title: "Como Conseguir uma Liminar Contra o Plano de Saúde em Casos de Urgência",
+      image: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&q=80&w=800",
+      excerpt: "Descobrir que o plano de saúde negou sua cobertura no momento em que você mais precisa gera angústia. Saiba como a Justiça pode reverter isso rapidamente.",
+      intro: "Descobrir que o plano de saúde negou sua cobertura no momento em que você ou sua família mais precisam gera revolta e muita angústia. Em momentos de emergência médica, sabemos que cada minuto conta e a burocracia não pode custar a sua saúde. A boa notícia é que a Justiça entende essa urgência.",
+      subtitle: "Como a Liminar pode salvar o seu tratamento",
+      bullets: [
+        { title: "Rapidez", text: "Em casos de risco de vida ou agravamento da saúde, a decisão costuma sair em questão de horas." },
+        { title: "Abrangência", text: "Cobre internações de emergência, cirurgias inadiáveis, UTIs e liberação de medicamentos de alto custo (como oncológicos) pela operadora do plano de saúde." },
+        { title: "Base Legal", text: "A prescrição do seu médico é soberana. O plano não pode interferir no tratamento que o especialista definiu como ideal." }
+      ],
+      conclusion: "Uma liminar concedida em tutela de urgência é uma decisão rápida do juiz que obriga o plano de saúde a autorizar o procedimento imediatamente, antes mesmo do fim do processo.\n\nNão perca tempo discutindo com o teleatendimento da operadora. A lei está do seu lado.",
+      ctaText: "Seu caso é urgente? Clique aqui e fale agora com um especialista via WhatsApp.",
+      ctaLink: whatsappLinkUrgency
+    },
+    {
+      id: 2,
+      slug: "negativa",
+      title: "O que fazer quando o Plano de Saúde nega internações, cirurgias ou exames?",
+      image: "https://images.unsplash.com/photo-1584515901387-a7a1a2f26764?auto=format&fit=crop&q=80&w=800",
+      excerpt: "Rol da ANS e carência são as justificativas mais comuns para negativas. Descubra a verdade sobre os seus direitos e como agir.",
+      intro: "Receber um diagnóstico preocupante já é difícil. Mas o pior de tudo isso é ter o tratamento, a cirurgia ou o exame negado pelo plano de saúde sob a justificativa de que “não consta no Rol da ANS” ou mesmo sob a alegação de estar no período de carência.\n\nA verdade que as operadoras não te contam é que o Rol da ANS é apenas uma lista de referência básica, e não um limite para a sua saúde. Além disso, se houver requerimento médico demonstrando se tratar de urgência ou emergência, não se aplica período de carência, que neste caso é de apenas 24 horas.",
+      subtitle: "Saiba que a Prescrição do Seu Médico é Soberana",
+      bullets: [
+        { text: "Cirurgias complexas e robóticas." },
+        { text: "Exames genéticos (como o Pet Scan) e de alta tecnologia." },
+        { text: "Terapias especiais para autismo (TEA) e doenças raras." },
+        { text: "Tratamentos oncológicos e medicamentos importados." }
+      ],
+      conclusion: "O Superior Tribunal de Justiça (STJ) e nossos tribunais estaduais já consolidaram o entendimento de que, se há indicação médica fundamentada, o plano deve cobrir o tratamento. O plano de saúde não tem autoridade para decidir qual é o melhor tratamento para você. Essa decisão cabe exclusivamente ao seu médico.",
+      ctaText: "Entende que sofreu algum abuso por parte do seu plano de saúde? Agende hoje mesmo uma consulta gratuita com um dos nossos especialistas e faça valer os seus direitos.",
+      ctaLink: whatsappLink
+    },
+    {
+      id: 3,
+      slug: "especialista",
+      title: "Por que você precisa de um Advogado Especialista em Direito da Saúde Suplementar?",
+      image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=800",
+      excerpt: "Enfrentar operadoras de saúde exige alta capacitação técnica. Saiba por que contar com um especialista faz toda a diferença.",
+      intro: "Enfrentar grandes operadoras de saúde e seguradoras não é uma tarefa para amadores. O Direito da Saúde Suplementar é uma área altamente técnica, cheia de resoluções complexas da ANS, normas do Conselho Federal de Medicina e constantes mudanças na jurisprudência, especialmente dos tribunais superiores.\n\nContratar um advogado generalista pode colocar o seu direito à saúde em risco.",
+      subtitle: "Nossa missão é focada em Você!",
+      bullets: [
+        { title: "Estratégia Precisa", text: "Conhecemos as brechas dos contratos e as defesas padrão das seguradoras." },
+        { title: "Agilidade Máxima", text: "Temos processos internos otimizados para despachar liminares com a urgência que a sua vida exige." },
+        { title: "Histórico de Sucesso", text: "Lidamos diariamente com negativas de cobertura, reajustes abusivos e cancelamentos unilaterais de contratos." }
+      ],
+      conclusion: "No Saraiva e Advogados, nós vivenciamos o Direito da Saúde por meio de profissionais qualificados e especializados no assunto. Nosso foco é combater os abusos das operadoras e seguradoras e garantir os seus direitos. Sua saúde e seu patrimônio importam. Confie sua defesa a quem realmente entende do assunto.",
+      ctaText: "Entende que sofreu algum abuso do seu plano de saúde? Agende uma consulta com nossos especialistas e faça valer os seus direitos.",
+      ctaLink: whatsappLink
+    }
+  ];
+
+
   const handleFormSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
 
@@ -187,7 +261,7 @@ export default function App() {
       <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-3' : 'bg-blue-950/90 backdrop-blur-sm py-5'}`}>
         <div className="container mx-auto px-4 md:px-8 flex justify-between items-center">
           
-          <a href="#" className="flex items-center">
+          <a href="#" onClick={() => { setActiveArticle(null); window.history.pushState({}, document.title, window.location.pathname); window.scrollTo(0,0); }} className="flex items-center">
             {/* Logótipo com escala dinâmica optimizada (maior no computador, equilibrado no telemóvel) */}
             <img 
               src="/Logo 2_Fundo Transparente.png" 
@@ -197,16 +271,38 @@ export default function App() {
           </a>
 
           <nav className="hidden md:flex gap-8 items-center">
-            <a href="#solucoes" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Áreas de Atuação</a>
-            <a href="#sobre" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Nossos Especialistas</a>
-            <a href="#depoimentos" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Depoimentos</a>
-            <a href="#faq" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Dúvidas</a>
-            <a href="#contato-formulario" rel="noreferrer" className="bg-amber-500 hover:bg-amber-600 text-slate-900 px-6 py-2.5 rounded-full font-bold text-sm transition-transform hover:scale-105 shadow-lg">
-              Fale Conosco
-            </a>
+            {activeArticle !== null ? (
+              <button 
+                onClick={() => { setActiveArticle(null); window.history.pushState({}, document.title, window.location.pathname); window.scrollTo(0,0); }} 
+                className={`text-sm font-semibold hover:text-amber-500 transition-colors flex items-center gap-1.5 ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}
+              >
+                <ArrowLeft size={16} /> Voltar para o Início
+              </button>
+            ) : (
+              <>
+                <a href="#solucoes" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Áreas de Atuação</a>
+                <a href="#sobre" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Nossos Especialistas</a>
+                <a href="#depoimentos" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Depoimentos</a>
+                <a href="#artigos" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Artigos</a>
+                <a href="#faq" className={`text-sm font-semibold hover:text-amber-500 transition-colors ${isScrolled ? 'text-slate-700' : 'text-slate-200'}`}>Dúvidas</a>
+                <a href="#contato-formulario" rel="noreferrer" className="bg-amber-500 hover:bg-amber-600 text-slate-900 px-6 py-2.5 rounded-full font-bold text-sm transition-transform hover:scale-105 shadow-lg">
+                  Fale Conosco
+                </a>
+              </>
+            )}
           </nav>
         </div>
       </header>
+
+      {activeArticle !== null ? (
+        <ArticlePageView 
+          article={articles.find(a => a.id === activeArticle)!} 
+          articles={articles}
+          onBack={() => { setActiveArticle(null); window.history.pushState({}, document.title, window.location.pathname); window.scrollTo(0,0); }}
+          onNavigate={(id) => { setActiveArticle(id); window.scrollTo(0,0); }}
+        />
+      ) : (
+        <>
 
       {/* HERO SECTION */}
       <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 bg-blue-950 overflow-hidden">
@@ -862,6 +958,55 @@ export default function App() {
         </div>
       </section>
 
+      {/* ARTIGOS E ORIENTAÇÕES */}
+      <section id="artigos" className="py-24 bg-white border-t border-slate-200">
+        <div className="container mx-auto px-4 md:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Artigos e Orientações</h2>
+            <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
+              Informativos e Direitos dos Pacientes
+            </h3>
+            <p className="text-slate-600 text-sm leading-relaxed max-w-xl mx-auto">
+              Acompanhe as publicações do Dr. Fabio Saraiva com orientações práticas de como agir contra negativas e reajustes abusivos de planos de saúde.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {articles.map((item) => (
+              <div 
+                key={item.id} 
+                onClick={() => { setActiveArticle(item.id); window.scrollTo(0, 0); }}
+                className="bg-slate-50 rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group flex flex-col justify-between"
+              >
+                <div>
+                  <div className="rounded-xl overflow-hidden mb-5 aspect-video border border-slate-200">
+                    <img 
+                      src={item.image} 
+                      alt={item.title} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                    />
+                  </div>
+                  <span className="inline-block text-[10px] font-black uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md mb-3">
+                    Direito da Saúde
+                  </span>
+                  <h4 className="font-extrabold text-slate-950 text-lg leading-snug mb-3 group-hover:text-blue-700 transition-colors line-clamp-2">
+                    {item.title}
+                  </h4>
+                  <p className="text-slate-600 text-sm mb-4 leading-relaxed line-clamp-3">
+                    {item.excerpt}
+                  </p>
+                </div>
+                <span className="text-blue-700 font-bold text-sm flex items-center gap-1 group-hover:underline mt-4">
+                  Ler artigo completo →
+                </span>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
       {/* NOTÍCIAS */}
       <section id="noticias" className="py-24 bg-slate-100 border-t border-slate-200 overflow-hidden">
         <style>{`.hide-scrollbar::-webkit-scrollbar { display: none; }`}</style>
@@ -939,6 +1084,8 @@ export default function App() {
           </a>
         </div>
       </section>
+        </>
+      )}
 
       {/* FOOTER */}
       <footer className="bg-slate-950 pt-20 pb-10 text-slate-400 border-t-4 border-amber-500">
@@ -1011,6 +1158,146 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
       </button>
       <div className={`px-6 overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 pb-6 opacity-100' : 'max-h-0 opacity-0'}`}>
         <p className="text-slate-600 text-sm leading-relaxed border-t pt-4">{answer}</p>
+      </div>
+    </div>
+  );
+}
+
+function ArticlePageView({ 
+  article, 
+  articles, 
+  onBack, 
+  onNavigate 
+}: { 
+  article: any, 
+  articles: any[], 
+  onBack: () => void, 
+  onNavigate: (id: number) => void 
+}) {
+  return (
+    <div className="bg-slate-50 pt-32 pb-24 min-h-screen">
+      <div className="container mx-auto px-4 md:px-8 max-w-4xl">
+        {/* Breadcrumb e Botão Voltar */}
+        <div className="mb-8">
+          <button 
+            onClick={onBack} 
+            className="inline-flex items-center gap-2 text-blue-700 hover:text-blue-900 font-bold transition-colors cursor-pointer group text-sm"
+          >
+            <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
+            Voltar para a página inicial
+          </button>
+        </div>
+
+        {/* Artigo Principal */}
+        <article className="bg-white rounded-3xl p-6 md:p-12 shadow-xl border border-slate-100 mb-12">
+          <div className="mb-6">
+            <span className="inline-block bg-blue-50 border border-blue-100 text-blue-700 text-xs font-black uppercase tracking-wider px-3 py-1.5 rounded-full mb-4">
+              Direito da Saúde • Informativo
+            </span>
+            <h1 className="text-3xl md:text-5xl font-black text-slate-900 leading-tight mb-4">
+              {article.title}
+            </h1>
+            <div className="flex items-center gap-3 text-slate-500 text-sm border-t border-slate-100 pt-4">
+              <div className="w-8 h-8 rounded-full bg-blue-950 flex items-center justify-center text-white font-bold text-xs">
+                FS
+              </div>
+              <div>
+                <p className="font-bold text-slate-700">Por Dr. Fabio Saraiva</p>
+                <p className="text-xs">Especialista em Direito da Saúde • 4 min de leitura</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Imagem de Capa */}
+          <div className="rounded-2xl overflow-hidden shadow-lg border border-slate-100 mb-8 max-h-[400px] aspect-video">
+            <img src={article.image} alt={article.title} className="w-full h-full object-cover" />
+          </div>
+
+          {/* Conteúdo do Artigo */}
+          <div className="text-slate-700 text-base md:text-lg leading-relaxed space-y-6 text-justify">
+            <p className="font-medium text-slate-800 text-lg md:text-xl border-l-4 border-amber-500 pl-4 italic">
+              {article.intro}
+            </p>
+
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 pt-4 border-t border-slate-100">
+              {article.subtitle}
+            </h3>
+
+            {/* Listagem de Tópicos */}
+            <div className="space-y-4 my-6">
+              {article.bullets.map((bullet: any, idx: number) => (
+                <div key={idx} className="flex items-start gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                  <div className="bg-emerald-50 text-emerald-600 p-1.5 rounded-full shrink-0">
+                    <CheckCircle2 size={16} />
+                  </div>
+                  <div>
+                    {bullet.title && <h4 className="font-extrabold text-slate-900 text-sm mb-1">{bullet.title}</h4>}
+                    <p className="text-slate-600 text-sm leading-relaxed">{bullet.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <p className="whitespace-pre-line text-slate-600">
+              {article.conclusion}
+            </p>
+          </div>
+
+          {/* Chamada para Ação (CTA) */}
+          <div className="mt-12 bg-blue-950 text-white rounded-2xl p-6 md:p-8 relative overflow-hidden shadow-xl border border-blue-900">
+            <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] pointer-events-none"></div>
+            <div className="relative z-10 text-center max-w-2xl mx-auto">
+              <h4 className="text-lg md:text-xl font-bold mb-6 text-slate-200 text-center">
+                {article.ctaText}
+              </h4>
+              <a 
+                href={article.ctaLink} 
+                target="_blank" 
+                rel="noreferrer" 
+                className="inline-flex bg-sky-500 hover:bg-sky-400 text-blue-950 px-8 py-4 rounded-xl font-black text-base items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(14,165,233,0.4)] hover:-translate-y-1"
+              >
+                <img src="/whatsapp_PNG20.png" alt="WhatsApp" className="w-5 h-5 object-contain" />
+                Falar com Especialista Agora
+              </a>
+            </div>
+          </div>
+        </article>
+
+        {/* Leia Também Section */}
+        <div className="border-t border-slate-200 pt-12">
+          <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-8 text-center md:text-left">
+            Leia também outros artigos do Dr. Fabio
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {articles
+              .filter(a => a.id !== article.id)
+              .map((item) => (
+                <div 
+                  key={item.id} 
+                  onClick={() => onNavigate(item.id)}
+                  className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="rounded-xl overflow-hidden mb-4 aspect-video">
+                      <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                    </div>
+                    <span className="inline-block text-[10px] font-black uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-1 rounded mb-3">
+                      Direito da Saúde
+                    </span>
+                    <h4 className="font-extrabold text-slate-950 text-base leading-snug line-clamp-2 mb-3 group-hover:text-blue-700 transition-colors">
+                      {item.title}
+                    </h4>
+                    <p className="text-slate-600 text-xs line-clamp-3 mb-4 leading-relaxed">
+                      {item.excerpt}
+                    </p>
+                  </div>
+                  <span className="text-blue-700 font-bold text-xs flex items-center gap-1 group-hover:underline mt-auto">
+                    Ler artigo completo →
+                  </span>
+                </div>
+              ))}
+          </div>
+        </div>
       </div>
     </div>
   );
