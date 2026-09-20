@@ -253,7 +253,7 @@ export default function App() {
         },
         {
           title: "2. A importância do padrão farmacêutico e das concentrações adequadas",
-          content: "Para que o canabidiol cumpra sua função terapêutica com previsibilidade e segurança, o produto não pode ser artesanal. Os principais laboratórios internacionais que atendem à regulação da ANVISA operam sob rigorosas certificações de Boas Práticas Agrícolas (GACP) e de Fabricação (GMP).\n\nA medicina personalizada baseia-se na titulação precisa entre dois canabinoides fundamentais:\n\n• Formulações com Predominância de CBD (Isoladas ou de Amplo Espectro): Focadas no público neuropediátrico, epilepsias refratárias e ansiedade, nas quais se busca o controle neurológico sem qualquer efeito psicoativo.\n• Formulações Balanceadas (Proporção 1:1 de CBD e THC): Onde a associação de concentrações equivalentes de Canabidiol e Tetrahidrocanabinol é indispensável para criar o \"efeito comitiva\", potencializando a ação analgésica e o relaxamento muscular profundo exigidos na Esclerose Múltipla e na dor crônica.\n• Formulações Ricas em THC: Utilizadas sob rigoroso critério clínico em cuidados paliativos, oncologia e síndromes dolorosas severas.\n\nA padronização miligramada por lote produzida por uma empresa com autorização da ANVISA assegura que o paciente receba exatamente a dosagem receitada pelo seu médico assistente, sem variações que comprometam o tratamento."
+          content: "Para que o canabidiol cumpra sua função terapêutica com previsibilidade e segurança, o produto não pode ser artesanal. Os principais laboratórios internacionais que atendem à regulação da ANVISA operam sob rigorosas certificações de <b>Boas Práticas Agrícolas (GACP)</b> e de <b>Fabricação (GMP)</b>.\n\nA medicina personalizada baseia-se na titulação precisa entre dois canabinoides fundamentais:\n\n• <b>Formulações com Predominância de CBD (Isoladas ou de Amplo Espectro):</b> Focadas no público neuropediátrico, epilepsias refratárias e ansiedade, nas quais se busca o controle neurológico sem qualquer efeito psicoativo.\n• <b>Formulações Balanceadas (Proporção 1:1 de CBD e THC):</b> Onde a associação de concentrações equivalentes de Canabidiol e Tetrahidrocanabinol é indispensável para criar o \"efeito comitiva\", potencializando a ação analgésica e o relaxamento muscular profundo exigidos na Esclerose Múltipla e na dor crônica.\n• <b>Formulações Ricas em THC:</b> Utilizadas sob rigoroso critério clínico em cuidados paliativos, oncologia e síndromes dolorosas severas.\n\nA padronização miligramada por lote produzida por uma empresa com autorização da ANVISA assegura que o paciente receba exatamente a dosagem receitada pelo seu médico assistente, sem variações que comprometam o tratamento."
         },
         {
           title: "3. O rito regulatório perante a ANVISA",
@@ -1417,6 +1417,36 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
   );
 }
 
+function renderFormattedText(text: string) {
+  if (!text) return "";
+  if (!text.includes("<b") && !text.includes("<strong") && !text.includes("**")) {
+    return text;
+  }
+  const regex = /(?:<b>(.*?)<\/b>|<strong>(.*?)<\/strong>|\*\*(.*?)\*\*)/gi;
+  const parts: (string | JSX.Element)[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    const boldText = match[1] ?? match[2] ?? match[3] ?? "";
+    parts.push(
+      <strong key={match.index} className="font-extrabold text-slate-900">
+        {boldText}
+      </strong>
+    );
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts;
+}
+
 function ArticlePageView({ 
   article, 
   articles,  
@@ -1460,7 +1490,7 @@ function ArticlePageView({
           {/* Conteúdo do Artigo */}
           <div className="text-slate-700 text-base md:text-lg leading-relaxed space-y-6 text-justify">
             <p className="font-medium text-slate-800 text-lg md:text-xl border-l-4 border-amber-500 pl-4 italic">
-              {article.intro}
+              {renderFormattedText(article.intro)}
             </p>
 
             {article.sections && article.sections.length > 0 ? (
@@ -1468,7 +1498,7 @@ function ArticlePageView({
                 {article.sections.map((sec: any, sIdx: number) => (
                   <div key={sIdx} className="space-y-4">
                     <h3 className="text-xl md:text-2xl font-bold text-slate-900">
-                      {sec.title}
+                      {renderFormattedText(sec.title)}
                     </h3>
                     {sec.image && (
                       <div className="rounded-2xl overflow-hidden shadow-md border border-slate-100 my-4 max-h-[380px]">
@@ -1477,7 +1507,7 @@ function ArticlePageView({
                     )}
                     {sec.content && (
                       <p className="whitespace-pre-line text-slate-700 leading-relaxed">
-                        {sec.content}
+                        {renderFormattedText(sec.content)}
                       </p>
                     )}
                     {sec.bullets && sec.bullets.length > 0 && (
@@ -1488,8 +1518,8 @@ function ArticlePageView({
                               <CheckCircle2 size={16} />
                             </div>
                             <div>
-                              {b.title && <h4 className="font-extrabold text-slate-900 text-sm mb-1">{b.title}</h4>}
-                              <p className="text-slate-600 text-sm leading-relaxed">{b.text}</p>
+                              {b.title && <h4 className="font-extrabold text-slate-900 text-sm mb-1">{renderFormattedText(b.title)}</h4>}
+                              <p className="text-slate-600 text-sm leading-relaxed">{renderFormattedText(b.text)}</p>
                             </div>
                           </div>
                         ))}
@@ -1501,7 +1531,7 @@ function ArticlePageView({
             ) : (
               <>
                 <h3 className="text-xl md:text-2xl font-bold text-slate-900 pt-4 border-t border-slate-100">
-                  {article.subtitle}
+                  {renderFormattedText(article.subtitle)}
                 </h3>
 
                 {/* Listagem de Tópicos */}
@@ -1512,8 +1542,8 @@ function ArticlePageView({
                         <CheckCircle2 size={16} />
                       </div>
                       <div>
-                        {bullet.title && <h4 className="font-extrabold text-slate-900 text-sm mb-1">{bullet.title}</h4>}
-                        <p className="text-slate-600 text-sm leading-relaxed">{bullet.text}</p>
+                        {bullet.title && <h4 className="font-extrabold text-slate-900 text-sm mb-1">{renderFormattedText(bullet.title)}</h4>}
+                        <p className="text-slate-600 text-sm leading-relaxed">{renderFormattedText(bullet.text)}</p>
                       </div>
                     </div>
                   ))}
@@ -1522,7 +1552,7 @@ function ArticlePageView({
             )}
 
             <p className="whitespace-pre-line text-slate-600 pt-4 border-t border-slate-100">
-              {article.conclusion}
+              {renderFormattedText(article.conclusion)}
             </p>
           </div>
 
