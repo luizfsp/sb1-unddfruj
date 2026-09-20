@@ -463,7 +463,6 @@ export default function App() {
         <ArticlePageView 
           article={articles.find(a => a.id === activeArticle)!} 
           articles={articles}
-          onBack={() => { setActiveArticle(null); window.history.pushState({}, document.title, window.location.pathname); window.scrollTo(0,0); }}
           onNavigate={(id) => { setActiveArticle(id); window.scrollTo(0,0); }}
         />
       ) : (
@@ -1420,13 +1419,11 @@ function FaqItem({ question, answer }: { question: string, answer: string }) {
 
 function ArticlePageView({ 
   article, 
-  articles, 
-  onBack, 
+  articles,  
   onNavigate 
 }: { 
   article: any, 
   articles: any[], 
-  onBack: () => void, 
   onNavigate: (id: number) => void 
 }) {
   return (
