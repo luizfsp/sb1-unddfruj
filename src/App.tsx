@@ -156,6 +156,62 @@ export default function App() {
 
   const articles = [
     {
+      id: 5,
+      slug: "canabidiol",
+      title: "Canabidiol Medicinal: Da Eficácia Clínica ao Direito de Cobertura pelo Plano de Saúde e SUS",
+      image: "/canabidiol.jpg",
+      excerpt: "Entenda para quais doenças o canabidiol é indicado, as exigências da ANVISA e como a Justiça garante a cobertura integral pelo plano de saúde ou SUS diante de negativas.",
+      intro: "O uso terapêutico de derivados da Cannabis sativa, com destaque para o Canabidiol (CBD), deixou de ser uma promessa distante e consolidou-se como uma realidade médica amparada por pesquisas científicas de alto impacto. Longe de qualquer efeito entorpecente, o canabidiol de caráter medicamentoso atua diretamente no sistema endocanabinoide do corpo humano — uma rede de receptores responsável por regular funções como dor, humor, inflamação, sono e resposta imune.\n\nAbaixo, compreenda para quais doenças o canabidiol tem sido prescrito, o padrão de qualidade exigido dos produtos e como a Justiça brasileira garante o acesso ao tratamento diante de negativas.",
+      subtitle: "Para quais doenças o Canabidiol é indicado?",
+      bullets: [
+        { title: "Epilepsias Refratárias e Síndromes Raras", text: "Em quadros graves como a Síndrome de Dravet, Síndrome de Lennox-Gastaut e Esclerose Tuberosa, o CBD isolado apresenta elevado nível de comprovação científica, reduzindo drasticamente a frequência e a intensidade das crises convulsivas." },
+        { title: "Dor Crônica e Neuropática", text: "Pacientes com fibromialgia, artrite ou neuropatias periféricas encontram no tratamento um potente efeito analgésico e anti-inflamatório, reduzindo a dependência de opioides pesados." },
+        { title: "Transtorno do Espectro Autista (TEA)", text: "O medicamento é utilizado de forma adjuvante para controlar sintomas comportamentais severos e refratários, como crises de agressividade, irritabilidade extrema, autoagressão e insônia crônica." },
+        { title: "Doenças Neurodegenerativas (Parkinson e Alzheimer)", text: "Atua no alívio de sintomas motores (rigidez muscular e tremores), melhora a qualidade do sono REM e auxilia no manejo de agitações e alterações comportamentais." },
+        { title: "Esclerose Múltipla", text: "Especialmente eficaz na redução da espasticidade (rigidez muscular dolorosa e involuntária) e no controle das dores neuropáticas associadas." }
+      ],
+      sections: [
+        {
+          title: "1. Para quais doenças o Canabidiol é indicado?",
+          content: "A indicação da terapia canabinoide ocorre predominantemente após o <b>diagnóstico de refratariedade</b>, isto é, quando os tratamentos convencionais (remédios sintéticos, analgésicos ou anticonvulsivantes comuns) não surtiram o efeito desejado ou causaram efeitos colaterais severos. As principais condições incluem:",
+          bullets: [
+            { title: "Epilepsias Refratárias e Síndromes Raras", text: "Em quadros graves como a Síndrome de Dravet, Síndrome de Lennox-Gastaut e Esclerose Tuberosa, o CBD isolado reduz drasticamente a frequência e a intensidade das crises convulsivas." },
+            { title: "Dor Crônica e Neuropática", text: "Pacientes com fibromialgia, artrite ou neuropatias periféricas encontram potente efeito analgésico e anti-inflamatório, reduzindo a dependência de opioides pesados." },
+            { title: "Transtorno do Espectro Autista (TEA)", text: "Utilizado como adjuvante no controle de sintomas comportamentais severos e refratários, como crises de agressividade, irritabilidade extrema, autoagressão e insônia crônica." },
+            { title: "Doenças Neurodegenerativas (Parkinson e Alzheimer)", text: "Alívio de sintomas motores (rigidez muscular e tremores), melhora a qualidade do sono REM e auxilia no manejo de agitações comportamentais." },
+            { title: "Esclerose Múltipla", text: "Especialmente eficaz na redução da espasticidade (rigidez muscular dolorosa e involuntária) e no controle das dores neuropáticas associadas." }
+          ]
+        },
+        {
+          title: "2. A importância do padrão farmacêutico e das concentrações adequadas",
+          content: "Para que o canabidiol cumpra sua função terapêutica com previsibilidade e segurança, o produto não pode ser artesanal. Os principais laboratórios internacionais que atendem à regulação da ANVISA operam sob rigorosas certificações de <b>Boas Práticas Agrícolas (GACP)</b> e de <b>Fabricação (GMP)</b>.\n\nA medicina personalizada baseia-se na titulação precisa entre dois canabinoides fundamentais:\n\n• <b>Formulações com Predominância de CBD (Isoladas ou de Amplo Espectro):</b> Focadas no público neuropediátrico, epilepsias refratárias e ansiedade, nas quais se busca o controle neurológico sem qualquer efeito psicoativo.\n• <b>Formulações Balanceadas (Proporção 1:1 de CBD e THC):</b> Onde a associação de concentrações equivalentes de Canabidiol e Tetrahidrocanabinol é indispensável para criar o \"efeito comitiva\", potencializando a ação analgésica e o relaxamento muscular profundo exigidos na Esclerose Múltipla e na dor crônica.\n• <b>Formulações Ricas em THC:</b> Utilizadas sob rigoroso critério clínico em cuidados paliativos, oncologia e síndromes dolorosas severas.\n\nA padronização miligramada por lote produzida por uma empresa com autorização da ANVISA assegura que o paciente receba exatamente a dosagem receitada pelo seu médico assistente, sem variações que comprometam o tratamento."
+        },
+        {
+          title: "3. O rito regulatório perante a ANVISA",
+          image: "/canabidiol_p4.jpg",
+          content: "A maior parte dos produtos de padrão internacional diferenciado ingressa no Brasil por meio da Resolução RDC nº 660/2022 da ANVISA. Trata-se de uma via legal que autoriza a importação excepcional de produtos derivados de Cannabis por pessoa física, para uso próprio.\n\nRecomenda-se que o médico assistente certifique-se de que as empresas possuam certificações <b>GACP (Boas Práticas Agrícolas e de Coleta)</b> e <b>GMP (Boas Práticas de Fabricação)</b>, garantindo a padronização rigorosa dos lotes e a precisão exata nas concentrações de canabinoides prescritas.\n\nPara obter a liberação, o paciente necessita de:",
+          bullets: [
+            { title: "Prescrição médica detalhada", text: "Laudo especificando dosagem diária, concentração, posologia e justificativa clínica da necessidade." },
+            { title: "Cadastro simplificado junto à ANVISA", text: "Realizado diretamente pela plataforma digital oficial da agência sanitária." },
+            { title: "Autorização de importação sanitária", text: "Concedida de forma automática e válida pelo período de dois anos." }
+          ]
+        },
+        {
+          title: "4. O direito de cobertura pelos Planos de Saúde e pelo SUS",
+          image: "/canabidiol_p6.jpg",
+          content: "Apesar de o tratamento ser legalmente autorizado e prescrito por médicos registrados no CRM, os pacientes enfrentam frequentes <b>negativas de cobertura financeira</b>, seja pelas operadoras de planos de saúde, seja pelo Poder Público (SUS).\n\nA justificativa mais comum das operadoras é alegar que o medicamento não consta no Rol de Procedimentos da ANS ou que a importação via RDC 660 configuraria <b>\"tratamento experimental\"</b>. Esse argumento tem sido amplamente superado pelo Superior Tribunal de Justiça (STJ):",
+          bullets: [
+            { title: "A chancela da ANVISA afasta a natureza experimental", text: "A autorização sanitária concedida nos termos da RDC 660 atesta a segurança do produto para aquele paciente específico, descaracterizando por completo a tese de experimentalidade." },
+            { title: "Mitigação do Rol da ANS (Lei nº 14.454/2022)", text: "Com a nova legislação, o rol da ANS não é mais taxativo de forma absoluta. Havendo comprovação científica de eficácia e prescrição médica fundamentando a falha de alternativas convencionais, a cobertura <b>torna-se obrigatória.</b>" },
+            { title: "Dever Constitucional do Estado (SUS)", text: "O Estado tem o dever constitucional (Art. 196 da CF) de garantir o direito à saúde. Diante da hipossuficiência do paciente e da inexistência de substituto terapêutico eficaz na rede pública, o SUS pode ser obrigado judicialmente a fornecer o medicamento importado." }
+          ]
+        }
+      ],
+      conclusion: "O que fazer em caso de negativa pela operadora de planos de saúde ou pelo SUS?\n\nO paciente ou seu responsável legal não deve aceitar uma negativa verbal. Exija sempre a <b>negativa formal por escrito e fundamentada</b> da operadora de saúde ou do órgão público competente.\n\nComo o tratamento com canabidiol envolve custos contínuos elevados e, na grande maioria dos casos, tempo-sensibilidade clínica, a busca de suporte jurídico especializado torna-se indispensável.\n\nRecomenda-se procurar um <b>advogado especialista em Direito Médico e da Saúde</b>, profissional capacitado para analisar a documentação médica, verificar a conformidade regulatória com a ANVISA e ingressar com a medida judicial cabível — frequentemente acompanhada de pedido liminar de urgência — para compelir o plano de saúde ou o Estado a custear integralmente o fornecimento da medicação.",
+      ctaText: "Teve o fornecimento de Canabidiol Medicinal negado pelo plano de saúde ou SUS? Avalie o seu caso e garanta o seu tratamento com um especialista.",
+      ctaLink: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Olá! Gostaria de uma avaliação jurídica referente à cobertura de Canabidiol Medicinal (Cannabis) pelo plano de saúde ou SUS. Poderiam me orientar?")}`
+    },
+    {
       id: 1,
       slug: "liminar",
       title: "Como Conseguir uma Liminar Contra o Plano de Saúde em Casos de Urgência",
@@ -223,62 +279,6 @@ export default function App() {
       conclusion: "Essa prática é conhecida como \"expulsão velada\" e os tribunais brasileiros têm sido rigorosos contra ela. Se a sua mensalidade dobrou ou sofreu um aumento que comprometeu sua renda, saiba que na maioria dos casos é possível reverter essa situação judicialmente.",
       ctaText: "Acha que seu boleto está caro demais? Envie uma cópia para nossa equipe e receba uma análise gratuita do seu reajuste.",
       ctaLink: whatsappLink
-    },
-    {
-      id: 5,
-      slug: "canabidiol",
-      title: "Canabidiol Medicinal: Da Eficácia Clínica ao Direito de Cobertura pelo Plano de Saúde e SUS",
-      image: "/canabidiol.jpg",
-      excerpt: "Entenda para quais doenças o canabidiol é indicado, as exigências da ANVISA e como a Justiça garante a cobertura integral pelo plano de saúde ou SUS diante de negativas.",
-      intro: "O uso terapêutico de derivados da Cannabis sativa, com destaque para o Canabidiol (CBD), deixou de ser uma promessa distante e consolidou-se como uma realidade médica amparada por pesquisas científicas de alto impacto. Longe de qualquer efeito entorpecente, o canabidiol de caráter medicamentoso atua diretamente no sistema endocanabinoide do corpo humano — uma rede de receptores responsável por regular funções como dor, humor, inflamação, sono e resposta imune.\n\nAbaixo, compreenda para quais doenças o canabidiol tem sido prescrito, o padrão de qualidade exigido dos produtos e como a Justiça brasileira garante o acesso ao tratamento diante de negativas.",
-      subtitle: "Para quais doenças o Canabidiol é indicado?",
-      bullets: [
-        { title: "Epilepsias Refratárias e Síndromes Raras", text: "Em quadros graves como a Síndrome de Dravet, Síndrome de Lennox-Gastaut e Esclerose Tuberosa, o CBD isolado apresenta elevado nível de comprovação científica, reduzindo drasticamente a frequência e a intensidade das crises convulsivas." },
-        { title: "Dor Crônica e Neuropática", text: "Pacientes com fibromialgia, artrite ou neuropatias periféricas encontram no tratamento um potente efeito analgésico e anti-inflamatório, reduzindo a dependência de opioides pesados." },
-        { title: "Transtorno do Espectro Autista (TEA)", text: "O medicamento é utilizado de forma adjuvante para controlar sintomas comportamentais severos e refratários, como crises de agressividade, irritabilidade extrema, autoagressão e insônia crônica." },
-        { title: "Doenças Neurodegenerativas (Parkinson e Alzheimer)", text: "Atua no alívio de sintomas motores (rigidez muscular e tremores), melhora a qualidade do sono REM e auxilia no manejo de agitações e alterações comportamentais." },
-        { title: "Esclerose Múltipla", text: "Especialmente eficaz na redução da espasticidade (rigidez muscular dolorosa e involuntária) e no controle das dores neuropáticas associadas." }
-      ],
-      sections: [
-        {
-          title: "1. Para quais doenças o Canabidiol é indicado?",
-          content: "A indicação da terapia canabinoide ocorre predominantemente após o <b>diagnóstico de refratariedade</b>, isto é, quando os tratamentos convencionais (remédios sintéticos, analgésicos ou anticonvulsivantes comuns) não surtiram o efeito desejado ou causaram efeitos colaterais severos. As principais condições incluem:",
-          bullets: [
-            { title: "Epilepsias Refratárias e Síndromes Raras", text: "Em quadros graves como a Síndrome de Dravet, Síndrome de Lennox-Gastaut e Esclerose Tuberosa, o CBD isolado reduz drasticamente a frequência e a intensidade das crises convulsivas." },
-            { title: "Dor Crônica e Neuropática", text: "Pacientes com fibromialgia, artrite ou neuropatias periféricas encontram potente efeito analgésico e anti-inflamatório, reduzindo a dependência de opioides pesados." },
-            { title: "Transtorno do Espectro Autista (TEA)", text: "Utilizado como adjuvante no controle de sintomas comportamentais severos e refratários, como crises de agressividade, irritabilidade extrema, autoagressão e insônia crônica." },
-            { title: "Doenças Neurodegenerativas (Parkinson e Alzheimer)", text: "Alívio de sintomas motores (rigidez muscular e tremores), melhora a qualidade do sono REM e auxilia no manejo de agitações comportamentais." },
-            { title: "Esclerose Múltipla", text: "Especialmente eficaz na redução da espasticidade (rigidez muscular dolorosa e involuntária) e no controle das dores neuropáticas associadas." }
-          ]
-        },
-        {
-          title: "2. A importância do padrão farmacêutico e das concentrações adequadas",
-          content: "Para que o canabidiol cumpra sua função terapêutica com previsibilidade e segurança, o produto não pode ser artesanal. Os principais laboratórios internacionais que atendem à regulação da ANVISA operam sob rigorosas certificações de <b>Boas Práticas Agrícolas (GACP)</b> e de <b>Fabricação (GMP)</b>.\n\nA medicina personalizada baseia-se na titulação precisa entre dois canabinoides fundamentais:\n\n• <b>Formulações com Predominância de CBD (Isoladas ou de Amplo Espectro):</b> Focadas no público neuropediátrico, epilepsias refratárias e ansiedade, nas quais se busca o controle neurológico sem qualquer efeito psicoativo.\n• <b>Formulações Balanceadas (Proporção 1:1 de CBD e THC):</b> Onde a associação de concentrações equivalentes de Canabidiol e Tetrahidrocanabinol é indispensável para criar o \"efeito comitiva\", potencializando a ação analgésica e o relaxamento muscular profundo exigidos na Esclerose Múltipla e na dor crônica.\n• <b>Formulações Ricas em THC:</b> Utilizadas sob rigoroso critério clínico em cuidados paliativos, oncologia e síndromes dolorosas severas.\n\nA padronização miligramada por lote produzida por uma empresa com autorização da ANVISA assegura que o paciente receba exatamente a dosagem receitada pelo seu médico assistente, sem variações que comprometam o tratamento."
-        },
-        {
-          title: "3. O rito regulatório perante a ANVISA",
-          image: "/canabidiol_p4.jpg",
-          content: "A maior parte dos produtos de padrão internacional diferenciado ingressa no Brasil por meio da Resolução RDC nº 660/2022 da ANVISA. Trata-se de uma via legal que autoriza a importação excepcional de produtos derivados de Cannabis por pessoa física, para uso próprio.\n\nRecomenda-se que o médico assistente certifique-se de que as empresas possuam certificações <b>GACP (Boas Práticas Agrícolas e de Coleta)</b> e <b>GMP (Boas Práticas de Fabricação)</b>, garantindo a padronização rigorosa dos lotes e a precisão exata nas concentrações de canabinoides prescritas.\n\nPara obter a liberação, o paciente necessita de:",
-          bullets: [
-            { title: "Prescrição médica detalhada", text: "Laudo especificando dosagem diária, concentração, posologia e justificativa clínica da necessidade." },
-            { title: "Cadastro simplificado junto à ANVISA", text: "Realizado diretamente pela plataforma digital oficial da agência sanitária." },
-            { title: "Autorização de importação sanitária", text: "Concedida de forma automática e válida pelo período de dois anos." }
-          ]
-        },
-        {
-          title: "4. O direito de cobertura pelos Planos de Saúde e pelo SUS",
-          image: "/canabidiol_p6.jpg",
-          content: "Apesar de o tratamento ser legalmente autorizado e prescrito por médicos registrados no CRM, os pacientes enfrentam frequentes <b>negativas de cobertura financeira</b>, seja pelas operadoras de planos de saúde, seja pelo Poder Público (SUS).\n\nA justificativa mais comum das operadoras é alegar que o medicamento não consta no Rol de Procedimentos da ANS ou que a importação via RDC 660 configuraria <b>\"tratamento experimental\"</b>. Esse argumento tem sido amplamente superado pelo Superior Tribunal de Justiça (STJ):",
-          bullets: [
-            { title: "A chancela da ANVISA afasta a natureza experimental", text: "A autorização sanitária concedida nos termos da RDC 660 atesta a segurança do produto para aquele paciente específico, descaracterizando por completo a tese de experimentalidade." },
-            { title: "Mitigação do Rol da ANS (Lei nº 14.454/2022)", text: "Com a nova legislação, o rol da ANS não é mais taxativo de forma absoluta. Havendo comprovação científica de eficácia e prescrição médica fundamentando a falha de alternativas convencionais, a cobertura <b>torna-se obrigatória.</b>" },
-            { title: "Dever Constitucional do Estado (SUS)", text: "O Estado tem o dever constitucional (Art. 196 da CF) de garantir o direito à saúde. Diante da hipossuficiência do paciente e da inexistência de substituto terapêutico eficaz na rede pública, o SUS pode ser obrigado judicialmente a fornecer o medicamento importado." }
-          ]
-        }
-      ],
-      conclusion: "O que fazer em caso de negativa pela operadora de planos de saúde ou pelo SUS?\n\nO paciente ou seu responsável legal não deve aceitar uma negativa verbal. Exija sempre a <b>negativa formal por escrito e fundamentada</b> da operadora de saúde ou do órgão público competente.\n\nComo o tratamento com canabidiol envolve custos contínuos elevados e, na grande maioria dos casos, tempo-sensibilidade clínica, a busca de suporte jurídico especializado torna-se indispensável.\n\nRecomenda-se procurar um <b>advogado especialista em Direito Médico e da Saúde</b>, profissional capacitado para analisar a documentação médica, verificar a conformidade regulatória com a ANVISA e ingressar com a medida judicial cabível — frequentemente acompanhada de pedido liminar de urgência — para compelir o plano de saúde ou o Estado a custear integralmente o fornecimento da medicação.",
-      ctaText: "Teve o fornecimento de Canabidiol Medicinal negado pelo plano de saúde ou SUS? Avalie o seu caso e garanta o seu tratamento com um especialista.",
-      ctaLink: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Olá! Gostaria de uma avaliação jurídica referente à cobertura de Canabidiol Medicinal (Cannabis) pelo plano de saúde ou SUS. Poderiam me orientar?")}`
     }
   ];
 
