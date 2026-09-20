@@ -1433,15 +1433,7 @@ function ArticlePageView({
     <div className="bg-slate-50 pt-32 pb-24 min-h-screen">
       <div className="container mx-auto px-4 md:px-8 max-w-4xl">
         {/* Breadcrumb e Botão Voltar */}
-        <div className="mb-8">
-          <button 
-            onClick={onBack} 
-            className="inline-flex items-center gap-2 text-blue-700 hover:text-blue-900 font-bold transition-colors cursor-pointer group text-sm"
-          >
-            <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
-            Voltar para a página inicial
-          </button>
-        </div>
+
 
         {/* Artigo Principal */}
         <article className="bg-white rounded-3xl p-6 md:p-12 shadow-xl border border-slate-100 mb-12">
