@@ -23,6 +23,7 @@ import {
   X,
 } from 'lucide-react';
 import { InstagramBioPage, SpecialtyInternalPage } from './components/SecondaryPages';
+import { InstagramFeedSection } from './components/InstagramFeedSection';
 
 type ActiveView =
   | { type: 'home' }
@@ -51,6 +52,7 @@ export default function App() {
     'https://www.google.com/maps/place/Saraiva+%26+Advogados+Associados/@-14.4095261,-51.31668,4z/data=!3m1!4b1!4m6!3m5!1s0x94ce5bbc948bf5c1:0xe06e22bfbf9da60e!8m2!3d-14.4095262!4d-51.31668!16s%2Fg%2F11nq0_hg79?entry=ttu&g_ep=EgoyMDI2MDYxNi4wIKXMDSoASAFQAw%3D%3D';
   const instagramHandle = '@saraivaeadvogados';
   const instagramUrl = 'https://www.instagram.com/saraivaeadvogados/';
+  const beholdFeedUrl = 'https://feeds.behold.so/egJDQgN9GcedqPoPnrlh';
 
   const resolveViewFromLocation = (): ActiveView => {
     const pathname = window.location.pathname.replace(/\/+$/, '').toLowerCase();
@@ -1791,6 +1793,14 @@ export default function App() {
               </div>
             </div>
           </section>
+
+          {/* REELS E PUBLICAÇÕES NO INSTAGRAM */}
+          <InstagramFeedSection
+            feedUrl={beholdFeedUrl}
+            instagramHandle={instagramHandle}
+            instagramUrl={instagramUrl}
+            whatsappLink={whatsappLink}
+          />
 
           {/* FAQ */}
           <section id="faq" className="py-24 bg-slate-50 border-t border-slate-200">
