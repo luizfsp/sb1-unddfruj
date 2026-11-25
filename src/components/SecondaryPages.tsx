@@ -38,11 +38,11 @@ export function InstagramBioPage({
     },
     {
       title: '2. Medicamentos de Alto Custo',
-      subtitle: 'Oncológicos, tratamentos especiais e canabidiol medicinal',
+      subtitle: 'Oncológicos, doenças autoimunes, neurológicas, raras e genéticas',
       icon: Pill,
       highlight: false,
       href: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-        'Olá! Vim pelo Instagram e preciso de orientação jurídica sobre negativa de medicamento de alto custo ou canabidiol medicinal.'
+        'Olá! Vim pelo Instagram e preciso de orientação jurídica sobre negativa de medicamento de alto custo.'
       )}`,
     },
     {
