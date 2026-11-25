@@ -975,8 +975,8 @@ export default function App() {
                       Liminares de Urgência, Internação e UTI
                     </h4>
                     <p className="text-slate-600 text-sm leading-relaxed text-justify">
-                      Medidas judiciais urgentes contra negativas de internação hospitalar, cirurgias, limitação de dias
-                      em UTI e exames de alta complexidade com indicação médica.
+                      Adoção de medidas judiciais urgentes contra negativas de internação hospitalar, cirurgias,
+                      limitação de dias em UTI e exames de alta complexidade com indicação médica.
                     </p>
                   </div>
                 </div>
