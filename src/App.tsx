@@ -765,15 +765,6 @@ export default function App() {
                       Enviar Relato para Triagem
                     </a>
                   </div>
-
-                  {/* SELO DE AUTORIDADE */}
-                  <div className="inline-flex items-center gap-2.5 text-xs sm:text-sm text-slate-300 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
-                    <Award className="text-amber-400 shrink-0" size={18} />
-                    <span>
-                      <strong className="text-white">Dr. Fábio Saraiva</strong> — Especialista em Direito Médico e da
-                      Saúde · OAB/SP 184.971 · Mais de 25 anos de experiência jurídica
-                    </span>
-                  </div>
                 </div>
 
                 <div className="md:w-2/5 relative">
@@ -792,7 +783,7 @@ export default function App() {
                         <div>
                           <p className="text-white font-bold">Dr. Fábio Saraiva</p>
                           <p className="text-slate-300 text-xs sm:text-sm">
-                            Direito Médico e da Saúde · OAB/SP 184.971
+                            Mais de 25 anos de experiência em Direito Médico e da Saúde.
                           </p>
                         </div>
                       </div>
@@ -1743,8 +1734,8 @@ export default function App() {
               </div>
               <p className="text-white font-extrabold text-lg mb-2">Saraiva &amp; Advogados</p>
               <p className="mb-4 text-sm leading-relaxed text-justify">
-                Mais de 25 anos de atuação com ética, rigor técnico e transparência na defesa do Direito Médico e da
-                Saúde.
+                Mais de 25 anos de experiência na defesa dos clientes na área do Direito Médico e da Saúde, atuando com
+                ética, rigor técnico e transparência.
               </p>
               <p className="text-amber-400 font-bold tracking-wide text-xs">
                 Dr. Fábio Saraiva — OAB/SP 184.971
