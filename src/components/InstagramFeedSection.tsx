@@ -174,7 +174,7 @@ export function InstagramFeedSection({
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">
               Reels e Orientações no Instagram
             </h2>
-            <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+            <p className="text-slate-600 text-sm md:text-base leading-relaxed text-justify">
               Acompanhe os vídeos, alertas rápidos e conteúdos educativos do Dr. Fábio Saraiva sobre direitos dos
               pacientes diante dos planos de saúde — atualizados automaticamente.
             </p>
@@ -367,7 +367,7 @@ export function InstagramFeedSection({
                     </div>
 
                     <div className="p-4">
-                      <p className="text-slate-600 text-xs leading-relaxed line-clamp-3">
+                      <p className="text-slate-600 text-xs leading-relaxed text-justify line-clamp-3">
                         {captionText || 'Confira esta orientação jurídica no Instagram oficial do escritório.'}
                       </p>
                     </div>
@@ -497,7 +497,7 @@ export function InstagramFeedSection({
                   </div>
                 </div>
 
-                <p className="text-slate-700 text-sm leading-relaxed whitespace-pre-line mb-6">
+                <p className="text-slate-700 text-sm leading-relaxed text-justify whitespace-pre-line mb-6">
                   {selectedPost.prunedCaption || selectedPost.caption}
                 </p>
               </div>

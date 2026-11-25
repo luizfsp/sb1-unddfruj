@@ -278,7 +278,7 @@ export function SpecialtyInternalPage({
             <h1 className="text-3xl md:text-5xl font-extrabold leading-tight mb-5">
               {content.title}
             </h1>
-            <p className="text-slate-300 text-base md:text-lg leading-relaxed mb-8">
+            <p className="text-slate-300 text-base md:text-lg leading-relaxed text-justify mb-8">
               {content.subtitle}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -319,7 +319,7 @@ export function SpecialtyInternalPage({
                   <h2 className="text-lg font-extrabold text-slate-900 mb-2">
                     {item.title}
                   </h2>
-                  <p className="text-slate-600 text-sm leading-relaxed">
+                  <p className="text-slate-600 text-sm leading-relaxed text-justify">
                     {item.desc}
                   </p>
                 </div>

@@ -740,7 +740,7 @@ export default function App() {
                     </span>
                   </h1>
 
-                  <p className="text-base md:text-xl text-slate-300 mb-9 max-w-2xl leading-relaxed text-justify md:text-left">
+                  <p className="text-base md:text-xl text-slate-300 mb-9 max-w-2xl leading-relaxed text-justify">
                     Advocacia especializada na defesa de beneficiários contra abusos de operadoras de planos de saúde.
                     Atuação técnica e ágil em negativas de cirurgias, exames, internações, medicamentos de alto custo e
                     reajustes abusivos, inclusive com pedidos de liminar de urgência.
@@ -1296,9 +1296,9 @@ export default function App() {
 
                       <div className="border-t border-slate-100 pt-4 mb-4">
                         <h5 className="text-xs font-black uppercase text-slate-400 mb-1">Discussão:</h5>
-                        <p className="text-slate-700 font-semibold text-xs leading-relaxed mb-3">{item.issue}</p>
+                        <p className="text-slate-700 font-semibold text-xs leading-relaxed text-justify mb-3">{item.issue}</p>
                         <h5 className="text-xs font-black uppercase text-slate-400 mb-1">Medida Concedida:</h5>
-                        <p className="text-slate-600 text-xs leading-relaxed">{item.summary}</p>
+                        <p className="text-slate-600 text-xs leading-relaxed text-justify">{item.summary}</p>
                       </div>
 
                       <div className="mt-4 bg-slate-50 border-l-4 border-amber-500 rounded-r-xl p-4 font-mono text-[11px] text-slate-600 select-none relative max-h-[160px] overflow-y-auto">
@@ -1661,7 +1661,7 @@ export default function App() {
                       <h4 className="font-extrabold text-slate-950 text-lg leading-snug mb-3 group-hover:text-blue-700 transition-colors">
                         {item.title}
                       </h4>
-                      <p className="text-slate-600 text-sm mb-4 leading-relaxed">{item.excerpt}</p>
+                      <p className="text-slate-600 text-sm mb-4 leading-relaxed text-justify">{item.excerpt}</p>
                     </div>
                     <span className="text-blue-700 font-bold text-sm flex items-center gap-1 group-hover:underline mt-4">
                       Ler artigo completo →
@@ -1899,7 +1899,7 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
           isOpen ? 'max-h-[520px] pb-6 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <p className="text-slate-600 text-sm leading-relaxed border-t pt-4">{answer}</p>
+        <p className="text-slate-600 text-sm leading-relaxed text-justify border-t pt-4">{answer}</p>
       </div>
     </div>
   );
@@ -2099,7 +2099,7 @@ function ArticlePageView({
                     <h4 className="font-extrabold text-slate-950 text-base leading-snug mb-3 group-hover:text-blue-700 transition-colors">
                       {item.title}
                     </h4>
-                    <p className="text-slate-600 text-xs line-clamp-3 mb-4 leading-relaxed">{item.excerpt}</p>
+                    <p className="text-slate-600 text-xs line-clamp-3 mb-4 leading-relaxed text-justify">{item.excerpt}</p>
                   </div>
                   <span className="text-blue-700 font-bold text-xs flex items-center gap-1 group-hover:underline mt-auto">
                     Ler artigo completo →
