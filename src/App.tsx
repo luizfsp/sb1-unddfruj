@@ -87,6 +87,14 @@ export default function App() {
     if (artigoParam === 'reajuste') {
       return { type: 'article', id: 4 };
     }
+    if (
+      pathname === '/artigos/desafios-juridicos-medicos-crm-e-justica' ||
+      artigoParam === 'desafios-juridicos-medicos-crm-e-justica' ||
+      artigoParam === 'medicos' ||
+      artigoParam === 'crm'
+    ) {
+      return { type: 'article', id: 5 };
+    }
     return { type: 'home' };
   };
 
@@ -122,11 +130,18 @@ export default function App() {
   const articles: Array<{
     id: number;
     slug: string;
+    customPath?: string;
+    seoTitle?: string;
+    seoDescription?: string;
     category: 'pacientes' | 'medicos';
     title: string;
     image: string;
+    imageAlt?: string;
+    imageCaption?: string;
     excerpt: string;
     intro: string;
+    callout?: { title: string; text: string };
+    leadIn?: string;
     subtitle: string;
     bullets: Array<{ title?: string; text: string }>;
     sections?: Array<{
@@ -134,11 +149,117 @@ export default function App() {
       image?: string;
       content?: string;
       bullets?: Array<{ title?: string; text: string }>;
+      afterImage?: string;
+      afterImageAlt?: string;
+      afterImageCaption?: string;
+      afterImageFull?: boolean;
     }>;
     conclusion: string;
+    disclaimer?: string;
     ctaText: string;
     ctaLink: string;
   }> = [
+    {
+      id: 5,
+      slug: 'desafios-juridicos-medicos-crm-e-justica',
+      customPath: '/artigos/desafios-juridicos-medicos-crm-e-justica',
+      seoTitle: 'Os principais desafios jurídicos enfrentados por médicos no CRM e na Justiça | Saraiva & Advogados',
+      seoDescription:
+        'Conheça os principais temas que levam médicos ao CRM e à Justiça — de sindicâncias e publicidade médica a TCLE, glosas e LGPD — e entenda o papel do suporte jurídico.',
+      category: 'medicos',
+      title: 'Os principais desafios jurídicos enfrentados por médicos no CRM e na Justiça',
+      image: '/medicos_capa.jpg',
+      imageAlt:
+        'Estetoscópio médico ao lado de livros jurídicos sobre mesa de madeira representando o Direito Médico e da Saúde',
+      imageCaption: 'Integração entre a prática médica e a segurança jurídica.',
+      excerpt:
+        'Uma visão geral sobre os procedimentos ético-profissionais e as demandas judiciais mais recorrentes na rotina médica, e o papel do suporte jurídico preventivo e contencioso.',
+      intro:
+        'O exercício da Medicina exige decisões técnicas complexas, muitas vezes tomadas sob pressão e com alto grau de responsabilidade. No cenário atual, porém, a rotina do profissional de saúde vai além da assistência clínica: envolve também lidar com normas éticas rigorosas, maior acesso dos pacientes à informação e um crescimento contínuo de questionamentos administrativos e judiciais.',
+      callout: {
+        title: 'Ponto de atenção: independência entre as instâncias',
+        text: 'Um mesmo atendimento ou intercorrência pode gerar, simultaneamente, uma apuração ética no Conselho Regional de Medicina (CRM) e ações perante o Poder Judiciário — e os documentos ou manifestações apresentados em uma esfera costumam repercutir diretamente na outra.',
+      },
+      leadIn: 'A seguir, apresentamos um panorama simplificado dos temas jurídicos mais frequentes na rotina médica.',
+      subtitle: '1. Demandas administrativas perante o CRM',
+      bullets: [],
+      sections: [
+        {
+          title: '1. Demandas administrativas perante o CRM',
+          content:
+            'Na esfera ético-profissional, os procedimentos iniciam-se, em regra, por meio de sindicância sigilosa, que pode resultar em arquivamento, celebração de Termo de Ajustamento de Conduta (TAC) ou instauração de Processo Ético-Profissional (PEP). Em situações consideradas graves, o Conselho pode inclusive analisar medidas preventivas, como a interdição cautelar do exercício profissional.\n\nEntre os motivos mais recorrentes de apuração no CRM, destacam-se:',
+          bullets: [
+            {
+              title: 'Conduta assistencial e comunicação',
+              text: 'Questionamentos relacionados a diagnósticos, escolhas terapêuticas, intercorrências clínicas ou cirúrgicas, atrasos no atendimento e ruídos na comunicação com pacientes e familiares.',
+            },
+            {
+              title: 'Publicidade médica',
+              text: 'Adequação de redes sociais, sites e materiais educativos às regras do Conselho Federal de Medicina (CFM), incluindo a obrigatoriedade de informar nome, CRM e RQE (quando houver divulgação de especialidade), além dos limites sobre promessa de resultado, divulgação de imagens e compartilhamento de elogios de pacientes.',
+            },
+            {
+              title: 'Prontuário e documentos médicos',
+              text: 'Registros incompletos ou pouco claros no prontuário, dúvidas sobre emissão de atestados, elaboração de laudos ou atuação em perícias médicas.',
+            },
+            {
+              title: 'Direção Técnica e condições de trabalho',
+              text: 'Responsabilizações direcionadas ao Diretor Técnico em razão de falhas estruturais da instituição, falta de insumos ou escalas de plantão descobertas.',
+            },
+          ],
+          afterImage: '/medicos_prontuario.jpg',
+          afterImageAlt: 'Médico em consultório revisando prontuário médico e termos de consentimento livre e esclarecido',
+          afterImageCaption:
+            'O registro cuidadoso em prontuário e a adequação documental reduzem a exposição perante o CRM e o Judiciário.',
+        },
+        {
+          title: '2. Principais temas na esfera judicial',
+          content:
+            'Independentemente de existir ou não procedimento no CRM, o médico pode figurar como réu — ou precisar buscar proteção jurídica como autor — em diferentes frentes do Poder Judiciário:',
+          bullets: [
+            {
+              title: 'Responsabilidade civil (“erro médico” e dever de informação)',
+              text: 'Ações indenizatórias por alegação de danos morais, materiais ou estéticos. Além da análise técnica do atendimento, o Judiciário tem dado peso crescente ao cumprimento do dever de informação, avaliando se o Termo de Consentimento Livre e Esclarecido (TCLE) foi adequado e específico para o procedimento realizado.',
+            },
+            {
+              title: 'Esfera criminal',
+              text: 'Inquéritos policiais e ações penais envolvendo apurações de lesão corporal ou homicídio culposo em decorrência de intercorrências graves, além de imputações relacionadas à omissão de socorro, violação de sigilo profissional ou irregularidades documentais.',
+            },
+            {
+              title: 'Planos de saúde, hospitais e relações contratuais',
+              text: 'Conflitos envolvendo glosas sem justificativa técnica, descredenciamento unilateral por operadoras, atrasos ou inadimplência no pagamento de plantões e questões societárias ou trabalhistas ligadas à atuação como pessoa jurídica (PJ) ou em clínicas médicas.',
+            },
+            {
+              title: 'Proteção reputacional e ambiente digital',
+              text: 'Medidas judiciais para remoção de publicações difamatórias ou avaliações falsas na internet, apuração de fraudes com uso indevido do CRM ou de receituários e adequação do consultório à Lei Geral de Proteção de Dados (LGPD) no manejo de prontuários, exames e mensagens eletrônicas.',
+            },
+          ],
+          afterImage: '/medicos_infografico.png',
+          afterImageAlt:
+            'Infográfico comparativo das principais demandas médicas perante o Conselho Regional de Medicina e o Poder Judiciário',
+          afterImageCaption: 'Visão comparativa das principais frentes de atuação administrativa e judicial.',
+          afterImageFull: true,
+        },
+        {
+          title: '3. O papel do suporte jurídico preventivo e contencioso',
+          content:
+            'Grande parte dos desgastes enfrentados por médicos no CRM e na Justiça tem origem em vulnerabilidades preveníveis — como documentação clínica incompleta, termos genéricos, contratos mal estruturados ou respostas apresentadas sem orientação técnica na fase inicial de uma sindicância.\n\nPor isso, o acompanhamento jurídico especializado atua em duas frentes complementares: preventivamente, auxiliando na organização documental, contratual e regulatória da atividade médica; e contenciosamente, estruturando a defesa técnica em procedimentos éticos e processos judiciais ou resguardando os direitos profissionais e econômicos do médico.',
+          afterImage: '/medicos_suporte.jpg',
+          afterImageAlt:
+            'Advogado especialista em Direito Médico e profissional de saúde analisando documentos jurídicos em reunião',
+          afterImageCaption:
+            'Atuação conjunta preventiva e contenciosa para a proteção do exercício profissional médico.',
+        },
+      ],
+      conclusion:
+        'Nos próximos artigos, buscaremos abordar os temas de forma individual e aprofundada, os cuidados práticos e os principais entendimentos aplicáveis a cada situação.',
+      disclaimer:
+        'Aviso informativo: Este artigo tem caráter exclusivamente informativo e educativo, em conformidade com o Código de Ética e Disciplina da OAB, não substituindo a análise técnica individualizada de cada caso.',
+      ctaText:
+        'Para esclarecimentos adicionais ou análise técnica individualizada de situações envolvendo procedimentos perante o CRM, demandas judiciais ou adequação preventiva da prática médica, o escritório Saraiva & Advogados coloca-se à disposição.',
+      ctaLink: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+        'Olá! Sou profissional da área médica e gostaria de uma orientação jurídica sobre Direito Médico (CRM, atuação preventiva ou contenciosa).'
+      )}`,
+    },
     {
       id: 1,
       slug: 'liminar',
@@ -429,10 +550,39 @@ export default function App() {
     const target = articles.find((a) => a.id === id);
     setActiveView({ type: 'article', id });
     if (target) {
-      window.history.pushState({}, document.title, `/?artigo=${target.slug}`);
+      const nextUrl = target.customPath ? target.customPath : `/?artigo=${target.slug}`;
+      window.history.pushState({}, document.title, nextUrl);
     }
     window.scrollTo(0, 0);
   };
+
+  useEffect(() => {
+    const defaultTitle = 'Saraiva & Advogados | Direito Médico e da Saúde em São Paulo';
+    const defaultDescription =
+      'Advocacia especializada em Direito da Saúde com mais de 25 anos de experiência. Atuação em negativas de planos de saúde, liminares de urgência, medicamentos de alto custo, home care e reajustes abusivos.';
+
+    let nextTitle = defaultTitle;
+    let nextDescription = defaultDescription;
+
+    if (activeView.type === 'article') {
+      const currentArticle = articles.find((a) => a.id === activeView.id);
+      if (currentArticle) {
+        nextTitle = currentArticle.seoTitle || `${currentArticle.title} | Saraiva & Advogados`;
+        nextDescription = currentArticle.seoDescription || currentArticle.excerpt;
+      }
+    } else if (activeView.type === 'specialty') {
+      nextTitle =
+        activeView.page === 'defesa-medica'
+          ? 'Médicos e Clínicas | Saraiva & Advogados'
+          : 'Seguros em Geral | Saraiva & Advogados';
+    }
+
+    document.title = nextTitle;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', nextDescription);
+    }
+  }, [activeView]);
 
   const handleFormSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -1749,8 +1899,17 @@ export default function App() {
                   );
                 }
 
+                const gridColsClass =
+                  filteredArticles.length === 1
+                    ? 'grid-cols-1 max-w-md mx-auto'
+                    : filteredArticles.length === 2
+                    ? 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-8'
+                    : filteredArticles.length === 4
+                    ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'
+                    : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8';
+
                 return (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <div className={`grid ${gridColsClass}`}>
                     {filteredArticles.map((item) => {
                       const isDoctors = item.category === 'medicos';
                       return (
@@ -1763,7 +1922,7 @@ export default function App() {
                             <div className="rounded-xl overflow-hidden mb-5 aspect-video border border-slate-200">
                               <img
                                 src={item.image}
-                                alt={item.title}
+                                alt={item.imageAlt || item.title}
                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                               />
                             </div>
@@ -2093,9 +2252,20 @@ function ArticlePageView({
           </div>
 
           {/* Imagem de Capa */}
-          <div className="rounded-2xl overflow-hidden shadow-lg border border-slate-100 mb-8 max-h-[400px] aspect-video">
-            <img src={article.image} alt={article.title} className="w-full h-full object-cover" />
-          </div>
+          <figure className="mb-8">
+            <div className="rounded-2xl overflow-hidden shadow-lg border border-slate-100 max-h-[420px] aspect-video">
+              <img
+                src={article.image}
+                alt={article.imageAlt || article.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            {article.imageCaption && (
+              <figcaption className="text-xs text-slate-500 italic mt-2.5 text-center">
+                {article.imageCaption}
+              </figcaption>
+            )}
+          </figure>
 
           {/* Conteúdo do Artigo */}
           <div className="text-slate-700 text-base md:text-lg leading-relaxed space-y-6 text-justify">
@@ -2103,11 +2273,28 @@ function ArticlePageView({
               {renderFormattedText(article.intro)}
             </p>
 
+            {article.callout && (
+              <div className="bg-blue-950/5 border-l-4 border-blue-900 rounded-r-2xl p-5 md:p-6 my-6">
+                <p className="text-sm font-black uppercase tracking-wide text-blue-950 mb-1.5 text-left">
+                  {article.callout.title}
+                </p>
+                <p className="text-slate-700 text-sm md:text-base leading-relaxed text-justify">
+                  {renderFormattedText(article.callout.text)}
+                </p>
+              </div>
+            )}
+
+            {article.leadIn && (
+              <p className="text-slate-700 leading-relaxed">
+                {renderFormattedText(article.leadIn)}
+              </p>
+            )}
+
             {article.sections && article.sections.length > 0 ? (
               <div className="space-y-10 pt-4 border-t border-slate-100">
                 {article.sections.map((sec: any, sIdx: number) => (
                   <div key={sIdx} className="space-y-4">
-                    <h3 className="text-xl md:text-2xl font-bold text-slate-900">
+                    <h3 className="text-xl md:text-2xl font-bold text-slate-900 text-left">
                       {renderFormattedText(sec.title)}
                     </h3>
                     {sec.image && (
@@ -2127,20 +2314,44 @@ function ArticlePageView({
                             key={bIdx}
                             className="flex items-start gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100"
                           >
-                            <div className="bg-emerald-50 text-emerald-600 p-1.5 rounded-full shrink-0">
+                            <div className="bg-emerald-50 text-emerald-600 p-1.5 rounded-full shrink-0 mt-0.5">
                               <CheckCircle2 size={16} />
                             </div>
                             <div>
                               {b.title && (
-                                <h4 className="font-extrabold text-slate-900 text-sm mb-1">
+                                <h4 className="font-extrabold text-slate-900 text-sm mb-1 text-left">
                                   {renderFormattedText(b.title)}
                                 </h4>
                               )}
-                              <p className="text-slate-600 text-sm leading-relaxed">{renderFormattedText(b.text)}</p>
+                              <p className="text-slate-600 text-sm leading-relaxed text-justify">
+                                {renderFormattedText(b.text)}
+                              </p>
                             </div>
                           </div>
                         ))}
                       </div>
+                    )}
+                    {sec.afterImage && (
+                      <figure className="my-6">
+                        <div
+                          className={`rounded-2xl overflow-hidden shadow-md border border-slate-200/80 ${
+                            sec.afterImageFull ? 'bg-slate-950' : 'max-h-[420px]'
+                          }`}
+                        >
+                          <img
+                            src={sec.afterImage}
+                            alt={sec.afterImageAlt || sec.title}
+                            className={
+                              sec.afterImageFull ? 'w-full h-auto object-contain' : 'w-full h-full object-cover'
+                            }
+                          />
+                        </div>
+                        {sec.afterImageCaption && (
+                          <figcaption className="text-xs text-slate-500 italic mt-2.5 text-center">
+                            {sec.afterImageCaption}
+                          </figcaption>
+                        )}
+                      </figure>
                     )}
                   </div>
                 ))}
@@ -2184,7 +2395,9 @@ function ArticlePageView({
           <div className="mt-12 bg-blue-950 text-white rounded-2xl p-6 md:p-8 relative overflow-hidden shadow-xl border border-blue-900">
             <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] pointer-events-none"></div>
             <div className="relative z-10 text-center max-w-2xl mx-auto">
-              <h4 className="text-lg md:text-xl font-bold mb-6 text-slate-200 text-center">{article.ctaText}</h4>
+              <h4 className="text-base md:text-lg font-bold mb-6 text-slate-200 leading-relaxed text-center">
+                {article.ctaText}
+              </h4>
               <a
                 href={article.ctaLink}
                 target="_blank"
@@ -2196,6 +2409,12 @@ function ArticlePageView({
               </a>
             </div>
           </div>
+
+          {article.disclaimer && (
+            <p className="mt-6 text-xs text-slate-500 italic leading-relaxed text-justify border-t border-slate-100 pt-4">
+              {article.disclaimer}
+            </p>
+          )}
         </article>
 
         {/* Leia Também Section */}
@@ -2203,7 +2422,7 @@ function ArticlePageView({
           <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-8 text-center md:text-left">
             Leia também outros artigos do Dr. Fábio Saraiva
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {articles
               .filter((a) => a.id !== article.id)
               .map((item) => (
