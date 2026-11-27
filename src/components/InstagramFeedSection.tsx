@@ -162,7 +162,7 @@ export function InstagramFeedSection({
   const currentSlide = modalSlides[carouselSlideIndex] || modalSlides[0];
 
   return (
-    <section id="instagram" className="py-24 bg-slate-100 border-t border-slate-200 overflow-hidden">
+    <section id="instagram" className="scroll-mt-24 md:scroll-mt-28 py-20 md:py-24 bg-slate-100 border-t border-slate-200 overflow-hidden">
       <div className="container mx-auto px-4 md:px-8">
         {/* Cabeçalho da Seção */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 mb-12">

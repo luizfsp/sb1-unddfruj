@@ -109,6 +109,14 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash && activeView.type === 'home') {
+      const timer = setTimeout(() => scrollToSection(hash), 120);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   const [articleFilter, setArticleFilter] = useState<'todos' | 'pacientes' | 'medicos'>('todos');
 
   const articles: Array<{
@@ -371,6 +379,17 @@ export default function App() {
     },
   ];
 
+  const scrollToSection = (sectionId: string) => {
+    const el = document.getElementById(sectionId);
+    if (!el) return;
+    const headerOffset = window.innerWidth >= 768 ? 76 : 72;
+    const elementTop = el.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({
+      top: Math.max(0, elementTop - headerOffset),
+      behavior: 'smooth',
+    });
+  };
+
   const navigateHome = (sectionId?: string) => {
     setMobileMenuOpen(false);
     setAreasDropdownOpen(false);
@@ -380,16 +399,16 @@ export default function App() {
       window.history.pushState({}, document.title, targetUrl);
       if (sectionId) {
         setTimeout(() => {
-          const el = document.getElementById(sectionId);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 60);
+          scrollToSection(sectionId);
+        }, 80);
       } else {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     } else if (sectionId) {
       window.history.pushState({}, document.title, targetUrl);
-      const el = document.getElementById(sectionId);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => {
+        scrollToSection(sectionId);
+      }, 10);
     } else {
       window.history.pushState({}, document.title, '/');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -790,6 +809,10 @@ export default function App() {
 
                     <a
                       href="#contato-formulario"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigateHome('contato-formulario');
+                      }}
                       className="border-2 border-white/35 hover:border-amber-400 bg-white/5 hover:bg-white/10 text-white hover:text-amber-300 px-7 py-4 rounded-xl font-bold text-base flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5"
                     >
                       Enviar Relato para Triagem
@@ -857,7 +880,7 @@ export default function App() {
           </section>
 
           {/* ÁREAS DE ESPECIALIDADE (6 CARDS FOCADOS EM SAÚDE) */}
-          <section id="solucoes" className="py-24 bg-slate-50">
+          <section id="solucoes" className="scroll-mt-24 md:scroll-mt-28 py-20 md:py-24 bg-slate-50">
             <div className="container mx-auto px-4 md:px-8">
               <div className="text-center max-w-3xl mx-auto mb-16">
                 <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">
@@ -970,7 +993,7 @@ export default function App() {
           </section>
 
           {/* FORMULÁRIO DE CONTATO */}
-          <section id="contato-formulario" className="py-24 bg-white text-slate-800 relative overflow-hidden">
+          <section id="contato-formulario" className="scroll-mt-24 md:scroll-mt-28 py-20 md:py-24 bg-white text-slate-800 relative overflow-hidden">
             <div className="absolute inset-0 opacity-10 pointer-events-none">
               <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] bg-amber-500/5 rounded-full filter blur-3xl"></div>
               <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full filter blur-3xl"></div>
@@ -1179,25 +1202,25 @@ export default function App() {
           </section>
 
           {/* SOBRE O ESCRITÓRIO / DR. FÁBIO SARAIVA */}
-          <section id="sobre" className="py-24 bg-white border-t border-slate-100">
+          <section id="sobre" className="scroll-mt-24 md:scroll-mt-28 py-16 md:py-24 bg-white border-t border-slate-100">
             <div className="container mx-auto px-4 md:px-8">
-              <div className="flex flex-col lg:flex-row items-center gap-16">
-                <div className="lg:w-1/2 relative">
-                  <div className="relative">
+              <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+                <div className="lg:w-1/2 w-full">
+                  <div className="relative pt-2 pb-12 sm:pb-14 pl-2 sm:pl-4">
                     <img
                       src="https://i.ibb.co/s9PyNDNW/firefox-1f-HADh-BJWx.jpg"
                       alt="Escritório Saraiva & Advogados"
-                      className="rounded-lg shadow-2xl w-4/5 ml-auto"
+                      className="rounded-xl shadow-2xl w-4/5 ml-auto aspect-[4/3] object-cover"
                     />
                     <img
                       src="https://i.ibb.co/HfW3qVCZ/Whats-App-Image-2026-06-01-at-20-46-27.jpg"
-                      alt="Detalhes do Escritório Saraiva & Advogados"
-                      className="rounded-lg shadow-xl absolute -bottom-12 -left-4 w-3/5 border-8 border-white"
+                      alt="Dr. Fábio Saraiva no escritório"
+                      className="rounded-xl shadow-xl absolute bottom-0 left-0 w-[56%] sm:w-3/5 aspect-[4/4.3] object-cover object-top border-4 sm:border-8 border-white"
                     />
                   </div>
                 </div>
 
-                <div className="lg:w-1/2 mt-16 lg:mt-0">
+                <div className="lg:w-1/2 mt-4 lg:mt-0">
                   <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">O Escritório</h2>
                   <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 leading-tight">
                     Para nós, cada caso exige rigor técnico e atenção individual.
@@ -1290,7 +1313,7 @@ export default function App() {
           </section>
 
           {/* ATUAÇÃO PRÁTICA E JURISPRUDÊNCIA */}
-          <section id="atuacao" className="py-24 bg-slate-100 border-t border-slate-200">
+          <section id="atuacao" className="scroll-mt-24 md:scroll-mt-28 py-20 md:py-24 bg-slate-100 border-t border-slate-200">
             <div className="container mx-auto px-4 md:px-8">
               <div className="text-center max-w-3xl mx-auto mb-16">
                 <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Atuação Prática</h2>
@@ -1372,7 +1395,7 @@ export default function App() {
           </section>
 
           {/* DEPOIMENTOS (AVALIAÇÕES NO GOOGLE) */}
-          <section id="depoimentos" className="py-24 bg-slate-50 border-t border-slate-200">
+          <section id="depoimentos" className="scroll-mt-24 md:scroll-mt-28 py-20 md:py-24 bg-slate-50 border-t border-slate-200">
             <div className="container mx-auto px-4 md:px-8">
               <div className="text-center max-w-3xl mx-auto mb-16">
                 <div className="inline-flex items-center gap-2 bg-white border border-slate-200 px-4 py-2 rounded-full mb-6 shadow-sm">
@@ -1655,7 +1678,7 @@ export default function App() {
           </section>
 
           {/* ARTIGOS E ORIENTAÇÕES */}
-          <section id="artigos" className="py-24 bg-white border-t border-slate-200">
+          <section id="artigos" className="scroll-mt-24 md:scroll-mt-28 py-20 md:py-24 bg-white border-t border-slate-200">
             <div className="container mx-auto px-4 md:px-8">
               <div className="text-center max-w-3xl mx-auto mb-10">
                 <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">
@@ -1779,7 +1802,7 @@ export default function App() {
           />
 
           {/* FAQ */}
-          <section id="faq" className="py-24 bg-slate-50 border-t border-slate-200">
+          <section id="faq" className="scroll-mt-24 md:scroll-mt-28 py-20 md:py-24 bg-slate-50 border-t border-slate-200">
             <div className="container mx-auto px-4 md:px-8 max-w-4xl">
               <div className="text-center mb-16">
                 <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">Dúvidas Frequentes</h2>
@@ -2043,7 +2066,7 @@ function ArticlePageView({
   onNavigate: (id: number) => void;
 }) {
   return (
-    <div className="bg-slate-50 pt-32 pb-24 min-h-screen">
+    <div className="bg-slate-50 pt-36 pb-24 min-h-screen">
       <div className="container mx-auto px-4 md:px-8 max-w-4xl">
         {/* Artigo Principal */}
         <article className="bg-white rounded-3xl p-6 md:p-12 shadow-xl border border-slate-100 mb-12">
