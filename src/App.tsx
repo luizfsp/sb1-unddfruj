@@ -64,7 +64,12 @@ export default function App() {
     if (pathname === '/instagram' || paginaParam === 'instagram') {
       return { type: 'instagram' };
     }
-    if (pathname === '/defesa-medica' || areaParam === 'defesa-medica') {
+    if (
+      pathname === '/defesa-medica' ||
+      pathname === '/medicos-e-clinicas' ||
+      areaParam === 'defesa-medica' ||
+      areaParam === 'medicos-e-clinicas'
+    ) {
       return { type: 'specialty', page: 'defesa-medica' };
     }
     if (pathname === '/seguros' || areaParam === 'seguros') {
@@ -446,16 +451,15 @@ export default function App() {
     );
   }
 
-  const navLinkClass = `text-sm font-semibold hover:text-amber-500 transition-colors cursor-pointer whitespace-nowrap ${
-    isScrolled ? 'text-slate-700' : 'text-slate-200'
-  }`;
+  const navLinkClass =
+    'text-sm font-semibold text-slate-200 hover:text-amber-400 transition-colors cursor-pointer whitespace-nowrap';
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 scroll-smooth">
       {/* HEADER */}
       <header
-        className={`fixed w-full z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-white shadow-md py-2.5' : 'bg-blue-950/95 backdrop-blur-sm py-4'
+        className={`fixed w-full z-50 transition-all duration-300 bg-blue-950/95 backdrop-blur-md ${
+          isScrolled ? 'shadow-xl border-b border-blue-900/60 py-2.5' : 'py-4'
         }`}
       >
         <div className="container mx-auto px-4 md:px-8 flex justify-between items-center gap-4">
@@ -476,6 +480,17 @@ export default function App() {
 
           {/* Menu Desktop */}
           <nav className="hidden lg:flex gap-5 xl:gap-6 items-center">
+            <a
+              href="/#sobre"
+              onClick={(e) => {
+                e.preventDefault();
+                navigateHome('sobre');
+              }}
+              className={navLinkClass}
+            >
+              O Escritório
+            </a>
+
             {/* Submenu Áreas de Atuação */}
             <div
               className="relative"
@@ -511,7 +526,7 @@ export default function App() {
                       onClick={() => navigateSpecialty('defesa-medica')}
                       className="w-full text-left px-4 py-3 hover:bg-blue-50 transition-colors block"
                     >
-                      <span className="block text-sm font-bold text-slate-900">Defesa Médica / Erro Médico</span>
+                      <span className="block text-sm font-bold text-slate-900">Para Médicos e Clínicas</span>
                       <span className="block text-xs text-slate-500">CRM e responsabilidade civil médica</span>
                     </button>
                     <button
@@ -527,16 +542,6 @@ export default function App() {
               )}
             </div>
 
-            <a
-              href="/#sobre"
-              onClick={(e) => {
-                e.preventDefault();
-                navigateHome('sobre');
-              }}
-              className={navLinkClass}
-            >
-              O Escritório
-            </a>
             <a
               href="/#atuacao"
               onClick={(e) => {
@@ -594,11 +599,7 @@ export default function App() {
               rel="noreferrer"
               aria-label="Instagram oficial Saraiva & Advogados"
               title={`Instagram ${instagramHandle}`}
-              className={`p-2 rounded-full transition-colors ${
-                isScrolled
-                  ? 'text-slate-700 hover:text-amber-600 hover:bg-slate-100'
-                  : 'text-slate-200 hover:text-amber-400 hover:bg-white/10'
-              }`}
+              className="p-2 rounded-full transition-colors text-slate-200 hover:text-amber-400 hover:bg-white/10"
             >
               <Instagram size={20} />
             </a>
@@ -621,7 +622,7 @@ export default function App() {
               target="_blank"
               rel="noreferrer"
               aria-label="Instagram oficial Saraiva & Advogados"
-              className={`p-2 rounded-full ${isScrolled ? 'text-slate-700' : 'text-white'}`}
+              className="p-2 rounded-full text-white hover:text-amber-400 transition-colors"
             >
               <Instagram size={20} />
             </a>
@@ -629,7 +630,7 @@ export default function App() {
               type="button"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
               aria-label="Abrir menu de navegação"
-              className={`p-2 rounded-lg ${isScrolled ? 'text-slate-800 hover:bg-slate-100' : 'text-white hover:bg-white/10'}`}
+              className="p-2 rounded-lg text-white hover:bg-white/10 transition-colors"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -639,7 +640,14 @@ export default function App() {
         {/* Menu Mobile Expandido */}
         {mobileMenuOpen && (
           <div className="lg:hidden bg-white border-t border-slate-200 shadow-xl px-6 py-5 space-y-3">
-            <div className="space-y-1">
+            <button
+              type="button"
+              onClick={() => navigateHome('sobre')}
+              className="block w-full text-left py-2 text-sm font-bold text-slate-800 hover:text-blue-700"
+            >
+              O Escritório
+            </button>
+            <div className="border-t border-slate-100 pt-2 space-y-1">
               <p className="text-[11px] font-black uppercase tracking-wider text-slate-400 mb-1">Áreas de Atuação</p>
               <button
                 type="button"
@@ -653,7 +661,7 @@ export default function App() {
                 onClick={() => navigateSpecialty('defesa-medica')}
                 className="block w-full text-left py-2 pl-3 text-sm font-semibold text-slate-600 hover:text-blue-700 border-l-2 border-slate-200"
               >
-                Defesa Médica / Erro Médico
+                Para Médicos e Clínicas
               </button>
               <button
                 type="button"
@@ -664,9 +672,6 @@ export default function App() {
               </button>
             </div>
             <div className="border-t border-slate-100 pt-2 space-y-1">
-              <button type="button" onClick={() => navigateHome('sobre')} className="block w-full text-left py-2 text-sm font-semibold text-slate-700">
-                O Escritório
-              </button>
               <button type="button" onClick={() => navigateHome('atuacao')} className="block w-full text-left py-2 text-sm font-semibold text-slate-700">
                 Atuação Prática
               </button>
@@ -1629,14 +1634,14 @@ export default function App() {
             <div className="container mx-auto px-4 md:px-8">
               <div className="text-center max-w-3xl mx-auto mb-16">
                 <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">
-                  Artigos e Orientações
+                  Artigos
                 </h2>
                 <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-                  Informativos e Direitos dos Pacientes
+                  Informativos e Orientações
                 </h3>
                 <p className="text-slate-600 text-sm leading-relaxed max-w-xl mx-auto">
-                  Acompanhe as publicações do Dr. Fábio Saraiva com orientações práticas sobre como agir diante de
-                  negativas e reajustes abusivos de planos de saúde.
+                  Acompanhe as publicações do Dr. Fábio Saraiva com orientações e recomendações práticas para pacientes
+                  e profissionais da área de saúde.
                 </p>
               </div>
 
@@ -1748,6 +1753,15 @@ export default function App() {
                 <li>
                   <button
                     type="button"
+                    onClick={() => navigateHome('sobre')}
+                    className="hover:text-amber-400 transition-colors"
+                  >
+                    O Escritório
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
                     onClick={() => navigateHome('solucoes')}
                     className="hover:text-amber-400 transition-colors"
                   >
@@ -1760,7 +1774,7 @@ export default function App() {
                     onClick={() => navigateSpecialty('defesa-medica')}
                     className="hover:text-amber-400 transition-colors"
                   >
-                    Defesa Médica / Erro Médico
+                    Para Médicos e Clínicas
                   </button>
                 </li>
                 <li>
@@ -1770,15 +1784,6 @@ export default function App() {
                     className="hover:text-amber-400 transition-colors"
                   >
                     Seguros em Geral
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => navigateHome('sobre')}
-                    className="hover:text-amber-400 transition-colors"
-                  >
-                    O Escritório
                   </button>
                 </li>
                 <li>

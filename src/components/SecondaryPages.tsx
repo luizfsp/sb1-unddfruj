@@ -192,12 +192,12 @@ export function SpecialtyInternalPage({
   const content = isMedicalDefense
     ? {
         badge: 'Área Complementar · Direito Médico',
-        title: 'Defesa Médica e Erro Médico',
+        title: 'Médicos e Clínicas',
         subtitle:
-          'Atuação técnica, ética e sigilosa na defesa de profissionais da área médica perante órgãos de classe e ações de responsabilidade civil, bem como análise probatória em casos que envolvem alegação de erro médico.',
+          'Atuação ética, técnica e sigilosa na defesa de profissionais e clínicas perante os órgãos de classe e em ações indenizatórias de responsabilidade civil por negligência, imprudência ou imperícia.',
         icon: Stethoscope,
         whatsappHref: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-          'Olá! Gostaria de uma orientação jurídica sobre Defesa Médica / Erro Médico.'
+          'Olá! Gostaria de uma orientação jurídica voltada para Médicos e Clínicas.'
         )}`,
         highlights: [
           {
@@ -217,9 +217,9 @@ export function SpecialtyInternalPage({
             desc: 'Triagem minuciosa dos fatos, laudos e documentos médicos para definir a estratégia jurídica adequada com total sigilo profissional.',
           },
         ],
-        ctaTitle: 'Precisa de orientação jurídica em Direito Médico?',
+        ctaTitle: 'Precisa de orientação jurídica para Médicos e Clínicas?',
         ctaText:
-          'Fale com a equipe do Dr. Fábio Saraiva para uma triagem técnica sigilosa sobre o seu caso.',
+          'Fale com a equipe do escritório para uma triagem técnica sigilosa sobre o seu caso.',
       }
     : {
         badge: 'Área Complementar · Direito Securitário',
