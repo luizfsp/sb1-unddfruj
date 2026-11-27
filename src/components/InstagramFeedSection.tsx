@@ -172,7 +172,7 @@ export function InstagramFeedSection({
               Instagram Oficial · {instagramHandle}
             </div>
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">
-              Reels e Orientações no Instagram
+              Conteúdos no Instagram
             </h2>
             <p className="text-slate-600 text-sm md:text-base leading-relaxed text-justify">
               Acompanhe os vídeos, alertas rápidos e conteúdos educativos do Dr. Fábio Saraiva sobre direitos dos
