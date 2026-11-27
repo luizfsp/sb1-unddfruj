@@ -109,10 +109,32 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  const articles = [
+  const [articleFilter, setArticleFilter] = useState<'todos' | 'pacientes' | 'medicos'>('todos');
+
+  const articles: Array<{
+    id: number;
+    slug: string;
+    category: 'pacientes' | 'medicos';
+    title: string;
+    image: string;
+    excerpt: string;
+    intro: string;
+    subtitle: string;
+    bullets: Array<{ title?: string; text: string }>;
+    sections?: Array<{
+      title: string;
+      image?: string;
+      content?: string;
+      bullets?: Array<{ title?: string; text: string }>;
+    }>;
+    conclusion: string;
+    ctaText: string;
+    ctaLink: string;
+  }> = [
     {
       id: 1,
       slug: 'liminar',
+      category: 'pacientes',
       title: 'Como Conseguir uma Liminar Contra o Plano de Saúde em Casos de Urgência',
       image: '/liminar.jpeg',
       excerpt:
@@ -142,6 +164,7 @@ export default function App() {
     {
       id: 2,
       slug: 'negativa',
+      category: 'pacientes',
       title: 'O que fazer quando o Plano de Saúde nega internações, cirurgias ou exames?',
       image: '/cirurgia.jpeg',
       excerpt:
@@ -164,6 +187,7 @@ export default function App() {
     {
       id: 3,
       slug: 'especialista',
+      category: 'pacientes',
       title: 'Por que você precisa de um Advogado Especialista em Direito da Saúde Suplementar?',
       image: '/advogado.jpg',
       excerpt:
@@ -194,6 +218,7 @@ export default function App() {
     {
       id: 4,
       slug: 'reajuste',
+      category: 'pacientes',
       title: 'Reajuste abusivo no plano de saúde por idade e falso coletivo-empresarial: como a Justiça protege você',
       image: '/suplementar.jpeg',
       excerpt:
@@ -1632,7 +1657,7 @@ export default function App() {
           {/* ARTIGOS E ORIENTAÇÕES */}
           <section id="artigos" className="py-24 bg-white border-t border-slate-200">
             <div className="container mx-auto px-4 md:px-8">
-              <div className="text-center max-w-3xl mx-auto mb-16">
+              <div className="text-center max-w-3xl mx-auto mb-10">
                 <h2 className="text-blue-900 font-bold tracking-widest uppercase text-sm mb-3">
                   Artigos
                 </h2>
@@ -1645,35 +1670,103 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {articles.map((item) => (
-                  <div
-                    key={item.id}
-                    onClick={() => navigateArticle(item.id)}
-                    className="bg-slate-50 rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group flex flex-col justify-between"
-                  >
-                    <div>
-                      <div className="rounded-xl overflow-hidden mb-5 aspect-video border border-slate-200">
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                      </div>
-                      <span className="inline-block text-[10px] font-black uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md mb-3">
-                        Direito da Saúde
-                      </span>
-                      <h4 className="font-extrabold text-slate-950 text-lg leading-snug mb-3 group-hover:text-blue-700 transition-colors">
-                        {item.title}
-                      </h4>
-                      <p className="text-slate-600 text-sm mb-4 leading-relaxed text-justify">{item.excerpt}</p>
-                    </div>
-                    <span className="text-blue-700 font-bold text-sm flex items-center gap-1 group-hover:underline mt-4">
-                      Ler artigo completo →
-                    </span>
-                  </div>
-                ))}
+              {/* Filtro de Categorias de Artigos */}
+              <div className="flex flex-wrap justify-center gap-2.5 mb-12">
+                {[
+                  { id: 'todos' as const, label: 'Todos' },
+                  { id: 'pacientes' as const, label: 'Para Pacientes' },
+                  { id: 'medicos' as const, label: 'Médicos e Clínicas' },
+                ].map((tab) => {
+                  const isActive = articleFilter === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => setArticleFilter(tab.id)}
+                      className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all border ${
+                        isActive
+                          ? 'bg-blue-950 text-white border-blue-950 shadow-md'
+                          : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-blue-900 hover:text-blue-900'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
               </div>
+
+              {(() => {
+                const filteredArticles =
+                  articleFilter === 'todos'
+                    ? articles
+                    : articles.filter((item) => item.category === articleFilter);
+
+                if (filteredArticles.length === 0) {
+                  return (
+                    <div className="max-w-2xl mx-auto bg-slate-50 border border-slate-200 rounded-3xl p-8 md:p-10 text-center">
+                      <span className="inline-block text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-3 py-1 rounded-full mb-4">
+                        Médicos e Clínicas
+                      </span>
+                      <h4 className="text-xl font-extrabold text-slate-900 mb-3">
+                        Em breve, novos artigos voltados para Médicos e Clínicas
+                      </h4>
+                      <p className="text-slate-600 text-sm leading-relaxed text-justify max-w-lg mx-auto mb-6">
+                        Estamos preparando conteúdos técnicos sobre defesa perante conselhos de classe (CRM), prontuário
+                        médico e responsabilidade civil. Enquanto isso, conheça nossa página dedicada à atuação para
+                        médicos e clínicas.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => navigateSpecialty('defesa-medica')}
+                        className="inline-flex items-center gap-2 bg-blue-950 hover:bg-amber-500 text-white hover:text-slate-950 px-6 py-3 rounded-xl font-bold text-sm transition-all"
+                      >
+                        Acessar página Para Médicos e Clínicas →
+                      </button>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {filteredArticles.map((item) => {
+                      const isDoctors = item.category === 'medicos';
+                      return (
+                        <div
+                          key={item.id}
+                          onClick={() => navigateArticle(item.id)}
+                          className="bg-slate-50 rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group flex flex-col justify-between"
+                        >
+                          <div>
+                            <div className="rounded-xl overflow-hidden mb-5 aspect-video border border-slate-200">
+                              <img
+                                src={item.image}
+                                alt={item.title}
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              />
+                            </div>
+                            <span
+                              className={`inline-block text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md mb-3 ${
+                                isDoctors
+                                  ? 'text-amber-800 bg-amber-100'
+                                  : 'text-blue-700 bg-blue-50'
+                              }`}
+                            >
+                              {isDoctors ? 'Médicos e Clínicas' : 'Para Pacientes'}
+                            </span>
+                            <h4 className="font-extrabold text-slate-950 text-lg leading-snug mb-3 group-hover:text-blue-700 transition-colors">
+                              {item.title}
+                            </h4>
+                            <p className="text-slate-600 text-sm mb-4 leading-relaxed text-justify">{item.excerpt}</p>
+                          </div>
+                          <span className="text-blue-700 font-bold text-sm flex items-center gap-1 group-hover:underline mt-4">
+                            Ler artigo completo →
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
             </div>
           </section>
 
@@ -1955,8 +2048,14 @@ function ArticlePageView({
         {/* Artigo Principal */}
         <article className="bg-white rounded-3xl p-6 md:p-12 shadow-xl border border-slate-100 mb-12">
           <div className="mb-6">
-            <span className="inline-block bg-blue-50 border border-blue-100 text-blue-700 text-xs font-black uppercase tracking-wider px-3 py-1.5 rounded-full mb-4">
-              Direito da Saúde • Informativo
+            <span
+              className={`inline-block text-xs font-black uppercase tracking-wider px-3 py-1.5 rounded-full mb-4 border ${
+                article.category === 'medicos'
+                  ? 'bg-amber-50 border-amber-200 text-amber-800'
+                  : 'bg-blue-50 border-blue-100 text-blue-700'
+              }`}
+            >
+              {article.category === 'medicos' ? 'Médicos e Clínicas • Informativo' : 'Para Pacientes • Planos de Saúde'}
             </span>
             <h1 className="text-3xl md:text-5xl font-black text-slate-900 leading-tight mb-4">{article.title}</h1>
             <div className="flex items-center gap-3 text-slate-500 text-sm border-t border-slate-100 pt-4">
@@ -2098,8 +2197,14 @@ function ArticlePageView({
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
-                    <span className="inline-block text-[10px] font-black uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-1 rounded mb-3">
-                      Direito da Saúde
+                    <span
+                      className={`inline-block text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded mb-3 ${
+                        item.category === 'medicos'
+                          ? 'text-amber-800 bg-amber-100'
+                          : 'text-blue-700 bg-blue-50'
+                      }`}
+                    >
+                      {item.category === 'medicos' ? 'Médicos e Clínicas' : 'Para Pacientes'}
                     </span>
                     <h4 className="font-extrabold text-slate-950 text-base leading-snug mb-3 group-hover:text-blue-700 transition-colors">
                       {item.title}
